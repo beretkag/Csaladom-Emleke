@@ -1,1 +1,2 @@
 # Csaladom-Emleke
+### GitHub Szinkronizáció
