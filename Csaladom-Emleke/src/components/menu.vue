@@ -17,18 +17,19 @@ body{
   background-color: grey;
 }
   nav{
+    background-color: black;
     margin-top: 3%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     text-decoration: none;
   }
-  a{
+  nav a{
     text-decoration: none;
     color: white;
     padding: 1%;
   }
-  a:hover{
+  nav a:hover{
     background-color: #ff7112;
   background-size: 50px 50px;
   color: #27262c;
@@ -36,9 +37,10 @@ body{
   text-shadow: 0 -1px 0 #ef816c;
 	font-weight: bold;
   }
-  a:active{
+  nav a:active{
     transform: translateY(4px);
   }
+
   
 @keyframes spring {
   15% {
