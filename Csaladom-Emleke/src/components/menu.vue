@@ -1,0 +1,61 @@
+<template>
+  <nav>
+    <RouterLink to="/"> Bejelentkezés </RouterLink>
+    <RouterLink to="/hogyankezdjneki"> Hogyan kezdj neki </RouterLink>
+    <RouterLink to="/beallitasok"> Beállítások </RouterLink>
+    <RouterLink to="/felhasznalokezeles"> Felhasználókezelés</RouterLink>
+    <RouterLink to="/elerhetosegek"> Elérhetőségek </RouterLink>
+  </nav>
+</template>
+
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+</script>
+
+<style>
+body{
+  background-color: grey;
+}
+  nav{
+    margin-top: 3%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-decoration: none;
+  }
+  a{
+    text-decoration: none;
+    color: white;
+    padding: 1%;
+  }
+  a:hover{
+    background-color: #ff7112;
+  background-size: 50px 50px;
+  color: #27262c;
+  animation: spring 300ms ease-out;
+  text-shadow: 0 -1px 0 #ef816c;
+	font-weight: bold;
+  }
+  a:active{
+    transform: translateY(4px);
+  }
+  
+@keyframes spring {
+  15% {
+    -webkit-transform-origin: center center;
+    -webkit-transform: scale(1.2, 1.1);
+  }
+  40% {
+    -webkit-transform-origin: center center;
+    -webkit-transform: scale(0.95, 0.95);
+  }
+  75% {
+    -webkit-transform-origin: center center;
+    -webkit-transform: scale(1.05, 1);
+  }
+  100% {
+    -webkit-transform-origin: center center;
+    -webkit-transform: scale(1, 1);
+  }
+}
+</style>

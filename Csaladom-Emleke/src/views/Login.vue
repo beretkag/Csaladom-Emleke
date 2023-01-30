@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    xd
+   
 </template>
 
 <style>
