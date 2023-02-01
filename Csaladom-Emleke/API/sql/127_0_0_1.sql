@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Jan 31. 09:38
+-- Létrehozás ideje: 2023. Feb 01. 13:17
 -- Kiszolgáló verziója: 10.4.6-MariaDB
 -- PHP verzió: 7.3.8
 
@@ -35,6 +35,13 @@ CREATE TABLE `anyak` (
   `csaladtagID` int(11) NOT NULL,
   `anyaID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `anyak`
+--
+
+INSERT INTO `anyak` (`ID`, `csaladtagID`, `anyaID`) VALUES
+(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -77,6 +84,35 @@ CREATE TABLE `csaladfak` (
   `alapertelmezett` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
+--
+-- A tábla adatainak kiíratása `csaladfak`
+--
+
+INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`) VALUES
+(1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- A nézet helyettes szerkezete `csaladtagadatok`
+-- (Lásd alább az aktuális nézetet)
+--
+CREATE TABLE `csaladtagadatok` (
+`ID` int(11)
+,`csaladfaID` int(11)
+,`alapertelmezett` tinyint(1)
+,`profilkep` varchar(120)
+,`telefonszam` varchar(20)
+,`Nev` varchar(200)
+,`szulhely` varchar(100)
+,`szulido` date
+,`halhely` varchar(100)
+,`halido` date
+,`partnerID` int(11)
+,`apaID` int(11)
+,`anyaID` int(11)
+);
+
 -- --------------------------------------------------------
 
 --
@@ -87,14 +123,22 @@ CREATE TABLE `csaladtagok` (
   `ID` int(11) NOT NULL,
   `csaladfaID` int(11) NOT NULL,
   `alapertelmezett` tinyint(1) NOT NULL,
-  `profilkep` int(120) NOT NULL,
+  `profilkep` varchar(120) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `telefonszam` varchar(20) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `Nev` varchar(200) COLLATE utf8_hungarian_ci NOT NULL,
+  `Nev` varchar(200) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `szulhely` varchar(100) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `szulido` date DEFAULT NULL,
   `halhely` varchar(100) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `halido` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `csaladtagok`
+--
+
+INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `alapertelmezett`, `profilkep`, `telefonszam`, `Nev`, `szulhely`, `szulido`, `halhely`, `halido`) VALUES
+(1, 1, 1, NULL, NULL, 'Kovács István', NULL, '1973-07-22', NULL, '1998-05-03'),
+(2, 1, 0, NULL, NULL, 'Pék Margit', NULL, '1954-02-03', NULL, '2019-03-18');
 
 -- --------------------------------------------------------
 
@@ -123,6 +167,13 @@ CREATE TABLE `felhasznalok` (
   `jogosultsag` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
+--
+-- A tábla adatainak kiíratása `felhasznalok`
+--
+
+INSERT INTO `felhasznalok` (`ID`, `Nev`, `Jelszo`, `email`, `jogosultsag`) VALUES
+(1, 'Kovács János', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 'a@a.com', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -146,6 +197,15 @@ CREATE TABLE `partnerek` (
   `csaladtagID` int(11) NOT NULL,
   `partnerID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Nézet szerkezete `csaladtagadatok`
+--
+DROP TABLE IF EXISTS `csaladtagadatok`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `csaladtagadatok`  AS  select `csaladtagok`.`ID` AS `ID`,`csaladtagok`.`csaladfaID` AS `csaladfaID`,`csaladtagok`.`alapertelmezett` AS `alapertelmezett`,`csaladtagok`.`profilkep` AS `profilkep`,`csaladtagok`.`telefonszam` AS `telefonszam`,`csaladtagok`.`Nev` AS `Nev`,`csaladtagok`.`szulhely` AS `szulhely`,`csaladtagok`.`szulido` AS `szulido`,`csaladtagok`.`halhely` AS `halhely`,`csaladtagok`.`halido` AS `halido`,`partnerek`.`partnerID` AS `partnerID`,`apak`.`apaID` AS `apaID`,`anyak`.`anyaID` AS `anyaID` from (((`csaladtagok` left join `anyak` on(`anyak`.`csaladtagID` = `csaladtagok`.`ID`)) left join `apak` on(`apak`.`csaladtagID` = `csaladtagok`.`ID`)) left join `partnerek` on(`partnerek`.`csaladtagID` = `csaladtagok`.`ID`)) ;
 
 --
 -- Indexek a kiírt táblákhoz
@@ -221,7 +281,7 @@ ALTER TABLE `partnerek`
 -- AUTO_INCREMENT a táblához `anyak`
 --
 ALTER TABLE `anyak`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `apak`
@@ -239,13 +299,13 @@ ALTER TABLE `beallitasok`
 -- AUTO_INCREMENT a táblához `csaladfak`
 --
 ALTER TABLE `csaladfak`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `csaladtagok`
 --
 ALTER TABLE `csaladtagok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `eletut`
@@ -257,7 +317,7 @@ ALTER TABLE `eletut`
 -- AUTO_INCREMENT a táblához `felhasznalok`
 --
 ALTER TABLE `felhasznalok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `kepek`
