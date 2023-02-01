@@ -10,7 +10,8 @@
       <a href="#bejelentkezes" class="bejelentkezeslink">Bejelentkezés</a>
     </div>
   </div>
-   <div class="d-flex flex-column justify-content-between w-25 bejelentkezes">
+   <div class="d-flex pe-2 flex-row-reverse">
+    <div class="d-flex flex-column justify-content-between bejelentkezes col-md-4">
        <h1>
            Regisztráció
        </h1>
@@ -25,23 +26,40 @@
               <label class="form-check-label" for="inlineRadio2">Nő</label>
           </div>
         </div>
-        <div class="input-group">
-          Vezeték és keresztnév
-          <input type="text" aria-label="First name" class="form-control">
-          <input type="text" aria-label="Last name" class="form-control">
+        <div class="mb-3">
+          <input type="email" placeholder="Vezetéknév" class="form-control" id="lastname">
         </div>
-       <label for="email"> E-mail cím </label>
-       <input type="text" name="email">
-       <label for="passwd"> Jelszó: </label>
-       <input type="password" name="passwd">
+        <div class="mb-3">
+          <input type="email" placeholder="Keresztnév" class="form-control" id="firstname">
+        </div>
+        <div class="mb-3">
+          <input type="email" placeholder="E-mail cím" class="form-control" id="email">
+        </div>
+        <div class="mb-3">
+          <input type="password" placeholder="Jelszó" class="form-control" id="passwd">
+        </div>
+        <select class="form-select mb-3">
+        <option selected>Születési éve</option>
+        <option v-for="i in 120" value="{{i}}">{{new Date().getFullYear()-i+1}}</option>
+      </select>
+      <div class="mb-3">
+          <label for="fathersname" class="form-label">Apja neve:</label>
+          <input type="email" class="form-control" id="fathersname">
+        </div>
+        <div class="mb-3">
+          <label for="mothersname" class="form-label">Anyja neve:</label>
+          <input type="email" class="form-control" id="mothersname">
+        </div>
        <div>
         <label for="staylogged"> Maradjak bejelentkezve </label>
-       <input type="checkbox"  name="staylogged">
-       </div>
-       <a id="forgotpass" href=""> Elfelejtette a jelszavát? </a>
+        <input class="form-check-input mt-0" type="checkbox" id="staylogged" value="" aria-label="Checkbox for following text input">
+      </div>
+      
+       <a id="forgotpass" href="#ajjaj"> Elfelejtette a jelszavát? </a>
        <button id="loginbutton" class="btn">
-           Bejelentkezés 
+           Regisztráció 
        </button>
+   </div>
    </div>
 </template>
 <style>
@@ -70,11 +88,14 @@ h1{
 
 }
 body{
+  
   background-image: url('../assets/valamihatter.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
 .bejelentkezes{
+  backdrop-filter: blur(3px);
+  position: relative;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 40px;
