@@ -1,11 +1,16 @@
 <template>
-  <nav>
+<div class="d-flex m-3">
+  <div class="logodiv">
+    <img src="../assets/logopng.png" class="logo" alt="Családomemléke logó">
+  </div>
+  <nav class="d-flex justify-content-around w-100">
     <RouterLink to="/"> Bejelentkezés </RouterLink>
     <RouterLink to="/hogyankezdjneki"> Hogyan kezdj neki </RouterLink>
     <RouterLink to="/beallitasok"> Beállítások </RouterLink>
     <RouterLink to="/felhasznalokezeles"> Felhasználókezelés</RouterLink>
     <RouterLink to="/elerhetosegek"> Elérhetőségek </RouterLink>
   </nav>
+</div>
 </template>
 
 <script setup>
@@ -17,7 +22,6 @@ body{
   background-color: grey;
 }
   nav{
-    background-color: black;
     margin-top: 3%;
     display: flex;
     flex-direction: row;
@@ -28,10 +32,10 @@ body{
     text-decoration: none;
     color: white;
     padding: 1%;
+    
   }
   nav a:hover{
-    background-color: #ff7112;
-  background-size: 50px 50px;
+  background-color: #ff7112;
   color: #27262c;
   animation: spring 300ms ease-out;
   text-shadow: 0 -1px 0 #ef816c;

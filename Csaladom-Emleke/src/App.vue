@@ -1,13 +1,13 @@
 <script setup>
-//import navmenu from '../src/components/menu.vue'
-import Login from '../src/views/Login.vue'
+import navmenu from '../src/components/menu.vue'
+import { RouterLink, RouterView } from 'vue-router'
 //import Index from '../src/views/Index.vue'
 </script>
 
 <template>
-  <navmenu/>
-  <Login/>
-  </template>
+  <navmenu />
+  <RouterView />
+</template>
 
 <style>
 
