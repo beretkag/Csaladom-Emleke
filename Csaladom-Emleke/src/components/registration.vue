@@ -14,16 +14,16 @@
     </div>
   </div>
   <div class="mb-3">
-    <input type="email" placeholder="Vezetéknév" class="form-control" id="lastname">
+    <input type="text" placeholder="Vezetéknév" class="form-control" v-model="newUser.surName">
   </div>
   <div class="mb-3">
-    <input type="email" placeholder="Keresztnév" class="form-control" id="firstname">
+    <input type="text" placeholder="Keresztnév" class="form-control" v-model="newUser.firstName">
   </div>
   <div class="mb-3">
-    <input type="email" placeholder="E-mail cím" class="form-control" id="email">
+    <input type="email" placeholder="E-mail cím" class="form-control" v-model="newUser.email">
   </div>
   <div class="mb-3">
-    <input type="password" placeholder="Jelszó" class="form-control" id="passwd">
+    <input type="password" placeholder="Jelszó" class="form-control" v-model="newUser.password">
   </div>
   <select class="form-select mb-3">
     <option selected>Születési éve</option>
@@ -31,19 +31,38 @@
   </select>
   <div class="mb-3">
     <label for="fathersname" class="form-label">Apja neve:</label>
-    <input type="email" class="form-control" id="fathersname">
+    <input type="text" class="form-control">
   </div>
   <div class="mb-3">
     <label for="mothersname" class="form-label">Anyja neve:</label>
-    <input type="email" class="form-control" id="mothersname">
+    <input type="text" class="form-control">
   </div>
   <div>
-    <label for="staylogged"> Maradjak bejelentkezve </label>
-    <input class="form-check-input mt-0" type="checkbox" id="staylogged" value="" aria-label="Checkbox for following text input">
+    <label> Maradjak bejelentkezve </label>
+    <input class="form-check-input m-1" type="checkbox">
   </div>
 
-  <a id="forgotpass" href="#ajjaj"> Elfelejtette a jelszavát? </a>
+  <a href=""> Elfelejtette a jelszavát? </a>
   <button id="loginbutton" class="btn">
       Regisztráció 
   </button>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  name: 'Registration',
+  components: {},
+
+  data() {
+    return{
+      newUser: {}
+    };
+  },
+
+  methods: {
+    
+  }
+}
+</script>

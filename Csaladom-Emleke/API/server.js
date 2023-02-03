@@ -64,12 +64,6 @@ app.delete('/fileDelete/:table/:id', tokencheck(), (req, res) => {
     });
 });
 
-// GET VERSION INFO
-app.get('/', (req, res) => {
-    log(req.socket.remoteAddress, `Sent version information.`);
-    res.status(200).send(`2/14.szft Backend MySQL API ${version}.`);
-});
-
 // LOGINCHECK
 app.post('/login', tokencheck(), (req, res) => {
     var table = req.body.table;
