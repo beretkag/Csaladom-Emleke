@@ -32,6 +32,7 @@ body{
     text-decoration: none;
     color: white;
     padding: 1%;
+    height: 3em !important;
     
   }
   nav a:hover{
