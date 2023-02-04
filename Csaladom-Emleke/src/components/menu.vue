@@ -18,11 +18,8 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <style>
-body{
-  background-color: grey;
-}
   nav{
-    margin-top: 3%;
+    margin-top: 1%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -38,7 +35,7 @@ body{
   nav a:hover{
   background-color: #ff7112;
   color: #27262c;
-  animation: spring 300ms ease-out;
+  animation: spring 500ms ease-out;
   text-shadow: 0 -1px 0 #ef816c;
 	font-weight: bold;
   }

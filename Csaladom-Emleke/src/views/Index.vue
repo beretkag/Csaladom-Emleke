@@ -1,7 +1,6 @@
 <script setup>
   import Registration from '../components/registration.vue';
   import Login from '../components/login.vue';
-  import Contacts from '../components/contacts.vue'
 
 </script>
 
@@ -42,7 +41,6 @@ h1{
  color:white;
 }
 body{
-  
   background-image: url('../assets/valamihatter.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -54,7 +52,6 @@ body{
   background-color: rgba(0, 0, 0, 0.5);
   padding: 40px;
   border-radius: 10px;
-
 }
   #forgotpass{
     text-decoration: none ;
