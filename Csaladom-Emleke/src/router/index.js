@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Index from '../views/Index.vue'
+import Contacts from '../components/contacts.vue'
+import HowToStart from '../components/howtostart.vue'
+import Settings from '../components/settings.vue'
+import UserManagment from '../components/usermanagment.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +13,26 @@ const router = createRouter({
       name: 'index',
       component: Index
     },
+    {
+      path: '/elerhetosegek',
+      name: 'contacts',
+      component: Contacts
+    },
+    {
+      path: '/hogyankezdjneki',
+      name: 'howtostart',
+      component: HowToStart 
+    },
+    {
+      path: '/beallitasok',
+      name: 'settings',
+      component: Settings
+    },
+    {
+      path: '/felhasznalokezeles',
+      name: 'usermanagment',
+      component: UserManagment
+    }
     /*{
       path: '/about',
       name: 'about',

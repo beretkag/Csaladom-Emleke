@@ -1,6 +1,7 @@
 <script setup>
   import Registration from '../components/registration.vue';
   import Login from '../components/login.vue';
+  import Contacts from '../components/contacts.vue'
 
 </script>
 
@@ -9,6 +10,7 @@
     <div class="d-flex pe-2 flex-row-reverse m-3">
       <div class="d-flex flex-column justify-content-between bejelentkezes col-md-4">
         <Registration />
+        
       </div>
     </div>
   </main>
@@ -37,7 +39,7 @@
 
 }
 h1{
-
+ color:white;
 }
 body{
   
