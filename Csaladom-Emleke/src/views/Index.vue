@@ -1,5 +1,6 @@
 <script setup>
   import Registration from '../components/registration.vue';
+  import HowToStart from '../components/howtostart.vue'
   import Login from '../components/login.vue';
 
 </script>
@@ -9,19 +10,14 @@
     <div class="d-flex pe-2 flex-row-reverse m-3">
       <div class="d-flex flex-column justify-content-between bejelentkezes col-md-4">
         <Registration />
-        
       </div>
     </div>
+    <HowToStart />
+    
   </main>
 </template>
 
 <style>
-.nevekdiv{
-
-}
-.fejlecdiv{
-
-}
 .bejelentkezeslink{
   text-decoration: none;
   color: white;
@@ -43,7 +39,8 @@ h1{
 body{
   background-image: url('../assets/valamihatter.jpg');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-attachment: scroll;
+  background-size:contain;
 }
 .bejelentkezes{
   backdrop-filter: blur(3px);
@@ -60,4 +57,5 @@ body{
   #loginbutton{
       background-color: #ff7112;
   }
+
 </style>
