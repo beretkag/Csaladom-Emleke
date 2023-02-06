@@ -29,20 +29,23 @@
     <option selected>Születési éve</option>
     <option v-for="i in 120" value="{{i}}">{{new Date().getFullYear()-i+1}}</option>
   </select>
-  <div class="mb-3">
-    <label for="fathersname" class="form-label">Apja neve:</label>
-    <input type="text" class="form-control">
+  <div class="d-flex justify-content-evenly">
+    <div class="mb-3">
+    <input type="text" placeholder="Apja vezetékneve:" style="width: 95%;" class="form-control">
   </div>
   <div class="mb-3">
-    <label for="mothersname" class="form-label">Anyja neve:</label>
-    <input type="text" class="form-control">
+    <input type="text" placeholder="Apja keresztneve:" style="width: 95%;" class="form-control">
   </div>
-  <div>
-    <label> Maradjak bejelentkezve </label>
-    <input class="form-check-input m-1" type="checkbox">
+  </div>
+  <div class="d-flex justify-content-evenly">
+    <div class="mb-3">
+    <input type="text" placeholder="Anyja vezetékneve:" style="width: 95%;" class="form-control">
+  </div>
+  <div class="mb-3">
+    <input type="text" placeholder="Anyja keresztneve:" style="width: 95%;" class="form-control">
+  </div>
   </div>
 
-  <a href=""> Elfelejtette a jelszavát? </a>
   <button id="loginbutton" class="btn">
       Regisztráció 
   </button>
