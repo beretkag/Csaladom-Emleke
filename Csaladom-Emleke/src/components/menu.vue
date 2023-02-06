@@ -3,13 +3,34 @@
   <div class="logodiv">
     <img src="../assets/logopng.png" class="logo" alt="Családomemléke logó">
   </div>
-  <nav class="d-flex justify-content-around w-100">
-    <RouterLink to="/"> Bejelentkezés </RouterLink>
-    <RouterLink to="/hogyankezdjneki"> Hogyan kezdj neki </RouterLink>
-    <RouterLink to="/beallitasok"> Beállítások </RouterLink>
-    <RouterLink to="/felhasznalokezeles"> Felhasználókezelés</RouterLink>
-    <RouterLink to="/elerhetosegek"> Elérhetőségek </RouterLink>
-  </nav>
+  <div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <RouterLink to="/"> Bejelentkezés </RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink to="/hogyankezdjneki"> Hogyan kezdj neki </RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink to="/beallitasok"> Beállítások </RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink to="/felhasznalokezeles"> Felhasználókezelés</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink to="/elerhetosegek"> Elérhetőségek </RouterLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
 </div>
 </template>
 
@@ -18,32 +39,34 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <style>
+
   nav{
     margin-top: 1%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    text-decoration: none;
+    text-decoration: none !important;
   }
+
   nav a{
+    text-decoration: none !important;
+    color: white;
+  }
+  li{
     text-decoration: none;
     color: white;
-    padding: 1%;
-    height: 3em !important;
-    
   }
-  nav a:hover{
+  li:hover a{
+    color: black !important; 
+  }
+  li:hover{
   background-color: #ff7112;
-  color: #27262c;
   animation: spring 500ms ease-out;
-  text-shadow: 0 -1px 0 #ef816c;
 	font-weight: bold;
+  height: 3em;
   }
   nav a:active{
     transform: translateY(4px);
   }
-
   
+
 @keyframes spring {
   15% {
     -webkit-transform-origin: center center;
