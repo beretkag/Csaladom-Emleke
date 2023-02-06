@@ -2,6 +2,7 @@
   import Registration from '../components/registration.vue';
   import HowToStart from '../components/howtostart.vue'
   import Login from '../components/login.vue';
+  import alertMsg from '../components/alertMsg.vue';
 
 </script>
 
@@ -15,7 +16,31 @@
     <HowToStart />
     
   </main>
+  <div>
+    <button class="btn btn-primary" @click="Registration()">Kintről</button>
+    <alertMsg :visible="false" variant="secondary" :text="messageText" ref="msg"/>
+  </div>
 </template>
+
+<script>
+
+  export default {
+    name:'Index',
+    components:{
+      alertMsg,
+    },
+    data(){
+      return{
+        messageText: "Modal Szöveg",
+      }
+    },
+    methods:{
+      Registration(){
+        this.$refs.msg.OpenCloseFunction();  //?????????????????????????????????????????????????????????????????????
+      }
+    }
+  }
+</script>
 
 <style>
 .bejelentkezeslink{
