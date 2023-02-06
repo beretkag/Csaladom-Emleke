@@ -46,7 +46,7 @@
   </div>
   </div>
 
-  <button id="loginbutton" class="btn">
+  <button id="loginbutton" class="btn" @click="Registration()">
       Regisztráció 
   </button>
 </template>
@@ -65,7 +65,9 @@ export default {
   },
 
   methods: {
-    
+    Shalom(){
+      alert('CSHá');
+    }
   }
 }
 </script>
