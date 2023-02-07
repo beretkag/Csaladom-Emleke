@@ -1,7 +1,7 @@
 <script>
 </script>
 <template>
-   <div class="d-flex flex-column justify-content-between w-25">
+   <div class="d-flex flex-column justify-content-between m-3">
        <h1>
            Bejelentkezés
        </h1>
@@ -9,10 +9,6 @@
        <input type="text" name="email">
        <label for="passwd"> Jelszó: </label>
        <input type="password" name="passwd">
-       <div>
-        <label for="staylogged"> Maradjak bejelentkezve </label>
-       <input type="checkbox" name="staylogged">
-       </div>
        <a id="forgotpass" href=""> Elfelejtette a jelszavát? </a>
        <button id="loginbutton" class="btn">
            Bejelentkezés 

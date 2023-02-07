@@ -20,8 +20,8 @@
 <style>
 p{
     margin: 2%;
-    border: 1px solid white;
-    color: whitesmoke;
+    border: 1px solid black;
+    color: black;
     padding: 2%;
 }
 </style>

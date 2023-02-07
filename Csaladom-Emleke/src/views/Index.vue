@@ -3,22 +3,31 @@
   import HowToStart from '../components/howtostart.vue'
   import Login from '../components/login.vue';
   import alertMsg from '../components/alertMsg.vue';
+  import navmenu from '../../src/components/menu.vue';
 
 </script>
 
 <template>
   <main>
-    <div class="d-flex pe-2 flex-row-reverse m-3">
-      <div class="d-flex flex-column justify-content-between bejelentkezes col-md-4">
-        <Registration />
+    <navmenu />
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-4 window m-3">
+        <Login />
       </div>
     </div>
-    <div class="hogyankezd" id="hogyankezdjneki">
-      <HowToStart />
+    <div class="row w-100" style="height: 200px;">
+      <div class="col-8" style="background-color: purple;">
+      </div>
+      <div class="col-4" style="background-color: blue;">
+      </div>
     </div>
     
     
   </main>
+  <div class="hogyankezd" id="hogyankezdjneki">
+    <HowToStart />
+  </div>
   <div>
     <alertMsg variant="secondary" :text="messageText" ref='msg'/>
   </div>
@@ -55,21 +64,14 @@
   text-decoration: none;
   color: white;
 }
-.bejelentkezeslink:hover{
-  color: #ff7112;
-}
-.bejelentkezesdiv{
-  margin-top: 50px;
-}
+
 .logo{
   width: 200px;
   height: 125px;
+}
 
-}
-h1{
- color:white;
-}
-body{
+main{
+  color: white;
   background-image: url('../assets/valamihatter.jpg');
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -77,7 +79,7 @@ body{
   background-size: cover;
   scroll-behavior: smooth;
 }
-.bejelentkezes{
+.window{
   backdrop-filter: blur(3px);
   position: relative;
   color: white;
