@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Feb 01. 13:17
+-- Létrehozás ideje: 2023. Feb 07. 09:38
 -- Kiszolgáló verziója: 10.4.6-MariaDB
 -- PHP verzió: 7.3.8
 
@@ -81,15 +81,17 @@ CREATE TABLE `beallitasok` (
 CREATE TABLE `csaladfak` (
   `ID` int(11) NOT NULL,
   `felhasznaloID` int(11) NOT NULL,
-  `alapertelmezett` tinyint(1) NOT NULL
+  `alapertelmezett` tinyint(1) NOT NULL,
+  `Nev` varchar(40) COLLATE utf8_hungarian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `csaladfak`
 --
 
-INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`) VALUES
-(1, 1, 1);
+INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`, `Nev`) VALUES
+(1, 1, 1, ''),
+(4, 5, 0, 'fdswfwe 23423');
 
 -- --------------------------------------------------------
 
@@ -126,6 +128,7 @@ CREATE TABLE `csaladtagok` (
   `profilkep` varchar(120) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `telefonszam` varchar(20) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `Nev` varchar(200) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `Nem` varchar(20) COLLATE utf8_hungarian_ci NOT NULL,
   `szulhely` varchar(100) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `szulido` date DEFAULT NULL,
   `halhely` varchar(100) COLLATE utf8_hungarian_ci DEFAULT NULL,
@@ -136,9 +139,10 @@ CREATE TABLE `csaladtagok` (
 -- A tábla adatainak kiíratása `csaladtagok`
 --
 
-INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `alapertelmezett`, `profilkep`, `telefonszam`, `Nev`, `szulhely`, `szulido`, `halhely`, `halido`) VALUES
-(1, 1, 1, NULL, NULL, 'Kovács István', NULL, '1973-07-22', NULL, '1998-05-03'),
-(2, 1, 0, NULL, NULL, 'Pék Margit', NULL, '1954-02-03', NULL, '2019-03-18');
+INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `alapertelmezett`, `profilkep`, `telefonszam`, `Nev`, `Nem`, `szulhely`, `szulido`, `halhely`, `halido`) VALUES
+(1, 1, 1, NULL, NULL, 'Kovács István', '', NULL, '1973-07-22', NULL, '1998-05-03'),
+(2, 1, 0, NULL, NULL, 'Pék Margit', '', NULL, '1954-02-03', NULL, '2019-03-18'),
+(3, 4, 0, NULL, NULL, 'fdswfwe 23423', 'Férfi', NULL, '0000-00-00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -172,7 +176,8 @@ CREATE TABLE `felhasznalok` (
 --
 
 INSERT INTO `felhasznalok` (`ID`, `Nev`, `Jelszo`, `email`, `jogosultsag`) VALUES
-(1, 'Kovács János', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 'a@a.com', 0);
+(1, 'Kovács János', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 'a@a.com', 0),
+(5, 'fdswfwe 23423', 'wefrwe', 'sdfwef', 1);
 
 -- --------------------------------------------------------
 
@@ -299,13 +304,13 @@ ALTER TABLE `beallitasok`
 -- AUTO_INCREMENT a táblához `csaladfak`
 --
 ALTER TABLE `csaladfak`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `csaladtagok`
 --
 ALTER TABLE `csaladtagok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `eletut`
@@ -317,7 +322,7 @@ ALTER TABLE `eletut`
 -- AUTO_INCREMENT a táblához `felhasznalok`
 --
 ALTER TABLE `felhasznalok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `kepek`

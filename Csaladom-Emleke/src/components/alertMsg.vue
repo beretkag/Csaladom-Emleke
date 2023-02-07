@@ -17,7 +17,6 @@
         </div>
     </div>
 
-    <button type="button" @click="OpenCloseFunction()" :class="'btn btn-' + variant">Open</button>
 </template>
 
 <script>
@@ -25,18 +24,17 @@
 export default {
     name:'alertMSg',
     props:{
-        visible: Boolean,
         variant: String,
         text: String
     },
     data(){
         return{
-            OpenClose: this.visible
+            OpenClose: false
         }
     },
     methods:{
         OpenCloseFunction(){
-            this.OpenClose = !this.OpenClose; 
+            this.OpenClose = !this.OpenClose;
         }
     }
 }
