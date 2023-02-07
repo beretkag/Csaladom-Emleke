@@ -13,7 +13,10 @@
         <Registration />
       </div>
     </div>
-    <HowToStart />
+    <div class="hogyankezd" id="hogyankezdjneki">
+      <HowToStart />
+    </div>
+    
     
   </main>
   <div>
@@ -45,6 +48,9 @@
 </script>
 
 <style>
+.hogyankezd{
+  margin-top: 10%;
+}
 .bejelentkezeslink{
   text-decoration: none;
   color: white;
@@ -68,6 +74,8 @@ body{
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size:contain;
+  background-size: cover;
+  scroll-behavior: smooth;
 }
 .bejelentkezes{
   backdrop-filter: blur(3px);

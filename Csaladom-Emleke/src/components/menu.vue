@@ -3,11 +3,11 @@
   <div class="logodiv">
     <img src="../assets/logopng.png" class="logo" alt="Családomemléke logó">
   </div>
-  <div>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg nav-fill w-100">
+      <div class="container-fluid text-center">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+          <span> <i class="bi bi-list"></i> </span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
@@ -15,7 +15,7 @@
               <RouterLink to="/"> Bejelentkezés </RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink to="/hogyankezdjneki"> Hogyan kezdj neki </RouterLink>
+              <a href="#hogyankezdjneki"> Hogyan kezdj neki </a>
             </li>
             <li class="nav-item">
               <RouterLink to="/beallitasok"> Beállítások </RouterLink>
@@ -39,19 +39,27 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <style>
-
-  nav{
-    margin-top: 1%;
-    text-decoration: none !important;
-  }
-
+button{
+  border: 1px solid white !important;
+}
+i{
+  color: white;
+}
+nav{
+  margin-top: 2%;
+}
   nav a{
     text-decoration: none !important;
     color: white;
+    margin: auto;
+    letter-spacing:0.05em;
   }
   li{
-    text-decoration: none;
-    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 3em;
   }
   li:hover a{
     color: black !important; 
@@ -62,10 +70,13 @@ import { RouterLink, RouterView } from 'vue-router'
 	font-weight: bold;
   height: 3em;
   }
-  nav a:active{
-    transform: translateY(4px);
+  nav ul{
+    width: 100%;
   }
-  
+  nav ul li{
+  display: flex;
+  justify-content: space-around;
+  }
 
 @keyframes spring {
   15% {
