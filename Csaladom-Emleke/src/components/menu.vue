@@ -15,7 +15,7 @@
               <RouterLink to="/"> Bejelentkezés </RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink to="/hogyankezdjneki"> Hogyan kezdj neki </RouterLink>
+              <a href="#hogyankezdjneki"> Hogyan kezdj neki </a>
             </li>
             <li class="nav-item">
               <RouterLink to="/beallitasok"> Beállítások </RouterLink>
@@ -52,6 +52,7 @@ nav{
     text-decoration: none !important;
     color: white;
     margin: auto;
+    letter-spacing:0.05em;
   }
   li{
     text-align: center;
