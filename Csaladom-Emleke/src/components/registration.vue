@@ -2,17 +2,18 @@
   <h1>
       Regisztráció
   </h1>
-  <p>Neme:</p>
-  <div class="nemradio d-flex justify-content-start">
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="inlineRadioOptions" value="Férfi" v-model="newUser.gender">
-      <label class="form-check-label" for="inlineRadio1">Férfi</label>
+  <p>Neme:
+    <div class="d-flex justify-content-start">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" value="Férfi" v-model="newUser.gender">
+        <label class="form-check-label" for="inlineRadio1">Férfi</label>
+      </div>
+      <div class="form-check">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" value="Nő" v-model="newUser.gender">
+          <label class="form-check-label" for="inlineRadio2">Nő</label>
+      </div>
     </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" value="Nő" v-model="newUser.gender">
-        <label class="form-check-label" for="inlineRadio2">Nő</label>
-    </div>
-  </div>
+  </p>
   <div class="mb-3">
     <input type="text" placeholder="Vezetéknév" class="form-control" v-model="newUser.surName">
   </div>
@@ -26,29 +27,31 @@
     <input type="password" placeholder="Jelszó" class="form-control" v-model="newUser.password">
   </div>
   <select class="form-select mb-3" v-model="newUser.szulido">
-    <option selected>Születési éve</option>
     <option v-for="i in 120" value="{{i}}">{{new Date().getFullYear()-i+1}}</option>
   </select>
-  <div class="d-flex justify-content-evenly">
-    <div class="mb-3">
-    <input type="text" placeholder="Apja vezetékneve:" style="width: 95%;" class="form-control">
+  <div class="row mb-3">
+    <p>Apa</p>
+    <div class="col-sm-12 col-lg-6 mb-1">
+    <input type="text" placeholder="Vezetéknév:" class="form-control">
   </div>
-  <div class="mb-3">
-    <input type="text" placeholder="Apja keresztneve:" style="width: 95%;" class="form-control">
-  </div>
-  </div>
-  <div class="d-flex justify-content-evenly">
-    <div class="mb-3">
-    <input type="text" placeholder="Anyja vezetékneve:" style="width: 95%;" class="form-control">
-  </div>
-  <div class="mb-3">
-    <input type="text" placeholder="Anyja keresztneve:" style="width: 95%;" class="form-control">
+  <div class="col mb-1">
+    <input type="text" placeholder="Keresztnév:" class="form-control">
   </div>
   </div>
-
-  <button id="loginbutton" class="btn" @click="Registration()">
-      Regisztráció 
-  </button>
+  <div class="row mb-3">
+    <p>Anya</p>
+    <div class="col-sm-12 col-lg-6 mb-1">
+      <input type="text" placeholder="Vezetéknév" class="form-control">
+    </div>
+    <div class="col mb-1">
+      <input type="text" placeholder="Keresztnév" class="form-control">
+    </div>
+  </div>
+  <div>
+    <button id="loginbutton" class="btn" @click="Registration()">
+        Regisztráció 
+    </button>
+  </div>
 </template>
 
 <script>
@@ -76,10 +79,15 @@ export default {
         email: this.newUser.email,
         jogosultsag: 1
       }
+
+      this.$parent.$refs.msg.OpenCloseFunction();
+      return;
+
       axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
         .then((res)=>{
           if (res.data.length > 0) {
-            // Hibaüzenet modal ablakban (Van már ilyen felhasználó)
+            this.$parent.messageText = "újabb"
+            this.$parent.$refs.msg.OpenCloseFunction();
           }
           else{
             axios.post(this.baseURL + "/" + table, data)

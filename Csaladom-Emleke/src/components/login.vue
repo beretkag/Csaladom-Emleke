@@ -1,5 +1,3 @@
-<script>
-</script>
 <template>
    <div class="d-flex flex-column justify-content-between m-3">
        <h1>
@@ -15,6 +13,7 @@
        </button>
    </div>
 </template>
+
 <style>
   #forgotpass{
     text-decoration: none ;

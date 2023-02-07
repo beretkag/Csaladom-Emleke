@@ -1,9 +1,9 @@
 <template>
-<div class="d-flex m-3">
-  <div class="logodiv">
+<div class="row m-3">
+  <div class="col-lg-2 col-sm-12 logodiv">
     <img src="../assets/logopng.png" class="logo" alt="Családomemléke logó">
   </div>
-  <div class="container">
+  <div class="col-lg col-sm container">
     <nav class="navbar navbar-expand-lg nav-fill w-100">
       <div class="container-fluid text-center">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,10 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <style>
+.logo{
+  width: 12vw;
+}
+
 button{
   border: 1px solid white !important;
 }

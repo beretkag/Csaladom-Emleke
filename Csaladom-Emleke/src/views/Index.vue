@@ -10,19 +10,13 @@
 <template>
   <main>
     <navmenu />
-    <div class="row">
-      <div class="col"></div>
-      <div class="col-4 window m-3">
-        <Login />
+    <div class="row m-0">
+      <div class="col-lg-7 col-md-6 col-sm-12"></div>
+      <div class="col-lg-4 col-md  window p-3">
+        <Registration />
       </div>
+      <div class="col-lg col-md col-sm"></div>
     </div>
-    <div class="row w-100" style="height: 200px;">
-      <div class="col-8" style="background-color: purple;">
-      </div>
-      <div class="col-4" style="background-color: blue;">
-      </div>
-    </div>
-    
     
   </main>
   <div class="hogyankezd" id="hogyankezdjneki">
@@ -42,32 +36,24 @@
     },
     data(){
       return{
-        messageText: "Modal Szöveg",
+        messageText: "Nem megfelelő adatok!",
       }
     },
     methods:{
       Registration(){
-        this.$refs.msg.OpenCloseFunction();  //?????????????????????????????????????????????????????????????????????
+        this.$refs.msg.OpenCloseFunction();
       },
-      Alert(){
-        alert('csáo');
-      }
     }
   }
 </script>
 
-<style>
+<style scoped>
 .hogyankezd{
   margin-top: 10%;
 }
 .bejelentkezeslink{
   text-decoration: none;
   color: white;
-}
-
-.logo{
-  width: 200px;
-  height: 125px;
 }
 
 main{
@@ -78,13 +64,13 @@ main{
   background-size:contain;
   background-size: cover;
   scroll-behavior: smooth;
+  height: 100vh;
 }
 .window{
   backdrop-filter: blur(3px);
   position: relative;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 40px;
   border-radius: 10px;
 }
   #forgotpass{

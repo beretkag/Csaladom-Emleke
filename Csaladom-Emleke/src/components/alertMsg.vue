@@ -11,12 +11,11 @@
                     <p>{{ text }}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" @click="OpenCloseFunction()" :class="'btn btn-' + variant">Close</button>
+                    <button type="button" @click="OpenCloseFunction()" :class="'btn btn-' + variant">Bezárás</button>
                 </div>
             </div>
         </div>
     </div>
-
 </template>
 
 <script>

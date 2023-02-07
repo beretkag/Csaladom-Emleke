@@ -17,7 +17,7 @@
 <script>
 </script>
 
-<style>
+<style scoped>
 p{
     margin: 2%;
     border: 1px solid black;
