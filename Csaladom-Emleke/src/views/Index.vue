@@ -66,6 +66,7 @@ body{
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size:contain;
+  background-size: cover;
 }
 .bejelentkezes{
   backdrop-filter: blur(3px);

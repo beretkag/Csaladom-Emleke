@@ -1,6 +1,6 @@
 <template>
-    <h1>
-        Hogyan kezdj neki
+  <p>
+    Hogyan kezdj neki
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem illum animi unde sunt laborum voluptate quam repellat eum ipsam praesentium labore, eligendi perspiciatis rerum earum fuga commodi. Nemo, perferendis blanditiis!
         Rerum voluptatem rem possimus labore voluptatum debitis, nemo cum sapiente deleniti eos fugit quam nostrum laborum. Voluptatum, cupiditate facilis quo dicta optio accusantium itaque, fugit suscipit deleniti odio, maxime dignissimos.
         Reprehenderit esse modi repudiandae soluta culpa animi, vero harum fugiat rem alias debitis quod voluptatem accusamus, optio nihil officiis magnam. A veniam facilis in omnis, voluptatum amet. Soluta, suscipit debitis.
@@ -11,8 +11,17 @@
         Iusto debitis ab eaque, odit dolores hic dolorum nisi consequuntur tempora nihil cumque aut reiciendis veritatis magni aspernatur qui natus non est vitae tenetur? Atque nobis ullam quisquam aliquid provident!
         Molestiae, minus? Earum quia culpa ab enim assumenda quas vel quisquam veniam inventore odio blanditiis quae omnis, reprehenderit et? Modi sed non error sequi cum delectus quis neque voluptates illum.
         Facilis quibusdam tenetur eligendi enim consequatur veniam cumque nesciunt cupiditate voluptates recusandae, distinctio vel vitae necessitatibus atque architecto quos ratione neque voluptatem! Ad, vero magnam. Mollitia non earum officiis corrupti.
-    </h1>
+  </p>
 </template>
 
 <script>
 </script>
+
+<style>
+p{
+    margin: 2%;
+    border: 1px solid white;
+    color: whitesmoke;
+    padding: 2%;
+}
+</style>

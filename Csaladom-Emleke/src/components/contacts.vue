@@ -1,6 +1,5 @@
 <template>
-    <div class="contacts d-flex flex-row justify-content-around">
-
+    <div class="contacts">
         <div>
             <img src="../components/img/BeretkaGellert.jpg" alt="Beretka Gellért">
             <h1>
@@ -35,6 +34,9 @@
 <style>
 .contacts{
     margin-top: 3%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 .contacts h1{
     letter-spacing: 0.1em;
@@ -53,5 +55,12 @@
     width: 25em;
     border: 3px solid #ff7112;
     box-shadow: 50px 50px 50px 50px solid #ff7112;
+}
+@media(max-width: 1200px){
+    .contacts{
+        flex-direction: column;
+        margin: auto;
+        text-align: center;
+    }
 }
 </style>
