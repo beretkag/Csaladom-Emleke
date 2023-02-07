@@ -14,7 +14,7 @@
    </div>
 </template>
 
-<style>
+<style scoped>
   #forgotpass{
     text-decoration: none ;
     color: grey;

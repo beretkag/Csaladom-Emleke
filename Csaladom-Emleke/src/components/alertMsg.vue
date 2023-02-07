@@ -4,7 +4,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title">{{ title }}</h5>
                     <button type="button" class="btn-close" @click="OpenCloseFunction()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -24,17 +24,23 @@ export default {
     name:'alertMSg',
     props:{
         variant: String,
-        text: String
     },
     data(){
         return{
-            OpenClose: false
+            OpenClose: false,
+            text: "modal message",
+            title: "modal title"
         }
     },
     methods:{
         OpenCloseFunction(){
             this.OpenClose = !this.OpenClose;
+        },
+        SetText(text, title){
+            this.text = text;
+            this.title = title;
         }
+    
     }
 }
 

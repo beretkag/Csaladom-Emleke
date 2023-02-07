@@ -11,9 +11,9 @@
   <main>
     <navmenu />
     <div class="row m-0">
-      <div class="col-lg-7 col-md-6 col-sm-12"></div>
-      <div class="col-lg-4 col-md  window p-3">
-        <Registration />
+      <div class="col-lg-7 col-md col-sm-12"></div>
+      <div class="col-lg-4 col-md-6 window p-3">
+        <Login />
       </div>
       <div class="col-lg col-md col-sm"></div>
     </div>
@@ -23,7 +23,7 @@
     <HowToStart />
   </div>
   <div>
-    <alertMsg variant="secondary" :text="messageText" ref='msg'/>
+    <alertMsg variant="secondary" ref='msg'/>
   </div>
 </template>
 
@@ -33,16 +33,6 @@
     name:'Index',
     components:{
       alertMsg,
-    },
-    data(){
-      return{
-        messageText: "Nem megfelelő adatok!",
-      }
-    },
-    methods:{
-      Registration(){
-        this.$refs.msg.OpenCloseFunction();
-      },
     }
   }
 </script>
@@ -57,18 +47,18 @@
 }
 
 main{
+  padding: 0;
   color: white;
   background-image: url('../assets/valamihatter.jpg');
   background-repeat: no-repeat;
   background-attachment: scroll;
-  background-size:contain;
   background-size: cover;
   scroll-behavior: smooth;
-  height: 100vh;
+  padding-bottom: 8vh;
+  min-height: 100vh;
 }
 .window{
   backdrop-filter: blur(3px);
-  position: relative;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;

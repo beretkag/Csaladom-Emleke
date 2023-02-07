@@ -1,5 +1,5 @@
 <template>
-<div class="row m-3">
+<div class="row p-3 navBar">
   <div class="col-lg-2 col-sm-12 logodiv">
     <img src="../assets/logopng.png" class="logo" alt="Családomemléke logó">
   </div>
@@ -38,10 +38,15 @@
 import { RouterLink, RouterView } from 'vue-router'
 </script>
 
-<style>
+<style scoped>
 .logo{
   width: 12vw;
 }
+
+.navBar{
+  margin: 0 0 2vh 0 !important;
+}
+
 
 button{
   border: 1px solid white !important;
@@ -50,7 +55,7 @@ i{
   color: white;
 }
 nav{
-  margin-top: 2%;
+  margin: 2% 0 0 0 !important;
 }
   nav a{
     text-decoration: none !important;
@@ -81,6 +86,12 @@ nav{
   display: flex;
   justify-content: space-around;
   }
+
+  @media only screen and (max-width: 991px) {
+    .navBar{
+      background-color: rgb(56, 56, 56);
+    }
+}
 
 @keyframes spring {
   15% {

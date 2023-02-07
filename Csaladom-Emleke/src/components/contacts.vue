@@ -31,7 +31,7 @@
 </template>
 <script>
 </script>
-<style>
+<style scoped>
 .contacts{
     margin-top: 3%;
     display: flex;
