@@ -25,18 +25,36 @@
   <div class="mb-3">
     <input type="password" placeholder="Jelszó" class="form-control" v-model="newUser.password">
   </div>
-  <select class="form-select mb-3" v-model="newUser.szulido">
-    <option v-for="i in 120" value="{{i}}">{{new Date().getFullYear()-i+1}}</option>
-  </select>
+
+  <p>Születés</p>
+  <div class="input-group mb-3">
+    <span class="input-group-text">Év:</span>
+    <select class="form-select" v-model="newUser.szulido.ev" placeholder="Születési év">
+      <option v-for="i in 120" value="{{i}}">{{new Date().getFullYear()-i+1}}</option>
+    </select>
+    <span class="input-group-text">Hónap:</span>
+    <select class="form-select" v-model="newUser.szulido.honap" placeholder="Születési év">
+      <option v-for="i in 12" value="{{i}}">{{i}}</option>
+    </select>
+    <span class="input-group-text">Nap::</span>
+    <select class="form-select" v-model="newUser.szulido.nap" placeholder="Születési év">
+      <option v-for="i in 31" value="{{i}}">{{i}}</option>
+    </select>
+
+  </div>
+
+
+
   <div class="row mb-3">
     <p>Apa</p>
     <div class="col-sm-12 col-lg-6 mb-1">
-    <input type="text" placeholder="Vezetéknév:" class="form-control" v-model="newUser.fatherLastName">
+      <input type="text" placeholder="Vezetéknév:" class="form-control" v-model="newUser.fatherLastName">
+    </div>
+    <div class="col mb-1">
+      <input type="text" placeholder="Keresztnév:" class="form-control" v-model="newUser.fatherFirstName">
+    </div>
   </div>
-  <div class="col mb-1">
-    <input type="text" placeholder="Keresztnév:" class="form-control" v-model="newUser.fatherFirstName">
-  </div>
-  </div>
+
   <div class="row mb-3">
     <p>Anya</p>
     <div class="col-sm-12 col-lg-6 mb-1">

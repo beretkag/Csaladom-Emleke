@@ -15,10 +15,10 @@
               <a href="#hogyankezdjneki"> Hogyan kezdj neki </a>
             </li>
             <li class="nav-item">
-              <button @click="isLoginSet(true)"> Bejelentkezés </button>
+              <a @click="$parent.isLoginSet(true)"> Bejelentkezés </a>
             </li>
             <li class="nav-item">
-              <button @click="isLoginSet(false)"> Regisztráció </button>
+              <a @click="$parent.isLoginSet(false)"> Regisztráció </a>
             </li>
           </ul>
         </div>
@@ -28,24 +28,8 @@
 </div>
 </template>
 
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <script>
 
-export default {
-  name: "navmenu",
-  components:{},
-  data(){
-    return {}
-  },
-  methods:{
-    isLoginSet(bool){
-      this.$parent.isLoginSet(bool);
-    }
-  }
-}
 </script>
 
 <style scoped>
@@ -61,46 +45,50 @@ export default {
 button{
   border: 1px solid white !important;
 }
+
 i{
   color: white;
 }
 nav{
   margin: 2% 0 0 0 !important;
 }
-  nav a{
-    text-decoration: none !important;
-    color: white;
-    margin: auto;
-    letter-spacing:0.05em;
-  }
-  li{
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 3em;
-  }
-  li:hover a{
-    color: black !important; 
-  }
-  li:hover{
-  background-color: #ff7112;
-  animation: spring 500ms ease-out;
-	font-weight: bold;
-  height: 3em;
-  }
-  nav ul{
-    width: 100%;
-  }
-  nav ul li{
+nav a{
+  text-decoration: none !important;
+  color: white;
+  margin: auto;
+  letter-spacing:0.05em;
+}
+nav a:hover{
+  cursor: pointer;
+}
+li{
+  text-align: center;
   display: flex;
-  justify-content: space-around;
-  }
+  flex-direction: row;
+  align-items: center;
+  height: 3em;
+}
+li:hover a{
+  color: black !important; 
+}
+li:hover{
+background-color: #ff7112;
+animation: spring 500ms ease-out;
+font-weight: bold;
+height: 3em;
+}
+nav ul{
+  width: 100%;
+}
+nav ul li{
+display: flex;
+justify-content: space-around;
+}
 
-  @media only screen and (max-width: 991px) {
-    .navBar{
-      background-color: rgb(56, 56, 56);
-    }
+@media only screen and (max-width: 991px) {
+  .navBar{
+    background-color: rgb(56, 56, 56);
+  }
 }
 
 @keyframes spring {

@@ -1,19 +1,10 @@
-<script setup>
-  import Registration from '../components/registration.vue';
-  import HowToStart from '../components/howtostart.vue'
-  import Login from '../components/login.vue';
-  import alertMsg from '../components/alertMsg.vue';
-  import navmenu from '../../src/components/menu.vue';
-
-</script>
-
 <template>
   <main>
     <navmenu />
     <div class="row m-0">
       <div class="col-lg-7 col-md col-sm-12"></div>
       <div class="col-lg-4 col-md-6 window p-3">
-        <Login v-if="isLogin" />
+        <Login v-if="isLogin"/>
         <Registration v-else />
       </div>
       <div class="col-lg col-md col-sm"></div>
@@ -29,12 +20,21 @@
 </template>
 
 <script>
+    import Registration from '../components/registration.vue'
+    import HowToStart from '../components/howtostart.vue'
+    import Login from '../components/login.vue'
+    import alertMsg from '../components/alertMsg.vue'
+    import navmenu from '../components/menu.vue'
 
   export default {
-    name:'Index',
+
+    name:"Index",
     components:{
       alertMsg,
-      navmenu
+      navmenu,
+      Login,
+      Registration,
+      HowToStart
     },
     data(){
       return {
@@ -43,7 +43,6 @@
     },
     methods:{
       isLoginSet(bool){
-        alert('másik oldalon')
         this.isLogin = bool;
       }
     }
