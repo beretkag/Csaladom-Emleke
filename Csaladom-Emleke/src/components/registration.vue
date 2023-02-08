@@ -79,44 +79,48 @@ export default {
         jogosultsag: 1
       }
 
-      this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak", "Hibás bemeneti adatok!");
-      this.$parent.$refs.msg.OpenCloseFunction();
-      return;
-
-      axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
-        .then((res)=>{
-          if (res.data.length > 0) {
-            this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak", "Hibás bemeneti adatok!");
-            this.$parent.$refs.msg.OpenCloseFunction();
-          }
-          else{
-            axios.post(this.baseURL + "/" + table, data)
-              .then((res) => {
-                table = "csaladfak"
-                let csaladfa = {
-                  felhasznaloID: res.data.insertId,
-                  alapertelmezett: true,
-                  Nev: this.newUser.firstName + " " + this.newUser.lastName
-                }
-                axios.post(this.baseURL + "/" + table, csaladfa)
-                  .then((res)=>{
-                    table = "csaladtagok"
-                    let csaladtag = {
-                      csaladfaID: res.data.insertId,
-                      alapertelmezett: true,
-                      Nev: this.newUser.firstName + " " + this.newUser.lastName,
-                      szulido: this.newUser.szulido,
-                      Nem: this.newUser.gender
-                    }
-                    axios.post(this.baseURL + "/" + table, csaladtag)
-                    .then(()=> {
-                      this.newUser = {};
+      if(this.newUser.gender == null ||
+          this.newUser.lastName == null ||
+          this.newUser.firstName == null ||
+          this.newUser.email == null ||
+          this.newUser.password == null){
+            this.$parent.$refs.msg.SetText("Nem töltött ki minden kötelező mezőt!", "Hibás bemeneti adatok!");
+      }else{
+        axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
+          .then((res)=>{
+            if (res.data.length > 0) {
+              this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak!", "Hibás bemeneti adatok!");
+            }
+            else{
+              axios.post(this.baseURL + "/" + table, data)
+                .then((res) => {
+                  table = "csaladfak"
+                  let csaladfa = {
+                    felhasznaloID: res.data.insertId,
+                    alapertelmezett: true,
+                    Nev: this.newUser.firstName + " " + this.newUser.lastName
+                  }
+                  axios.post(this.baseURL + "/" + table, csaladfa)
+                    .then((res)=>{
+                      table = "csaladtagok"
+                      let csaladtag = {
+                        csaladfaID: res.data.insertId,
+                        alapertelmezett: true,
+                        keresztnev: this.newUser.firstName,
+                        vezeteknev: this.newUser.lastName,
+                        szulido: this.newUser.szulido,
+                        nem: this.newUser.gender
+                      }
+                      axios.post(this.baseURL + "/" + table, csaladtag)
+                      .then(()=> {
+                        this.newUser = {};
+                      })
                     })
-                  })
-              })
-          }
-      })
+                })
+            }
+        })
     }
+  }
   }
 }
 </script>

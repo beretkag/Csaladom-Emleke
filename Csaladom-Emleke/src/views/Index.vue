@@ -13,7 +13,8 @@
     <div class="row m-0">
       <div class="col-lg-7 col-md col-sm-12"></div>
       <div class="col-lg-4 col-md-6 window p-3">
-        <Login />
+        <Login v-if="isLogin" />
+        <Registration v-else />
       </div>
       <div class="col-lg col-md col-sm"></div>
     </div>
@@ -33,6 +34,18 @@
     name:'Index',
     components:{
       alertMsg,
+      navmenu
+    },
+    data(){
+      return {
+        isLogin: false
+      }
+    },
+    methods:{
+      isLoginSet(bool){
+        alert('másik oldalon')
+        this.isLogin = bool;
+      }
     }
   }
 </script>

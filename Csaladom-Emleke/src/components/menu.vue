@@ -12,19 +12,13 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <RouterLink to="/"> Bejelentkezés </RouterLink>
-            </li>
-            <li class="nav-item">
               <a href="#hogyankezdjneki"> Hogyan kezdj neki </a>
             </li>
             <li class="nav-item">
-              <RouterLink to="/beallitasok"> Beállítások </RouterLink>
+              <button @click="isLoginSet(true)"> Bejelentkezés </button>
             </li>
             <li class="nav-item">
-              <RouterLink to="/felhasznalokezeles"> Felhasználókezelés</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink to="/elerhetosegek"> Elérhetőségek </RouterLink>
+              <button @click="isLoginSet(false)"> Regisztráció </button>
             </li>
           </ul>
         </div>
@@ -36,6 +30,22 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+</script>
+
+<script>
+
+export default {
+  name: "navmenu",
+  components:{},
+  data(){
+    return {}
+  },
+  methods:{
+    isLoginSet(bool){
+      this.$parent.isLoginSet(bool);
+    }
+  }
+}
 </script>
 
 <style scoped>
