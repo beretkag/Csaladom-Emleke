@@ -14,11 +14,11 @@
             <li class="nav-item">
               <a href="#hogyankezdjneki"> Hogyan kezdj neki </a>
             </li>
-            <li class="nav-item">
-              <a @click="$parent.isLoginSet(true)"> Bejelentkezés </a>
+            <li class="nav-item"  @click="$parent.isLoginSet(true)">
+              <a> Bejelentkezés </a>
             </li>
-            <li class="nav-item">
-              <a @click="$parent.isLoginSet(false)"> Regisztráció </a>
+            <li class="nav-item" @click="$parent.isLoginSet(false)">
+              <a > Regisztráció </a>
             </li>
           </ul>
         </div>
