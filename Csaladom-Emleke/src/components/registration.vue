@@ -30,15 +30,15 @@
   <div class="input-group mb-3" name="szuletes">
     <span class="input-group-text">ÉÉ:</span>
     <select class="form-select" v-model="newUser.szulido.ev" placeholder="Születési év">
-      <option v-for="i in 120" value="{{i}}">{{new Date().getFullYear()-i+1}}</option>
+      <option v-for="i in 120" :value="new Date().getFullYear()-i+1">{{new Date().getFullYear()-i+1}}</option>
     </select>
     <span class="input-group-text">HH:</span>
     <select class="form-select" v-model="newUser.szulido.honap" placeholder="Születési év">
-      <option v-for="i in 12" value="{{i}}">{{i}}</option>
+      <option v-for="i in 12" :value="i">{{i}}</option>
     </select>
     <span class="input-group-text">NN:</span>
     <select class="form-select" v-model="newUser.szulido.nap" placeholder="Születési év">
-      <option v-for="i in 31" value="{{i}}">{{i}}</option>
+      <option v-for="i in 31" :value="i">{{i}}</option>
     </select>
   </div>
 
@@ -71,6 +71,7 @@
 
 <script>
 import axios from "axios";
+import sha256 from "crypto-js/sha256";
 
 export default {
   name: 'Registration',
@@ -78,7 +79,7 @@ export default {
 
   data() {
     return{
-      baseURL: "http://localhost:3000",
+      baseURL: this.$parent.$parent.$parent.baseURL(),
       newUser: {
         szulido: {}
       }
@@ -92,7 +93,7 @@ export default {
       let field = "email"
       let data = {
         Nev: this.newUser.firstName + " " + this.newUser.lastName,
-        Jelszo: this.newUser.password,
+        Jelszo: `${sha256(this.newUser.password)}`,
         email: this.newUser.email,
         jogosultsag: 1
       }
@@ -126,7 +127,7 @@ export default {
                         alapertelmezett: true,
                         keresztnev: this.newUser.firstName,
                         vezeteknev: this.newUser.lastName,
-                        szulido: this.newUser.szulido,
+                        szulido: this.newUser.szulido.ev + "-" + this.newUser.szulido.honap + "-" + this.newUser.szulido.nap,
                         nem: this.newUser.gender
                       }
                       axios.post(this.baseURL + "/" + table, csaladtag)

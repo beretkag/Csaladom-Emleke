@@ -70,7 +70,7 @@ app.post('/login', tokencheck(), (req, res) => {
     var email = req.body.email;
     var passwd = req.body.password;
 
-    pool.query(`SELECT * FROM ${table}  WHERE email=? AND passwd=?`, [email, passwd], (err, results) => {
+    pool.query(`SELECT ID, Nev, email, jogosultsag FROM ${table}  WHERE email=? AND Jelszo=?`, [email, passwd], (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
             res.status(500).send(err);
