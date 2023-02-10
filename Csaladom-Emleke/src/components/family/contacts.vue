@@ -1,7 +1,7 @@
 <template>
     <div class="contacts">
         <div>
-            <img src="../components/img/BeretkaGellert.jpg" alt="Beretka Gellért">
+            <img src="../img/BeretkaGellert.jpg" alt="Beretka Gellért">
             <h1>
                 Beretka Gellért
             </h1>
@@ -10,7 +10,7 @@
             </h2>
         </div>
         <div>
-            <img src="../components/img/KerteszKrisztian.jpg" alt="Kertész Krisztián">
+            <img src="../img/KerteszKrisztian.jpg" alt="Kertész Krisztián">
             <h1>
                 Kertész Krisztián
             </h1>
@@ -19,7 +19,7 @@
             </h2>
         </div>
         <div>
-            <img src="../components/img/KerekAdamTamas.jpg" alt="Kerék Ádám Tamás">
+            <img src="../img/KerekAdamTamas.jpg" alt="Kerék Ádám Tamás">
             <h1>
                 Kerék Ádám Tamás
             </h1>
