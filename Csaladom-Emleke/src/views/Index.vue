@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="mb-0">
     <navmenu />
     <div class="row m-0">
       <div class="col-lg-7 col-md col-sm-12"></div>
@@ -9,9 +9,8 @@
       </div>
       <div class="col-lg col-md col-sm"></div>
     </div>
-    
   </main>
-  <div class="hogyankezd" id="hogyankezdjneki">
+  <div class="hogyankezd p-3" id="hogyankezdjneki">
     <HowToStart />
   </div>
   <div>
