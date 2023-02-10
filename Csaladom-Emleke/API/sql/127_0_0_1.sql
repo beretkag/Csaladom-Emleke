@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Feb 07. 09:38
+-- Létrehozás ideje: 2023. Feb 09. 08:08
 -- Kiszolgáló verziója: 10.4.6-MariaDB
 -- PHP verzió: 7.3.8
 
@@ -100,19 +100,6 @@ INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`, `Nev`) VALUES
 -- (Lásd alább az aktuális nézetet)
 --
 CREATE TABLE `csaladtagadatok` (
-`ID` int(11)
-,`csaladfaID` int(11)
-,`alapertelmezett` tinyint(1)
-,`profilkep` varchar(120)
-,`telefonszam` varchar(20)
-,`Nev` varchar(200)
-,`szulhely` varchar(100)
-,`szulido` date
-,`halhely` varchar(100)
-,`halido` date
-,`partnerID` int(11)
-,`apaID` int(11)
-,`anyaID` int(11)
 );
 
 -- --------------------------------------------------------
@@ -127,11 +114,11 @@ CREATE TABLE `csaladtagok` (
   `alapertelmezett` tinyint(1) NOT NULL,
   `profilkep` varchar(120) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `telefonszam` varchar(20) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `Nev` varchar(200) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `Nem` varchar(20) COLLATE utf8_hungarian_ci NOT NULL,
+  `keresztnev` varchar(200) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `vezeteknev` varchar(200) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `nem` varchar(20) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `szulhely` varchar(100) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `szulido` date DEFAULT NULL,
-  `halhely` varchar(100) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `halido` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -139,10 +126,10 @@ CREATE TABLE `csaladtagok` (
 -- A tábla adatainak kiíratása `csaladtagok`
 --
 
-INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `alapertelmezett`, `profilkep`, `telefonszam`, `Nev`, `Nem`, `szulhely`, `szulido`, `halhely`, `halido`) VALUES
-(1, 1, 1, NULL, NULL, 'Kovács István', '', NULL, '1973-07-22', NULL, '1998-05-03'),
-(2, 1, 0, NULL, NULL, 'Pék Margit', '', NULL, '1954-02-03', NULL, '2019-03-18'),
-(3, 4, 0, NULL, NULL, 'fdswfwe 23423', 'Férfi', NULL, '0000-00-00', NULL, NULL);
+INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `alapertelmezett`, `profilkep`, `telefonszam`, `keresztnev`, `vezeteknev`, `nem`, `szulhely`, `szulido`, `halido`) VALUES
+(1, 1, 1, NULL, NULL, 'Kovács István', '', '', NULL, '1973-07-22', '1998-05-03'),
+(2, 1, 0, NULL, NULL, 'Pék Margit', '', '', NULL, '1954-02-03', '2019-03-18'),
+(3, 4, 0, NULL, NULL, 'fdswfwe 23423', '', 'Férfi', NULL, '0000-00-00', NULL);
 
 -- --------------------------------------------------------
 

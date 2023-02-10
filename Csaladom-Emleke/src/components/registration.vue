@@ -3,12 +3,12 @@
       Regisztráció
   </h1>
     <div class="d-flex justify-content-start">
-      <p>Neme:</p>
-      <div class="form-check m-2">
+      <label>Neme: &nbsp</label>
+      <div class="form-check mb-2">
         <input class="form-check-input" type="radio" name="inlineRadioOptions" value="Férfi" v-model="newUser.gender">
-        <label class="form-check-label" for="inlineRadio1">Férfi</label>
+        <label class="form-check-label" for="inlineRadio1">Férfi&nbsp</label>
       </div>
-      <div class="form-check m-2">
+      <div class="form-check mb-2">
           <input class="form-check-input" type="radio" name="inlineRadioOptions" value="Nő" v-model="newUser.gender">
           <label class="form-check-label" for="inlineRadio2">Nő</label>
       </div>
@@ -25,20 +25,36 @@
   <div class="mb-3">
     <input type="password" placeholder="Jelszó" class="form-control" v-model="newUser.password">
   </div>
-  <select class="form-select mb-3" v-model="newUser.szulido">
-    <option v-for="i in 120" value="{{i}}">{{new Date().getFullYear()-i+1}}</option>
-  </select>
-  <div class="row mb-3">
-    <p>Apa</p>
+
+  <label for="szuletes">Születés </label>
+  <div class="input-group mb-3" name="szuletes">
+    <span class="input-group-text">ÉÉ:</span>
+    <select class="form-select" v-model="newUser.szulido.ev" placeholder="Születési év">
+      <option v-for="i in 120" value="{{i}}">{{new Date().getFullYear()-i+1}}</option>
+    </select>
+    <span class="input-group-text">HH:</span>
+    <select class="form-select" v-model="newUser.szulido.honap" placeholder="Születési év">
+      <option v-for="i in 12" value="{{i}}">{{i}}</option>
+    </select>
+    <span class="input-group-text">NN:</span>
+    <select class="form-select" v-model="newUser.szulido.nap" placeholder="Születési év">
+      <option v-for="i in 31" value="{{i}}">{{i}}</option>
+    </select>
+  </div>
+
+
+  <label for="apa">Apa</label>
+  <div class="row mb-3" name="apa">
     <div class="col-sm-12 col-lg-6 mb-1">
-    <input type="text" placeholder="Vezetéknév:" class="form-control" v-model="newUser.fatherLastName">
+      <input type="text" placeholder="Vezetéknév:" class="form-control" v-model="newUser.fatherLastName">
+    </div>
+    <div class="col mb-1">
+      <input type="text" placeholder="Keresztnév:" class="form-control" v-model="newUser.fatherFirstName">
+    </div>
   </div>
-  <div class="col mb-1">
-    <input type="text" placeholder="Keresztnév:" class="form-control" v-model="newUser.fatherFirstName">
-  </div>
-  </div>
-  <div class="row mb-3">
-    <p>Anya</p>
+
+  <label for="anya">Anya</label>
+  <div class="row mb-3" name="anya">
     <div class="col-sm-12 col-lg-6 mb-1">
       <input type="text" placeholder="Vezetéknév" class="form-control" v-model="newUser.motherLastName">
     </div>
@@ -47,7 +63,7 @@
     </div>
   </div>
   <div class="d-flex justify-content-around">
-    <button id="regbutton" class="btn" @click="Registration()">
+    <button id="regbutton" class="btn w-100" @click="Registration()">
         Regisztráció 
     </button>
   </div>
@@ -63,7 +79,9 @@ export default {
   data() {
     return{
       baseURL: "http://localhost:3000",
-      newUser: {}
+      newUser: {
+        szulido: {}
+      }
     };
   },
 
@@ -79,44 +97,48 @@ export default {
         jogosultsag: 1
       }
 
-      this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak", "Hibás bemeneti adatok!");
-      this.$parent.$refs.msg.OpenCloseFunction();
-      return;
-
-      axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
-        .then((res)=>{
-          if (res.data.length > 0) {
-            this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak", "Hibás bemeneti adatok!");
-            this.$parent.$refs.msg.OpenCloseFunction();
-          }
-          else{
-            axios.post(this.baseURL + "/" + table, data)
-              .then((res) => {
-                table = "csaladfak"
-                let csaladfa = {
-                  felhasznaloID: res.data.insertId,
-                  alapertelmezett: true,
-                  Nev: this.newUser.firstName + " " + this.newUser.lastName
-                }
-                axios.post(this.baseURL + "/" + table, csaladfa)
-                  .then((res)=>{
-                    table = "csaladtagok"
-                    let csaladtag = {
-                      csaladfaID: res.data.insertId,
-                      alapertelmezett: true,
-                      Nev: this.newUser.firstName + " " + this.newUser.lastName,
-                      szulido: this.newUser.szulido,
-                      Nem: this.newUser.gender
-                    }
-                    axios.post(this.baseURL + "/" + table, csaladtag)
-                    .then(()=> {
-                      this.newUser = {};
+      if(this.newUser.gender == null ||
+          this.newUser.lastName == null ||
+          this.newUser.firstName == null ||
+          this.newUser.email == null ||
+          this.newUser.password == null){
+            this.$parent.$refs.msg.SetText("Nem töltött ki minden kötelező mezőt!", "Hibás bemeneti adatok!");
+      }else{
+        axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
+          .then((res)=>{
+            if (res.data.length > 0) {
+              this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak!", "Hibás bemeneti adatok!");
+            }
+            else{
+              axios.post(this.baseURL + "/" + table, data)
+                .then((res) => {
+                  table = "csaladfak"
+                  let csaladfa = {
+                    felhasznaloID: res.data.insertId,
+                    alapertelmezett: true,
+                    Nev: this.newUser.firstName + " " + this.newUser.lastName
+                  }
+                  axios.post(this.baseURL + "/" + table, csaladfa)
+                    .then((res)=>{
+                      table = "csaladtagok"
+                      let csaladtag = {
+                        csaladfaID: res.data.insertId,
+                        alapertelmezett: true,
+                        keresztnev: this.newUser.firstName,
+                        vezeteknev: this.newUser.lastName,
+                        szulido: this.newUser.szulido,
+                        nem: this.newUser.gender
+                      }
+                      axios.post(this.baseURL + "/" + table, csaladtag)
+                      .then(()=> {
+                        this.newUser = {};
+                      })
                     })
-                  })
-              })
-          }
-      })
+                })
+            }
+        })
     }
+  }
   }
 }
 </script>

@@ -39,6 +39,7 @@ export default {
         SetText(text, title){
             this.text = text;
             this.title = title;
+            this.OpenCloseFunction();
         }
     
     }

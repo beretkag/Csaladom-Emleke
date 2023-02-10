@@ -12,19 +12,13 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <RouterLink to="/"> Bejelentkezés </RouterLink>
-            </li>
-            <li class="nav-item">
               <a href="#hogyankezdjneki"> Hogyan kezdj neki </a>
             </li>
-            <li class="nav-item">
-              <RouterLink to="/beallitasok"> Beállítások </RouterLink>
+            <li class="nav-item"  @click="$parent.isLoginSet(true)">
+              <a> Bejelentkezés </a>
             </li>
-            <li class="nav-item">
-              <RouterLink to="/felhasznalokezeles"> Felhasználókezelés</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink to="/elerhetosegek"> Elérhetőségek </RouterLink>
+            <li class="nav-item" @click="$parent.isLoginSet(false)">
+              <a > Regisztráció </a>
             </li>
           </ul>
         </div>
@@ -34,8 +28,8 @@
 </div>
 </template>
 
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
+<script>
+
 </script>
 
 <style scoped>
@@ -51,46 +45,50 @@ import { RouterLink, RouterView } from 'vue-router'
 button{
   border: 1px solid white !important;
 }
+
 i{
   color: white;
 }
 nav{
   margin: 2% 0 0 0 !important;
 }
-  nav a{
-    text-decoration: none !important;
-    color: white;
-    margin: auto;
-    letter-spacing:0.05em;
-  }
-  li{
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 3em;
-  }
-  li:hover a{
-    color: black !important; 
-  }
-  li:hover{
-  background-color: #ff7112;
-  animation: spring 500ms ease-out;
-	font-weight: bold;
-  height: 3em;
-  }
-  nav ul{
-    width: 100%;
-  }
-  nav ul li{
+nav a{
+  text-decoration: none !important;
+  color: white;
+  margin: auto;
+  letter-spacing:0.05em;
+}
+nav a:hover{
+  cursor: pointer;
+}
+li{
+  text-align: center;
   display: flex;
-  justify-content: space-around;
-  }
+  flex-direction: row;
+  align-items: center;
+  height: 3em;
+}
+li:hover a{
+  color: black !important; 
+}
+li:hover{
+background-color: #ff7112;
+animation: spring 500ms ease-out;
+font-weight: bold;
+height: 3em;
+}
+nav ul{
+  width: 100%;
+}
+nav ul li{
+display: flex;
+justify-content: space-around;
+}
 
-  @media only screen and (max-width: 991px) {
-    .navBar{
-      background-color: rgb(56, 56, 56);
-    }
+@media only screen and (max-width: 991px) {
+  .navBar{
+    background-color: rgb(56, 56, 56);
+  }
 }
 
 @keyframes spring {
