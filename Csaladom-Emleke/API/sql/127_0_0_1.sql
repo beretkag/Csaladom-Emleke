@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `csaladomemleke`
 --
-CREATE DATABASE IF NOT EXISTS `csaladomemleke` DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
+CREATE OR REPLACE DATABASE `csaladomemleke` DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
 USE `csaladomemleke`;
 
 -- --------------------------------------------------------
