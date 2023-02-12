@@ -11,13 +11,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
-                <li class="nav-item" @click="$parent.familytree(true)">
+                <li class="nav-item">
                   <a> Családfa szerkesztő </a>
                 </li>
-                <li class="nav-item" @click="$parent.settings(true)">
+                <li class="nav-item" >
                   <a> Beállítások </a>
                 </li>
-                <li class="nav-item" @click="$parent.contacts(true)">
+                <li class="nav-item" >
                   <a> Elérhetőségek </a>
                 </li>
               </ul>
@@ -28,9 +28,7 @@
     </div>
     </template>
     
-    <script>
-    
-    </script>
+
     
     <style scoped>
     .logo{

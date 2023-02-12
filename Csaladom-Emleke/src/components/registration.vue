@@ -79,7 +79,7 @@ export default {
 
   data() {
     return{
-      baseURL: this.$parent.$parent.$parent.baseURL(),
+      baseURL: this.$store.getters.baseURL,
       newUser: {
         szulido: {}
       }
@@ -132,7 +132,9 @@ export default {
                       }
                       axios.post(this.baseURL + "/" + table, csaladtag)
                       .then(()=> {
+                        this.$parent.$refs.msg.SetText("Sikeres Regisztráció!\nMostmár bejelentkezhet.", "Sikeres Rewgisztráció!");
                         this.newUser = {};
+                        this.$parent.isLoginSet(true);
                       })
                     })
                 })

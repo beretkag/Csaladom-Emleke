@@ -14,6 +14,7 @@
    </div>
 </template>
 
+
 <script>
   import axios from "axios";
   import sha256 from "crypto-js/sha256";
@@ -23,7 +24,7 @@
     components:{},
     data(){
       return{
-        baseURL: this.$parent.$parent.$parent.baseURL() + "/login",
+        baseURL: this.$store.getters.baseURL + "/login",
         user: {}
       }
     },
@@ -39,9 +40,9 @@
               if (res.data.length < 1) {
                 this.$parent.$refs.msg.SetText("Hibás felhasználónév vagy jelszó!", "Hibás bemeneti adatok!");
               } else {
-                this.$parent.$refs.msg.SetText("Sikeres Bejelentkezés", "Siker");
-
-                // vue store-ba feltültjük az adatokat
+                //Sikeres bejelentkezés
+                this.$store.commit('SetUser', res.data[0]);
+                this.$router.push(import.meta.env.BASE_URL + "csalad");
               }
             })
             .catch((err) => console.log(err));

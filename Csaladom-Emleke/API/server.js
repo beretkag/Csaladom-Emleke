@@ -22,7 +22,6 @@ const app = express();
 const port = process.env.PORT;
 const token = process.env.TOKEN;
 const debug = process.env.DEBUG;
-const version = process.env.VERSION;
 
 var pool = mysql.createPool({
     connectionLimit: 10,

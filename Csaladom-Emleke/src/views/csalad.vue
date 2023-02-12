@@ -1,47 +1,58 @@
 <template>
-    <navmenu />
-    <main>
-        <h1>
-            család
-        </h1>
-        <contacts v-if = "page='contacts'"  />
-        <familytree v-else-if= "page='familytree'" />
-        <settings v-else-if= "page='settings'"/>
-    </main>
+    <div id="app">
+        <FamilyTree />
+    </div>
 </template>
 
 <script>
-    import navmenu from '../components/family/familymenu.vue'
-    import contacts from '../components/family/contacts.vue'
-    import familytree from '../components/family/familytree.vue'
-    import settings from '../components/family/settings.vue'
+    import axios from 'axios';
+    import FamilyTree from '../components/family/FamilyTree.vue';
 
     export default{
-        components:
-        {
-            navmenu,
-            contacts,
-            familytree,
-            settings
+        components:{
+            FamilyTree
         },
-        data(){
-      return {
-        page: ""
-      }
-    },
-    methods:{
-      settings(bool){
-        this.page = settings;
-      }
-    }
+        created(){
+            //családfa betöltése
+            axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + this.$store.getters.loggedUser.ID)
+            .then(res => {
+                this.$store.commit('SetUser', Object.assign(this.$store.getters.loggedUser, {csaladfak: res.data}))
+                let fa = this.$store.getters.loggedUser.csaladfak.find(x => x.alapertelmezett == 0);
+                axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + fa.ID)
+                .then(res => {
+                    console.log(res.data);
+                    this.$store.commit('SetMembers', res.data);
+                })
+            })
+        },
+        methods:{
+            
+        }
+        
     }
 </script>
 
-<style scoped>
-    body{
-        background-color: grey !important;
-    }
-    main{
-        background-color: grey;
-    }
+<style>
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    height: 95vh;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    font-family: Helvetica;
+}
+
+#tree {
+    width: 100%;
+    height: 100%;
+}
 </style>
