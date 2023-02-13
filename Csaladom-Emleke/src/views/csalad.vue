@@ -1,4 +1,5 @@
 <template>
+    <FamilyMenu />
     <div id="app">
         <FamilyTree />
     </div>
@@ -7,11 +8,18 @@
 <script>
     import axios from 'axios';
     import FamilyTree from '../components/family/FamilyTree.vue';
+    import FamilyMenu from '../components/family/familymenu.vue';
+    import Settings from '../components/family/settings.vue';
+    import Contacts from '../components/family/contacts.vue';
 
     export default{
         components:{
-            FamilyTree
-        },
+    FamilyTree,
+    FamilyMenu,
+    Settings,
+    Contacts
+},
+
         created(){
             //családfa betöltése
             axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + this.$store.getters.loggedUser.ID)
@@ -24,10 +32,10 @@
                     this.$store.commit('SetMembers', res.data);
                 })
             })
+            methods:{
+                
+            }
         },
-        methods:{
-            
-        }
         
     }
 </script>

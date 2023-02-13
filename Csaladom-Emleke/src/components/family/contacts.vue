@@ -30,7 +30,9 @@
     </div>
 </template>
 <script>
+
 </script>
+
 <style scoped>
 .contacts{
     margin-top: 3%;
