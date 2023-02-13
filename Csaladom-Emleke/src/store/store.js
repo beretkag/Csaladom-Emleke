@@ -1,5 +1,7 @@
 import { def } from '@vue/shared';
 import { createStore } from 'vuex';
+import moment from "moment";
+
 
     const store = createStore({
         state: {
@@ -27,7 +29,13 @@ import { createStore } from 'vuex';
         },
         mutations:{
             SetMembers: (state, payload) => {
-                state.members = payload;
+                payload.forEach(item => {
+                    item.id = item.belsofaID;
+                    item.szulido = moment(item.szulido).format('YYYY-MM-DD');
+                    item.nem = item.gender == "male" ? "Férfi" : "Nő";
+                    item.teljesnev = item.vezeteknev + " " + item.keresztnev;
+                });
+                state.members =  payload
             },
             SetUser: (state, payload) => {
                 state.loggedUser = payload;

@@ -1,7 +1,7 @@
 <template>
     <FamilyMenu />
     <div id="app">
-        <FamilyTree />
+        <FamilyTree ref="tree"/>
     </div>
 </template>
 
@@ -28,13 +28,10 @@
                 let fa = this.$store.getters.loggedUser.csaladfak.find(x => x.alapertelmezett == 0);
                 axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + fa.ID)
                 .then(res => {
-                    console.log(res.data);
                     this.$store.commit('SetMembers', res.data);
+                    this.$refs.tree.Rajzol();
                 })
             })
-            methods:{
-                
-            }
         },
         
     }
@@ -47,7 +44,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    height: 95vh;
+    height: 80vh
 }
 
 html, body {

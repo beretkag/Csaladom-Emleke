@@ -8,39 +8,38 @@
 
     export default {
         name: 'tree',
+        data(){
+            return {
+                family: {}
+            }
+        },
         methods: {
-            mytree: function(domEl) {
+            mytree: function(domEl, x) {
                 this.family = new FamilyTree (domEl, {
-                    nodes: this.$store.getters.Members,
+                    nodes: x,
                     nodeBinding: {
-                        field_0: "name",
+                        field_0: "teljesnev",
+                        field_1: "szulido",
                         img_0: "img"
-                    },
-                    nodeMenu: {
-                        details: { text: "Details" },
-                        edit: { text: "Edit" }
                     },
                     nodeTreeMenu: true,
                     editForm: {
                         titleBinding: "name",
                         photoBinding: "photo",
                         generateElementsFromFields: false,
-                        addMore: 'Add more elements',
-                        addMoreBtn: 'Add element',
-                        addMoreFieldName: 'Element name',
+                        addMore: false,
                         elements: [
-                            { type: 'textbox', label: 'Teljes név', binding: 'name' },
-
                             [
-                                { type: 'date', label: 'Birth Date', binding: 'birthDate' },
-                                { type: 'date', label: 'Death Date', binding: 'deathDate' }
+                                {type: 'textbox', label: "Vezetéknév", binding: 'vezeteknev'},
+                                {type: 'textbox', label: "Keresztnév", binding: 'keresztnev'}
                             ],
+                            { type: 'textbox', label: "Telefonszám", binding: 'telefonszam'},
+                            { type: 'textbox', label: "Neme", binding: 'nem'},
                             [
-                                { type: 'select', options: [{ value: 'bg', text: 'Bulgaria' }, { value: 'ru', text: 'Russia' }, { value: 'gr', text: 'Greece' }], label: 'Country', binding: 'country' },
-                                { type: 'textbox', label: 'City', binding: 'city' },
+                                { type: 'date', label: "Születési dátum", binding: 'szulido'},
+                                { type:'date', label: "Halálozási dátum", binding: 'halido'},
                             ],
-                            { type: 'textbox', label: 'Photo Url', binding: 'ImgUrl', btn: 'Upload' },
-                            { type: 'textbox', label: 'Phone', binding: 'Mobile' },
+                            { type: 'textbox', label: "Születési helye", binding: 'szulhely'},
                         ],
                         buttons: {
                             edit: {
@@ -58,22 +57,22 @@
                         }
                     }
                 });
-            }
-        },
-        mounted(){
-            this.mytree(this.$refs.tree);
+            },
+            Rajzol(){
+                this.mytree(this.$refs.tree, this.$store.getters.Members);
 
-            this.family.onUpdateNode((args) => {
+                this.family.onUpdateNode((args) => {
                 console.log(args.addNodesData);
                 console.log(args.updateNodesData);
                 console.log(args.removeNodeId);
-            });
+                });
 
-            this.family.editUI.on('button-click', function (sender, args) {
+                this.family.editUI.on('button-click', function (sender, args) {
                 if (args.name == 'remove') {
                     //alert('Törlés')
                 }
             });
-        }
+            },
+        },
     }
 </script>
