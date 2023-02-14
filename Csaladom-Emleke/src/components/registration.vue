@@ -5,11 +5,11 @@
     <div class="d-flex justify-content-start">
       <label>Neme: &nbsp</label>
       <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" value="Férfi" v-model="newUser.gender">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" value="male" v-model="newUser.gender">
         <label class="form-check-label" for="inlineRadio1">Férfi&nbsp</label>
       </div>
       <div class="form-check mb-2">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" value="Nő" v-model="newUser.gender">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" value="female" v-model="newUser.gender">
           <label class="form-check-label" for="inlineRadio2">Nő</label>
       </div>
     </div>
@@ -128,7 +128,8 @@ export default {
                         keresztnev: this.newUser.firstName,
                         vezeteknev: this.newUser.lastName,
                         szulido: this.newUser.szulido.ev + "-" + this.newUser.szulido.honap + "-" + this.newUser.szulido.nap,
-                        nem: this.newUser.gender
+                        gender: this.newUser.gender,
+                        belsofaID: "aaaa"
                       }
                       axios.post(this.baseURL + "/" + table, csaladtag)
                       .then(()=> {
