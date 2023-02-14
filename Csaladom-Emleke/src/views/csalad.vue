@@ -1,7 +1,9 @@
 <template>
     <FamilyMenu />
     <div id="app">
-        <FamilyTree ref="tree"/>
+        <FamilyTree ref="tree" v-if="CsaladfaSzerkeszto"/>
+        <Settings v-else-if="Beallitasok"/>
+        <Contacts v-else-if="Elerhetosegek"/>
     </div>
 </template>
 
@@ -14,11 +16,19 @@
 
     export default{
         components:{
-    FamilyTree,
     FamilyMenu,
+    FamilyTree,
     Settings,
     Contacts
 },
+data(){
+    return{
+        CsaladfaSzerkeszto: true,
+        Beallitasok: false,
+        Elerhetosegek: false
+    }
+},
+
 
         created(){
             //családfa betöltése

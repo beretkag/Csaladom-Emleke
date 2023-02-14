@@ -11,13 +11,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
-                <li class="nav-item">
+                <li class="nav-item" v-on:click="makeActive('csaladfa')">
                   <a> Családfa szerkesztő </a>
                 </li>
-                <li class="nav-item" >
+                <li class="nav-item"  v-on:click="makeActive('beallitasok')">
                   <a> Beállítások </a>
                 </li>
-                <li class="nav-item" >
+                <li class="nav-item"  v-on:click="makeActive('elerhetosegek')" >
                   <a> Elérhetőségek </a>
                 </li>
               </ul>
@@ -36,12 +36,11 @@
     .logo{
       width: 12vw;
     }
-    
     .navBar{
       margin: 0 0 2vh 0 !important;
+      background-color: black;
+      color: white;
     }
-    
-    
     button{
       border: 1px solid white !important;
     }
