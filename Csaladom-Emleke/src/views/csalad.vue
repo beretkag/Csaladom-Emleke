@@ -1,7 +1,7 @@
 <template>
     <FamilyMenu />
     <div id="app">
-        <FamilyTree v-if="Csaladfa" />
+        <FamilyTree v-if="Csaladfa" ref="tree" />
         <Settings v-if="Beallitasok"/>
         <Contacts v-if="Elerhetosegek"/>
         <UserManagment v-if="Felhasznalokezeles"/>

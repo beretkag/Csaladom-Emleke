@@ -1,7 +1,4 @@
 <template>
-    <h1>
-        Családfa
-    </h1>
     <div id="tree" ref="tree"></div>
 </template>
 
@@ -65,9 +62,16 @@
                 this.mytree(this.$refs.tree, this.$store.getters.Members);
 
                 this.family.onUpdateNode((args) => {
-                console.log(args.addNodesData);
-                console.log(args.updateNodesData);
-                console.log(args.removeNodeId);
+                    //console.log(args.addNodesData);
+                    console.log(args.updateNodesData);
+                    console.log(this.$store.getters.Members);
+                    //console.log(args.removeNodeId);
+
+                    args.updateNodesData.forEach(item => {
+                        item = this.Nev_Gender_Nem_Beallitas(item);
+                        this.DB_Update(item);
+                        
+                    });
                 });
 
                 this.family.editUI.on('button-click', function (sender, args) {
@@ -76,6 +80,28 @@
                 }
             });
             },
+            DB_Update(){
+                // Axios, adatbázis frissítés
+            },
+            Nev_Gender_Nem_Beallitas(item){
+                item.teljesnev = item.vezeteknev + " " + item.keresztnev;
+                if (item.nem != null) {
+                    if (item.nem.toLowerCase() == "férfi") {
+                        item.gender = "male";
+                    } else if (item.nem.toLowerCase() == "nő") {
+                        item.gender = "female";
+                    }
+                    else {
+                        item.gender = item.nem;
+                    }
+                }
+                if (item.gender == "male") {
+                    item.nem = "Férfi";
+                } else if (item.gender == "female") {
+                    item.nem = "Nő"
+                }
+                return item;
+            }
         },
     }
 </script>
