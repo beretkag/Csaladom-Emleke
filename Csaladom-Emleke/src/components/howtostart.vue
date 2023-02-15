@@ -2,18 +2,19 @@
   <p class="cim m-0 p-0">
     <h1>Hogyan kezdj neki</h1>
   </p>
-  <div class=" mb-3 row m-0">
+  <div class="mb-3 row m-0">
     <span class="col-1"></span>
-    <div class="col-5 p-0"><img src="../assets/regisztracio.png" alt=""></div>
-    <p class="p-0 col">Az első lépés a regisztráció! Regisztráció során ha megadja a szülei nevét akkor ők már rögtön bekerülnek a családfájába.</p>
+    <div class="col-lg-5 col-sm-12 p-3"><img src="../assets/regisztracio.png" alt=""></div>
+    <p class="p-3 col m-auto">Az első lépés a regisztráció! Regisztráció során, ha megadja a szülei nevét, akkor ők már rögtön bekerülnek a családfájába.</p>
   </div>
   <div class="mb-3 row m-0">
-    <p class="p-0 col-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, aperiam reprehenderit. Quas, dolores a necessitatibus itaque dolore eligendi sunt ipsam reiciendis quisquam, beatae impedit totam quaerat eveniet inventore ad nemo.</p>
-    <div class="p-0 col"><img src="../assets/harmadik.jpg" alt=""></div>
+    <p class="p-3 col m-auto">A regisztráció után, be kell jelentkeznünk a megadott e-mail címmel és jelszóval.</p>
+    <div class="p-3 col-lg-5 col-sm-12"><img src="../assets/bejelentkezes.png" alt=""></div>
   </div>
   <div class="mb-3 row m-0">
-    <div class="p-0 col-8"><img src="../assets/negyedik.jpg" alt=""></div>
-    <p class="p-0 col">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora est quam culpa eum? Iure culpa fuga nihil ad ea consectetur quo voluptatem reiciendis doloribus eius quam, recusandae quia minus quisquam.</p>
+    <span class="col-lg-1"></span>
+    <div class="p-3 col-lg-5 col-sm-12"><img src="../assets/Csaladfa.png" alt=""></div>
+    <p class="p-3 col m-auto">Bejelentkezés után már hozzá is férünk a saját családfánkhoz.</p>
   </div>
 </template>
 
@@ -26,6 +27,29 @@
     border: 1px solid black;
     color: black;
     padding: 0;
+}
+
+
+p{
+  text-align: center;
+  color: aliceblue;
+  font-size: xx-large;
+  font-weight: 100;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-style: normal;
+  font-display: inherit;
+  font-variant: inherit;
+  font-feature-settings: "qwid";
+  font-variant-ligatures: contextual;
+  font-kerning: auto;
+  letter-spacing: 0.1rem;
+}
+div{
+  background-color: brown;
+}
+img{
+  width: 100%;
+  border-radius: 10px;
 }
 
 
