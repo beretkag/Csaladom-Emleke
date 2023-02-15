@@ -1,4 +1,7 @@
 <template>
+    <h1>
+        Családfa
+    </h1>
     <div id="tree" ref="tree"></div>
 </template>
 

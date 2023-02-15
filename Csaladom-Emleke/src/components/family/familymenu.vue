@@ -11,13 +11,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
-                <li class="nav-item" v-on:click="makeActive('csaladfa')">
+                <li class="nav-item" @click="$parent.CurrentPage(1)">
                   <a> Családfa szerkesztő </a>
                 </li>
-                <li class="nav-item"  v-on:click="makeActive('beallitasok')">
+                <li class="nav-item"  @click="$parent.CurrentPage(2)">
                   <a> Beállítások </a>
                 </li>
-                <li class="nav-item"  v-on:click="makeActive('elerhetosegek')" >
+                <li class="nav-item" @click="$parent.CurrentPage(3)">
                   <a> Elérhetőségek </a>
                 </li>
               </ul>

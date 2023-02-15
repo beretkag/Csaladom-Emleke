@@ -1,9 +1,9 @@
 <template>
     <FamilyMenu />
     <div id="app">
-        <FamilyTree ref="tree" v-if="CsaladfaSzerkeszto"/>
-        <Settings v-else-if="Beallitasok"/>
-        <Contacts v-else-if="Elerhetosegek"/>
+        <FamilyTree v-if="Csaladfa" />
+        <Settings v-if="Beallitasok"/>
+        <Contacts v-if="Elerhetosegek"/>
     </div>
 </template>
 
@@ -22,12 +22,31 @@
     Contacts
 },
 data(){
-    return{
-        CsaladfaSzerkeszto: true,
+      return {
+        Csaladfa: true,
         Beallitasok: false,
         Elerhetosegek: false
-    }
-},
+      }
+    },
+    methods:{
+        CurrentPage(szam){
+        if (szam == 3) {
+            this.Elerhetosegek = true
+            this.Csaladfa = false,
+            this.Beallitasok = false
+        }
+        else if(szam == 2){
+            this.Beallitasok = true, 
+            this.Csaladfa = false,
+            this.Elerhetosegek = false
+        }
+        else if(szam == 1){
+            this.Csaladfa= true,
+            this.Beallitasok = false, 
+            this.Elerhetosegek = false
+        }
+      }
+    },
 
 
         created(){
@@ -64,6 +83,7 @@ html, body {
     margin: 0;
     overflow: hidden;
     font-family: Helvetica;
+    background-color: grey;
 }
 
 #tree {
