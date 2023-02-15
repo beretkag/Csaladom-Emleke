@@ -18,6 +18,9 @@
                   <a> Beállítások </a>
                 </li>
                 <li class="nav-item" @click="$parent.CurrentPage(3)">
+                  <a> Felhasználókezelés </a>
+                </li>
+                <li class="nav-item" @click="$parent.CurrentPage(4)">
                   <a> Elérhetőségek </a>
                 </li>
               </ul>

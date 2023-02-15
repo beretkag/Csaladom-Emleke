@@ -4,6 +4,7 @@
         <FamilyTree v-if="Csaladfa" />
         <Settings v-if="Beallitasok"/>
         <Contacts v-if="Elerhetosegek"/>
+        <UserManagment v-if="Felhasznalokezeles"/>
     </div>
 </template>
 
@@ -13,37 +14,49 @@
     import FamilyMenu from '../components/family/familymenu.vue';
     import Settings from '../components/family/settings.vue';
     import Contacts from '../components/family/contacts.vue';
+    import UserManagment from '../components/family/usermanagment.vue'
 
     export default{
         components:{
     FamilyMenu,
     FamilyTree,
     Settings,
-    Contacts
+    Contacts,
+    UserManagment
 },
 data(){
       return {
         Csaladfa: true,
         Beallitasok: false,
-        Elerhetosegek: false
+        Elerhetosegek: false,
+        Felhasznalokezeles: false
       }
     },
     methods:{
         CurrentPage(szam){
-        if (szam == 3) {
+        if (szam == 4) {
             this.Elerhetosegek = true
             this.Csaladfa = false,
-            this.Beallitasok = false
+            this.Beallitasok = false,
+            this.Felhasznalokezeles = false
+        }
+        else if(szam == 3){
+            this.Beallitasok = false, 
+            this.Csaladfa = false,
+            this.Elerhetosegek = false,
+            this.Felhasznalokezeles = true
         }
         else if(szam == 2){
             this.Beallitasok = true, 
             this.Csaladfa = false,
-            this.Elerhetosegek = false
+            this.Elerhetosegek = false,
+            this.Felhasznalokezeles = false
         }
         else if(szam == 1){
             this.Csaladfa= true,
             this.Beallitasok = false, 
-            this.Elerhetosegek = false
+            this.Elerhetosegek = false,
+            this.Felhasznalokezeles = false
         }
       }
     },
