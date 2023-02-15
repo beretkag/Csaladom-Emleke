@@ -28,15 +28,13 @@ data(){
       },
    
 created(){
-    axios.get(this.$store.baseURL + "/felhasznalok").then(res => {
+    axios.get(this.$store.baseURL + "/felhasznalok/nev").then(res => {
         let data = res.data;
             this.felhasznalok = res.data 
     })
     .catch(err => {
         console.log(err);
-    })
-    ;
-
+    });
     }
 }
 
