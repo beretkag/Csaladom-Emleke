@@ -96,7 +96,6 @@ html, body {
     margin: 0;
     overflow: hidden;
     font-family: Helvetica;
-    background-color: grey;
 }
 
 #tree {
