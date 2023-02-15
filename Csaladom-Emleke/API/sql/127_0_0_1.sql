@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Feb 14. 09:29
+-- Létrehozás ideje: 2023. Feb 15. 14:14
 -- Kiszolgáló verziója: 10.4.6-MariaDB
 -- PHP verzió: 7.3.8
 
@@ -23,32 +23,6 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `csaladomemleke` DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
 USE `csaladomemleke`;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `anyak`
---
-
-CREATE TABLE `anyak` (
-  `ID` int(11) NOT NULL,
-  `csaladtagID` int(11) NOT NULL,
-  `belsofaID` varchar(10) COLLATE utf8_hungarian_ci NOT NULL,
-  `anyaID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `apak`
---
-
-CREATE TABLE `apak` (
-  `ID` int(11) NOT NULL,
-  `csaladtagID` int(11) NOT NULL,
-  `belsofaID` varchar(10) COLLATE utf8_hungarian_ci NOT NULL,
-  `apaID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 -- --------------------------------------------------------
 
@@ -90,28 +64,6 @@ INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`, `Nev`) VALUES
 -- --------------------------------------------------------
 
 --
--- A nézet helyettes szerkezete `csaladtagadatok`
--- (Lásd alább az aktuális nézetet)
---
-CREATE TABLE `csaladtagadatok` (
-`ID` int(11)
-,`csaladfaID` int(11)
-,`alapertelmezett` tinyint(1)
-,`profilkep` varchar(120)
-,`telefonszam` varchar(20)
-,`gender` varchar(20)
-,`keresztnev` varchar(200)
-,`vezeteknev` varchar(200)
-,`szulhely` varchar(100)
-,`szulido` date
-,`halido` date
-,`apaID` int(11)
-,`anyaID` int(11)
-);
-
--- --------------------------------------------------------
-
---
 -- Tábla szerkezet ehhez a táblához `csaladtagok`
 --
 
@@ -119,6 +71,8 @@ CREATE TABLE `csaladtagok` (
   `ID` int(11) NOT NULL,
   `csaladfaID` int(11) NOT NULL,
   `belsofaID` varchar(10) COLLATE utf8_hungarian_ci NOT NULL,
+  `mid` varchar(10) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `fid` varchar(10) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `alapertelmezett` tinyint(1) NOT NULL,
   `profilkep` varchar(120) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `telefonszam` varchar(20) COLLATE utf8_hungarian_ci DEFAULT NULL,
@@ -134,8 +88,8 @@ CREATE TABLE `csaladtagok` (
 -- A tábla adatainak kiíratása `csaladtagok`
 --
 
-INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `belsofaID`, `alapertelmezett`, `profilkep`, `telefonszam`, `keresztnev`, `vezeteknev`, `gender`, `szulhely`, `szulido`, `halido`) VALUES
-(5, 7, 'aaaa', 0, NULL, NULL, 'Gellért', 'Beretka', 'male', NULL, '1999-07-23', NULL);
+INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `belsofaID`, `mid`, `fid`, `alapertelmezett`, `profilkep`, `telefonszam`, `keresztnev`, `vezeteknev`, `gender`, `szulhely`, `szulido`, `halido`) VALUES
+(5, 7, 'aaaa', NULL, NULL, 0, NULL, NULL, 'Gellért', 'Beretka', 'male', NULL, '1999-07-23', NULL);
 
 -- --------------------------------------------------------
 
@@ -191,39 +145,15 @@ CREATE TABLE `kepek` (
 
 CREATE TABLE `partnerek` (
   `ID` int(11) NOT NULL,
+  `csaladfaID` int(11) NOT NULL,
   `csaladtagID` int(11) NOT NULL,
   `belsofaID` varchar(10) COLLATE utf8_hungarian_ci NOT NULL,
   `partnerID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
--- --------------------------------------------------------
-
---
--- Nézet szerkezete `csaladtagadatok`
---
-DROP TABLE IF EXISTS `csaladtagadatok`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `csaladtagadatok`  AS  select `csaladtagok`.`ID` AS `ID`,`csaladtagok`.`csaladfaID` AS `csaladfaID`,`csaladtagok`.`alapertelmezett` AS `alapertelmezett`,`csaladtagok`.`profilkep` AS `profilkep`,`csaladtagok`.`telefonszam` AS `telefonszam`,`csaladtagok`.`gender` AS `gender`,`csaladtagok`.`keresztnev` AS `keresztnev`,`csaladtagok`.`vezeteknev` AS `vezeteknev`,`csaladtagok`.`szulhely` AS `szulhely`,`csaladtagok`.`szulido` AS `szulido`,`csaladtagok`.`halido` AS `halido`,`apak`.`apaID` AS `apaID`,`anyak`.`anyaID` AS `anyaID` from ((`csaladtagok` left join `anyak` on(`anyak`.`csaladtagID` = `csaladtagok`.`ID`)) left join `apak` on(`apak`.`csaladtagID` = `csaladtagok`.`ID`)) ;
-
 --
 -- Indexek a kiírt táblákhoz
 --
-
---
--- A tábla indexei `anyak`
---
-ALTER TABLE `anyak`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `csaladtagID` (`csaladtagID`),
-  ADD KEY `belsofaID` (`belsofaID`);
-
---
--- A tábla indexei `apak`
---
-ALTER TABLE `apak`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `csaladtagID` (`csaladtagID`),
-  ADD KEY `belsofaID` (`belsofaID`);
 
 --
 -- A tábla indexei `beallitasok`
@@ -272,23 +202,12 @@ ALTER TABLE `kepek`
 --
 ALTER TABLE `partnerek`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `csaladtagID` (`csaladtagID`);
+  ADD KEY `csaladtagID` (`csaladtagID`),
+  ADD KEY `csaladfaID` (`csaladfaID`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
-
---
--- AUTO_INCREMENT a táblához `anyak`
---
-ALTER TABLE `anyak`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT a táblához `apak`
---
-ALTER TABLE `apak`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `beallitasok`
@@ -337,20 +256,6 @@ ALTER TABLE `partnerek`
 --
 
 --
--- Megkötések a táblához `anyak`
---
-ALTER TABLE `anyak`
-  ADD CONSTRAINT `anyak_ibfk_1` FOREIGN KEY (`csaladtagID`) REFERENCES `csaladtagok` (`ID`),
-  ADD CONSTRAINT `anyak_ibfk_2` FOREIGN KEY (`belsofaID`) REFERENCES `csaladtagok` (`belsofaID`);
-
---
--- Megkötések a táblához `apak`
---
-ALTER TABLE `apak`
-  ADD CONSTRAINT `apak_ibfk_1` FOREIGN KEY (`csaladtagID`) REFERENCES `csaladtagok` (`ID`),
-  ADD CONSTRAINT `apak_ibfk_2` FOREIGN KEY (`belsofaID`) REFERENCES `csaladtagok` (`belsofaID`);
-
---
 -- Megkötések a táblához `beallitasok`
 --
 ALTER TABLE `beallitasok`
@@ -379,6 +284,13 @@ ALTER TABLE `eletut`
 --
 ALTER TABLE `kepek`
   ADD CONSTRAINT `kepek_ibfk_1` FOREIGN KEY (`csaladtagID`) REFERENCES `csaladtagok` (`ID`);
+
+--
+-- Megkötések a táblához `partnerek`
+--
+ALTER TABLE `partnerek`
+  ADD CONSTRAINT `partnerek_ibfk_1` FOREIGN KEY (`csaladtagID`) REFERENCES `csaladtagok` (`ID`),
+  ADD CONSTRAINT `partnerek_ibfk_2` FOREIGN KEY (`csaladfaID`) REFERENCES `csaladfak` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
