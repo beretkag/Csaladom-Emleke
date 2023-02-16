@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Feb 15. 14:14
--- Kiszolgáló verziója: 10.4.6-MariaDB
--- PHP verzió: 7.3.8
+-- Létrehozás ideje: 2023. Feb 16. 22:20
+-- Kiszolgáló verziója: 10.4.25-MariaDB
+-- PHP verzió: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -59,7 +58,7 @@ CREATE TABLE `csaladfak` (
 --
 
 INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`, `Nev`) VALUES
-(7, 8, 0, 'Gellért Beretka');
+(5, 6, 0, 'Gellért Beretka');
 
 -- --------------------------------------------------------
 
@@ -71,8 +70,6 @@ CREATE TABLE `csaladtagok` (
   `ID` int(11) NOT NULL,
   `csaladfaID` int(11) NOT NULL,
   `belsofaID` varchar(10) COLLATE utf8_hungarian_ci NOT NULL,
-  `mid` varchar(10) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `fid` varchar(10) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `alapertelmezett` tinyint(1) NOT NULL,
   `profilkep` varchar(120) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `telefonszam` varchar(20) COLLATE utf8_hungarian_ci DEFAULT NULL,
@@ -81,15 +78,20 @@ CREATE TABLE `csaladtagok` (
   `gender` varchar(20) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `szulhely` varchar(100) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `szulido` date DEFAULT NULL,
-  `halido` date DEFAULT NULL
+  `halido` date DEFAULT NULL,
+  `mid` varchar(10) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `fid` varchar(10) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `partnerek` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `csaladtagok`
 --
 
-INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `belsofaID`, `mid`, `fid`, `alapertelmezett`, `profilkep`, `telefonszam`, `keresztnev`, `vezeteknev`, `gender`, `szulhely`, `szulido`, `halido`) VALUES
-(5, 7, 'aaaa', NULL, NULL, 0, NULL, NULL, 'Gellért', 'Beretka', 'male', NULL, '1999-07-23', NULL);
+INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `belsofaID`, `alapertelmezett`, `profilkep`, `telefonszam`, `keresztnev`, `vezeteknev`, `gender`, `szulhely`, `szulido`, `halido`, `mid`, `fid`, `partnerek`) VALUES
+(4, 5, 'gfhd', 0, NULL, NULL, 'Gellért', 'Beretka', 'male', NULL, '1999-08-23', NULL, '_uq02', NULL, NULL),
+(8, 5, '_uq02', 1, NULL, NULL, 'Zsuzsanna', 'Bíró', 'female', NULL, NULL, NULL, NULL, NULL, NULL),
+(19, 5, '_9d74', 1, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, 'gfhd', NULL);
 
 -- --------------------------------------------------------
 
@@ -123,7 +125,7 @@ CREATE TABLE `felhasznalok` (
 --
 
 INSERT INTO `felhasznalok` (`ID`, `Nev`, `Jelszo`, `email`, `jogosultsag`) VALUES
-(8, 'Gellért Beretka', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin@admin.com', 1);
+(6, 'Gellért Beretka', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin@admin.com', 1);
 
 -- --------------------------------------------------------
 
@@ -135,20 +137,6 @@ CREATE TABLE `kepek` (
   `ID` int(11) NOT NULL,
   `csaladtagID` int(11) NOT NULL,
   `Nev` varchar(200) COLLATE utf8_hungarian_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `partnerek`
---
-
-CREATE TABLE `partnerek` (
-  `ID` int(11) NOT NULL,
-  `csaladfaID` int(11) NOT NULL,
-  `csaladtagID` int(11) NOT NULL,
-  `belsofaID` varchar(10) COLLATE utf8_hungarian_ci NOT NULL,
-  `partnerID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
@@ -174,8 +162,7 @@ ALTER TABLE `csaladfak`
 --
 ALTER TABLE `csaladtagok`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `csaladfaID` (`csaladfaID`),
-  ADD KEY `belsofaID` (`belsofaID`);
+  ADD KEY `csaladfaID` (`csaladfaID`);
 
 --
 -- A tábla indexei `eletut`
@@ -198,14 +185,6 @@ ALTER TABLE `kepek`
   ADD KEY `csaladtagID` (`csaladtagID`);
 
 --
--- A tábla indexei `partnerek`
---
-ALTER TABLE `partnerek`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `csaladtagID` (`csaladtagID`),
-  ADD KEY `csaladfaID` (`csaladfaID`);
-
---
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
@@ -219,13 +198,13 @@ ALTER TABLE `beallitasok`
 -- AUTO_INCREMENT a táblához `csaladfak`
 --
 ALTER TABLE `csaladfak`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `csaladtagok`
 --
 ALTER TABLE `csaladtagok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT a táblához `eletut`
@@ -237,18 +216,12 @@ ALTER TABLE `eletut`
 -- AUTO_INCREMENT a táblához `felhasznalok`
 --
 ALTER TABLE `felhasznalok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `kepek`
 --
 ALTER TABLE `kepek`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `partnerek`
---
-ALTER TABLE `partnerek`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -284,13 +257,6 @@ ALTER TABLE `eletut`
 --
 ALTER TABLE `kepek`
   ADD CONSTRAINT `kepek_ibfk_1` FOREIGN KEY (`csaladtagID`) REFERENCES `csaladtagok` (`ID`);
-
---
--- Megkötések a táblához `partnerek`
---
-ALTER TABLE `partnerek`
-  ADD CONSTRAINT `partnerek_ibfk_1` FOREIGN KEY (`csaladtagID`) REFERENCES `csaladtagok` (`ID`),
-  ADD CONSTRAINT `partnerek_ibfk_2` FOREIGN KEY (`csaladfaID`) REFERENCES `csaladfak` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

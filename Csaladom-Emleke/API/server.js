@@ -153,7 +153,11 @@ app.post('/:table', tokencheck(), (req, res) => {
     var values = Object.values(records);
 
     values.forEach(value => {
-        str += ",'" + value + "'"
+        if (value == null || value == "") {
+            str += ",NULL"
+        }else {
+            str += ",'" + value + "'"
+        }
     })
 
     fields.forEach(field => {
@@ -182,7 +186,11 @@ app.patch('/:table/:id', tokencheck(), (req, res) => {
     var values = Object.values(records);
 
     for (let i = 0; i < fields.length; i++) {
-        str += fields[i] + "='" + values[i] + "'";
+        if (values[i] == null || values[i] == "") {
+            str += fields[i] + "=NULL";
+        }else{
+            str += fields[i] + "='" + values[i] + "'";
+        }
         if (i != fields.length - 1) {
             str += ",";
         }

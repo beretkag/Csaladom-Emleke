@@ -63,10 +63,11 @@ data(){
 
 
         created(){
-            //családfa betöltése
+            //családfa betöltése------------------------------------------------------------------------------------>
             axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + this.$store.getters.loggedUser.ID)
             .then(res => {
-                this.$store.commit('SetUser', Object.assign(this.$store.getters.loggedUser, {csaladfak: res.data}))
+                let user = this.$store.getters.loggedUser;
+                this.$store.commit('SetUser', Object.assign(user, {csaladfak: res.data}))
                 let fa = this.$store.getters.loggedUser.csaladfak.find(x => x.alapertelmezett == 0);
                 axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + fa.ID)
                 .then(res => {
@@ -74,6 +75,7 @@ data(){
                     this.$refs.tree.Rajzol();
                 })
             })
+            //------------------------------------------------------------------------------------------------------>
         },
         
     }

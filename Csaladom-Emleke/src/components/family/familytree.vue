@@ -5,6 +5,7 @@
 <script>
 
     import FamilyTree from '@balkangraph/familytree.js'
+import axios from 'axios';
 
     export default {
         name: 'tree',
@@ -20,7 +21,7 @@
                     nodeBinding: {
                         field_0: "teljesnev",
                         field_1: "szulido",
-                        img_0: "img"
+                        img_0: "profilkep"
                     },
                     nodeTreeMenu: true,
                     editForm: {
@@ -62,15 +63,21 @@
                 this.mytree(this.$refs.tree, this.$store.getters.Members);
 
                 this.family.onUpdateNode((args) => {
-                    //console.log(args.addNodesData);
-                    console.log(args.updateNodesData);
-                    console.log(this.$store.getters.Members);
-                    //console.log(args.removeNodeId);
 
+                    //Családtag törlése
+                    if (args.removeNodeId != null) {
+                        this.DB_Delete(args.removeNodeId);
+                    }
+
+                    //Új családtag rögzítése
+                    args.addNodesData.forEach(item=> {
+                        this.DB_Insert(item);
+                    });
+
+                    //Módosítás lekezelése
                     args.updateNodesData.forEach(item => {
                         item = this.Nev_Gender_Nem_Beallitas(item);
                         this.DB_Update(item);
-                        
                     });
                 });
 
@@ -80,12 +87,56 @@
                 }
             });
             },
-            DB_Update(){
-                // Axios, adatbázis frissítés
+            DB_Delete(memberID){
+                let deletedID = this.$store.getters.Members.find(x => x.id == memberID).ID
+                axios.delete(this.$store.getters.baseURL + "/csaladtagok/ID/" + deletedID);
+            },
+            DB_Insert(member){
+                let partnerek = "";
+                if (member.pids != null) { member.pids.forEach(partner => { partnerek += partner + ","}) }
+                partnerek = partnerek.slice(0,-1);
+                let inserted = {
+                    csaladfaID: this.$store.getters.loggedUser.csaladfak.find(x => x.alapertelmezett == 0).ID,
+                    belsofaID: member.id,
+                    alapertelmezett: 1,
+                    gender: member.gender,
+                    partnerek: partnerek
+                }
+                axios.post(this.$store.getters.baseURL + "/csaladtagok", inserted)
+                .then(res => {
+                    member.ID = res.data.insertId;
+                    this.Nev_Gender_Nem_Beallitas(member);
+                })
+            },
+            DB_Update(member){
+                let partnerek = "";
+                if (member.pids != null) { member.pids.forEach(partner => { partnerek += partner + ","}) }
+                partnerek = partnerek.slice(0,-1);
+                let updated = {
+                    vezeteknev: member.vezeteknev,
+                    keresztnev: member.keresztnev,
+                    profilkep: member.profilkep,
+                    telefonszam: member.telefonszam,
+                    gender: member.gender,
+                    szulhely: member.szulhely,
+                    szulido: member.szulido,
+                    halido: member.halido,
+                    mid: member.mid,
+                    fid: member.fid,
+                    partnerek: partnerek
+                }
+                axios.patch(this.$store.getters.baseURL + "/csaladtagok/" + member.ID, updated)
+
             },
             Nev_Gender_Nem_Beallitas(item){
+                if (item.vezeteknev == null) { item.vezeteknev = "" }
+                if (item.keresztnev == null) { item.keresztnev = "" }
                 item.teljesnev = item.vezeteknev + " " + item.keresztnev;
+
+
+
                 if (item.nem != null) {
+                    item.nem = item.nem.replace(/\s/g, '_');
                     if (item.nem.toLowerCase() == "férfi") {
                         item.gender = "male";
                     } else if (item.nem.toLowerCase() == "nő") {

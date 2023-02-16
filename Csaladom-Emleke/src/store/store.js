@@ -31,8 +31,12 @@ import moment from "moment";
             SetMembers: (state, payload) => {
                 payload.forEach(item => {
                     item.id = item.belsofaID;
-                    item.szulido = moment(item.szulido).format('YYYY-MM-DD');
+                    item.szulido = item.szulido == null ? null : moment(item.szulido).format('YYYY-MM-DD');
+                    item.halido = item.halido == null ? null : moment(item.halido).format('YYYY-MM-DD');
                     item.nem = item.gender == "male" ? "Férfi" : "Nő";
+                    item.pids = item.partnerek == null ? null : item.partnerek.split(",");
+                    item.vezeteknev = item.vezeteknev == null ? "" : item.vezeteknev;
+                    item.keresztnev = item.keresztnev == null ? "" : item.keresztnev;
                     item.teljesnev = item.vezeteknev + " " + item.keresztnev;
                 });
                 state.members =  payload
