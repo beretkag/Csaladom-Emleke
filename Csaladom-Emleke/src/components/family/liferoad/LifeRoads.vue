@@ -1,18 +1,51 @@
 <template>
 
-
-<div class="tipp">
+    <div class="tipp">
     <button class="btn btn-dark"> <i class="bi bi-info-circle"></i> </button>
   <span class="tipptxt"> A megfelelő rokon sorára rákkattintva meg tudja tekinteni a felvitt életútját.</span>
 </div>
-  
+
+    <table class="table table-hover table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Név</th>
+      <th scope="col">Életút</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="eletut, index in eletutak">
+      <th scope="row" class="align-middle"> {{ index + 1}}</th>
+      <td class="align-middle">{{ /*  felhasználó rokonainak neve */ }}</td>
+      <td class="align-middle">{{ eletut.szoveg}}</td>
+    </tr>
+  </tbody>
+</table>
+
 </template>
+   
 <script>
+   export default{
+    data(){
+    return {
+        eletutak: []
+           }
+      },
+    created(){
 
+axios.get(this.$store.getters.baseURL + "/eletut").then(res => {
+    let data = res.data;
+        this.eletutak = res.data
+})
+.catch(err => {
+    console.log(err);
+})
+    }
+}
 </script>
-
-<style scoped>
-.tipp {
+   
+<style>
+   .tipp {
     float: right;
   position: relative;
 }
