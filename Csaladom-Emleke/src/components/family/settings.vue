@@ -1,7 +1,7 @@
 <template>
- <h1>
-     Beállítások
- </h1>
+    <i class="bi bi-gear"></i>
+
+    
 </template>
 
 <script>
