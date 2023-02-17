@@ -41,7 +41,8 @@ import sha256 from "crypto-js/sha256"
     data(){
       return{
         email:"",
-        msg:"üres"
+        msg:"",
+        userId:""
 
       }
     },
@@ -61,16 +62,20 @@ import sha256 from "crypto-js/sha256"
         let felhasznalo={
           Jelszo:`${sha256(this.pw)}`
         }
-        axios.get(this.$store.getters.baseURL+"/felhasznalok/"+this.email,felhasznalo)
-        axios.patch(this.$store.getters.baseURL+"/felhasznalok//*id*//"+this.email,felhasznalo)
+        axios.get(this.$store.getters.baseURL+"/forgotpass/"+this.email)
         .then(res=>{
-          if (res.data.affectedRows==0) {
-            this.msg='hiba'
-          }else{
-            this.msg='siker'
+          if (res.data.length!=0) {
+            this.userId=res.data[0].ID;
+            axios.patch(this.$store.getters.baseURL+"/felhasznalok/"+this.userId,felhasznalo)
+            .then(res=>{
+              if (res.data.affectedRows==0) {
+                this.msg='hiba'
+              }else{
+                this.msg='siker'
+              }
+              console.log(pw)
+            })
           }
-          console.log(pw)
-          //küldés az email cimre a pw-t
         })
       }
     }

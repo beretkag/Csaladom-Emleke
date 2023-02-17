@@ -80,6 +80,21 @@ app.post('/login', tokencheck(), (req, res) => {
     });
 
 });
+// GET ID BY email
+app.get('/forgotpass/:email', tokencheck(), (req, res) => {
+    var table = "felhasznalok";
+    var field = "email";
+    var value = req.params.email;
+    pool.query(`SELECT ID FROM ${table} WHERE ${field}='${value}'`, (err, results) => {
+        if (err) {
+            log(req.socket.remoteAddress, err);
+            res.status(500).send(err);
+        } else {
+            log(req.socket.remoteAddress, `${results.length} records sent form ${table} table.`);
+            res.status(200).send(results);
+        }
+    });
+});
 
 // GET ALL RECORDS
 app.get('/:table', tokencheck(), (req, res) => {
@@ -125,6 +140,11 @@ app.get('/:table/:field/:value', tokencheck(), (req, res) => {
         }
     });
 });
+
+
+
+
+
 
 // GET RECORDS WITH LIKE
 app.get('/like/:table/:field/:value', tokencheck(), (req, res) => {
