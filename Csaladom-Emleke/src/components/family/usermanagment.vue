@@ -16,7 +16,7 @@
       <td class="align-middle">{{felhasznalo.Nev.split(' ')[1]}}</td>
       <td class="align-middle">{{felhasznalo.Nev.split(' ')[0]}}</td>
       <td class="align-middle">{{ felhasznalo.email }}</td>
-      <td class="align-middle"> <button class="btn btn-dark btn-lg" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"> <i class="bi bi-pencil-square" ></i>  </button></td>
+      <td class="align-middle"> <button class="btn btn-dark btn-lg"> <i class="bi bi-pencil-square" ></i>  </button></td>
       <td class="align-middle"> <button class="btn btn-dark btn-lg" @click="DeleteUser(felhasznalo.id)"> <i class="bi bi-person-x"></i></button>  </td>
     </tr>
   </tbody>
