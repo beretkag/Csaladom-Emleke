@@ -7,7 +7,8 @@
        <input v-model="user.email" type="email" name="email" class="form-control mb-3">
        <label for="passwd"> Jelszó: </label>
        <input v-model="user.password" type="password" name="passwd" class="form-control">
-       <a id="forgotpass" class="mb-3"> Elfelejtette a jelszavát? </a>
+      <a id="forgotpass" data-bs-toggle="modal" data-bs-target="#exampleModal" class="mb-3"> Elfelejtette a jelszavát? </a>
+       
        <button id="loginbutton" class="btn" @click="LogIn()">
            Bejelentkezés 
        </button>
@@ -18,10 +19,10 @@
 <script>
   import axios from "axios";
   import sha256 from "crypto-js/sha256";
-
   export default {
     name: "Login",
-    components:{},
+    components:{
+    },
     data(){
       return{
         baseURL: this.$store.getters.baseURL + "/login",
@@ -56,6 +57,7 @@
   #forgotpass{
     text-decoration: none ;
     color: rgb(180, 180, 180);
+    cursor: pointer;
   }
   #loginbutton{
       background-color: #ff7112;

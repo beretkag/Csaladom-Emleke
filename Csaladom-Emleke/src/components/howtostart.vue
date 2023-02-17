@@ -45,7 +45,7 @@ p{
   letter-spacing: 0.1rem;
 }
 div{
-  background-color: brown;
+  background-color: #84732B;
 }
 img{
   width: 100%;

@@ -13,9 +13,11 @@
   <div class="hogyankezd p-3" id="hogyankezdjneki">
     <HowToStart />
   </div>
-  <div>
+  <div id="modals">
     <alertMsg variant="secondary" ref='msg'/>
+    <forgotpass />
   </div>
+  
 </template>
 
 <script>
@@ -24,6 +26,7 @@
     import Login from '../components/login.vue'
     import alertMsg from '../components/alertMsg.vue'
     import navmenu from '../components/menu.vue'
+    import forgotpass from '../components/forgotpass.vue'
 
   export default {
 
@@ -33,7 +36,8 @@
       navmenu,
       Login,
       Registration,
-      HowToStart
+      HowToStart,
+      forgotpass
     },
     data(){
       return {
