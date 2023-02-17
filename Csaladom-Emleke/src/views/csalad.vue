@@ -3,7 +3,6 @@
     <div id="app">
         <FamilyTree v-if="Csaladfa" ref="tree" />
         <Settings v-if="Beallitasok"/>
-        <Contacts v-if="Elerhetosegek"/>
         <UserManagment v-if="Felhasznalokezeles"/>
     </div>
 </template>
@@ -13,7 +12,6 @@
     import FamilyTree from '../components/family/FamilyTree.vue';
     import FamilyMenu from '../components/family/familymenu.vue';
     import Settings from '../components/family/settings.vue';
-    import Contacts from '../components/family/contacts.vue';
     import UserManagment from '../components/family/usermanagment.vue'
 
     export default{
@@ -21,26 +19,18 @@
     FamilyMenu,
     FamilyTree,
     Settings,
-    Contacts,
     UserManagment
 },
 data(){
       return {
         Csaladfa: true,
         Beallitasok: false,
-        Elerhetosegek: false,
         Felhasznalokezeles: false
       }
     },
     methods:{
         CurrentPage(szam){
-        if (szam == 4) {
-            this.Elerhetosegek = true
-            this.Csaladfa = false,
-            this.Beallitasok = false,
-            this.Felhasznalokezeles = false
-        }
-        else if(szam == 3){
+        if(szam == 3){
             this.Beallitasok = false, 
             this.Csaladfa = false,
             this.Elerhetosegek = false,

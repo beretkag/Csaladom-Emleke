@@ -20,9 +20,6 @@
                 <li class="nav-item" @click="$parent.CurrentPage(3)">
                   <a> Felhasználókezelés </a>
                 </li>
-                <li class="nav-item" @click="$parent.CurrentPage(4)">
-                  <a> Elérhetőségek </a>
-                </li>
               </ul>
             </div>
           </div>
@@ -40,7 +37,7 @@
       width: 12vw;
     }
     .navBar{
-      margin: 0 0 2vh 0 !important;
+      margin: 0 0 0 0 !important;
       background-color: black;
       color: white;
     }
