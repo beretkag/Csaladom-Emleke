@@ -36,23 +36,23 @@ data(){
       },
    
 created(){
-    axios.get(this.$store.getters.baseURL + "/felhasznalok").then(res => {
-        let data = res.data;
-            this.felhasznalok = res.data 
+  axios.get(this.$store.getters.baseURL + "/felhasznalok").then(res => {
+    let data = res.data;
+    this.felhasznalok = res.data 
+  })
+  .catch(err => {
+    console.log(err);
+  });
+},
+methods:{
+  DeleteUser(id){
+    axios.delete(this.$store.getters.baseURL + "/felhasznalok/" + id).then(res =>{
+
     })
     .catch(err => {
         console.log(err);
-    });
-    },
-    methods:{
-        DeleteUser(id){
-            axios.delete(this.$store.getters.baseURL + "/felhasznalok/" + id).then(res =>{
-
-            })
-            .catch(err => {
-                console.log(err);
-            })
-        }
+    })
+  }
 }
     
 }

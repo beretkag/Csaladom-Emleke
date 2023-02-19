@@ -21,8 +21,9 @@ import axios from 'axios';
                     nodeBinding: {
                         field_0: "teljesnev",
                         field_1: "szulido",
-                        img_0: "profilkep"
+                        img_0: "img"
                     },
+                    mode: 'light',
                     nodeTreeMenu: true,
                     editForm: {
                         titleBinding: "name",
@@ -45,7 +46,7 @@ import axios from 'axios';
                         buttons: {
                             edit: {
                                 icon: FamilyTree.icon.edit(24, 24, '#fff'),
-                                text: 'Edit',
+                                text: 'Módosítás',
                                 hideIfEditMode: true,
                                 hideIfDetailsMode: false
                             },
@@ -54,6 +55,12 @@ import axios from 'axios';
                             remove: {
                                 icon: FamilyTree.icon.remove(24, 24, '#fff'),
                                 text: 'Törlés'
+                            },
+                            liferoad: {
+                                icon: FamilyTree.icon.ft(24, 24, '#fff'),
+                                text: 'Életút',
+                                hideIfEditMode: false,
+                                hideIfDetailsMode: false
                             }
                         }
                     }
@@ -81,9 +88,13 @@ import axios from 'axios';
                     });
                 });
 
+                
+                let ez = this;
                 this.family.editUI.on('button-click', function (sender, args) {
-                if (args.name == 'remove') {
-                    //alert('Törlés')
+                if (args.name == 'liferoad') {
+                    //alert('Életút!')
+                    let member = ez.$store.getters.Members.find(x => x.id == args.nodeId);
+                    console.log(member);
                 }
             });
             },
@@ -100,7 +111,9 @@ import axios from 'axios';
                     belsofaID: member.id,
                     alapertelmezett: 1,
                     gender: member.gender,
-                    partnerek: partnerek
+                    partnerek: partnerek,
+                    mid: member.mid,
+                    fid: member.fid
                 }
                 axios.post(this.$store.getters.baseURL + "/csaladtagok", inserted)
                 .then(res => {
@@ -152,7 +165,8 @@ import axios from 'axios';
                     item.nem = "Nő"
                 }
                 return item;
-            }
+            },
+
         },
     }
 </script>

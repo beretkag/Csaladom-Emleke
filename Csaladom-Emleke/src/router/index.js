@@ -17,7 +17,19 @@ const router = createRouter({
     {
       path:'/csalad',
       name:'family',
-      component: () => import('../views/Csalad.vue')
+      component: () => import('../views/Csalad.vue'),
+      children:[
+        {
+          path:'Beallitasok',
+          name: 'Beállítások',
+          component: () => import('../components/family/familymenu/beallitasok.vue')
+        },
+        {
+          path: 'FelhasznaloKezeles',
+          name: 'Felhasználó-Kezelés',
+          component: () => import('../components/family/familymenu/felhasznalokezeles.vue')
+        }
+      ]
     },
    
   ]

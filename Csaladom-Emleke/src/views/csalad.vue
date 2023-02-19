@@ -1,7 +1,7 @@
 <template>
     <FamilyMenu />
     <div id="app">
-        <i class="bi bi-menu-up btn btn-primary rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
+        <i class="bi bi-menu-up btn btn-primary btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
         <FamilyTree ref="tree" />
     </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 import axios from 'axios';
 import FamilyTree from '../components/family/FamilyTree.vue';
-import FamilyMenu from '../components/family/familymenu.vue';
+import FamilyMenu from '../components/family/familymenu/familymenu.vue';
 
 export default{
     components:{
