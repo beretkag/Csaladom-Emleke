@@ -13,8 +13,7 @@ const router = createRouter({
       path:'/eletut/:nodeid',
       name:'Életút',
       component: () => import('../views/eletut.vue'),
-
-      props: route=> ({...route.params, nodeid:router.params.nodeid})
+      props: route=> ({...route.params, nodeid:route.params.nodeid})
     },
     {
       path: '/hogyankezdjneki',

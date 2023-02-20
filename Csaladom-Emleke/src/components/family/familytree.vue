@@ -94,7 +94,8 @@ import router from '../../router';
                 this.family.editUI.on('button-click', function (sender, args) {
                 if (args.name == 'liferoad') {
                     //alert('Életút!')
-                    router.push(`/eletut/${args.nodeId}`)
+                    let idx= ez.$store.getters.Members.find(x=> x.id == args.nodeId).ID;
+                    router.push(`/eletut/${idx}`)
                 }
             });
             },
