@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Feb 16. 22:20
--- Kiszolgáló verziója: 10.4.25-MariaDB
--- PHP verzió: 8.1.10
+-- Létrehozás ideje: 2023. Feb 20. 13:19
+-- Kiszolgáló verziója: 10.4.6-MariaDB
+-- PHP verzió: 7.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -102,8 +103,8 @@ INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `belsofaID`, `alapertelmezett`, `
 CREATE TABLE `eletut` (
   `ID` int(11) NOT NULL,
   `csaladtagID` int(11) NOT NULL,
-  `szoveg` text COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `QRlink` varchar(255) COLLATE utf8_hungarian_ci NOT NULL
+  `cim` varchar(100) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `szoveg` text COLLATE utf8_hungarian_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 -- --------------------------------------------------------

@@ -6,6 +6,7 @@
 
     import FamilyTree from '@balkangraph/familytree.js'
 import axios from 'axios';
+import router from '../../router';
 
     export default {
         name: 'tree',
@@ -93,8 +94,7 @@ import axios from 'axios';
                 this.family.editUI.on('button-click', function (sender, args) {
                 if (args.name == 'liferoad') {
                     //alert('Életút!')
-                    let member = ez.$store.getters.Members.find(x => x.id == args.nodeId);
-                    console.log(member);
+                    router.push(`/eletut/${args.nodeId}`)
                 }
             });
             },
