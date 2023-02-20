@@ -7,7 +7,7 @@
     <div class="col-lg-5 col-sm-12 p-3"><img id="nagykep" src="../assets/regisztracio.png" alt=""></div>
     <p class="p-3 col m-auto">Az első lépés a regisztráció! Regisztráció során, ha megadja a szülei nevét, akkor ők már rögtön bekerülnek a családfájába.</p>
   </div>
-  <div class="mb-3 row m-0 hatterszin" data-aos="fade-right" data-aos-easing="ease-in">
+  <div class="mb-3 row m-0 hatterszin" data-aos="fade-left" data-aos-easing="ease-in">
     <p class="p-3 col m-auto">A regisztráció után, be kell jelentkeznünk a megadott e-mail címmel és jelszóval.</p>
     <div class="p-3 col-lg-5 col-sm-12"><img src="../assets/bejelentkezes.png" alt=""></div>
   </div>
