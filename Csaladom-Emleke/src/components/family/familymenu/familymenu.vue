@@ -16,7 +16,7 @@
         </div>
         <hr>
         <div class="m-3">
-          <RouterLink :to="{name: 'Felhasználó-Kezelés'}"><span class="link btn">Felhasználó Kezelés</span></RouterLink>
+          <RouterLink :to="{name: 'Felhasználó-Kezelés'}"><span class="link btn">Felhasználóezelés</span></RouterLink>
         </div>
         <hr>
       </div>
