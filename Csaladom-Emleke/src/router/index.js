@@ -28,6 +28,21 @@ const router = createRouter({
           path: 'FelhasznaloKezeles',
           name: 'Felhasználó-Kezelés',
           component: () => import('../components/family/familymenu/felhasznalokezeles.vue')
+        },
+        {
+          path:'namemod',
+          name:'namemod',
+          component: () => import('../components/family/familymenu/felhasznalokezeles/nev_mod.vue')
+        },  
+        {
+          path:'emailmod',
+          name:'emailmod',
+          component: () => import('../components/family/familymenu/felhasznalokezeles/emailcim_mod.vue')
+        },
+        {
+          path:'passmod',
+          name:'passmod',
+          component: () => import('../components/family/familymenu/felhasznalokezeles/jelszo_mod.vue')
         }
       ]
     },
