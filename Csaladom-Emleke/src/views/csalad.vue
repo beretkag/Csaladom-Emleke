@@ -1,7 +1,7 @@
 <template>
     <FamilyMenu />
     <div id="app">
-        <i class="bi bi-menu-up btn btn-primary btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
+        <i class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
         <FamilyTree ref="tree" />
     </div>
 </template>
@@ -52,6 +52,9 @@ export default{
     top: 5px;
     left: 5px;
     z-index: 999;
+}
+#menuBtn:hover{
+   border: 1px solid #ff7112;
 }
 
 #app {

@@ -1,7 +1,7 @@
 <template>
   <div class="tipp">
     <button class="btn btn-dark"> <i class="bi bi-info-circle"></i> </button>
-  <span class="tipptxt"> A megfelelő rokon sorára rákkattintva meg tudja tekinteni a felvitt életútját.</span>
+  <span class="tipptxt"> Szöveg</span>
 </div>
 </template>
 
