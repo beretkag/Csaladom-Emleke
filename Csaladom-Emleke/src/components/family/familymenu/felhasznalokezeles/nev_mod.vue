@@ -68,10 +68,10 @@ h1{
     margin-top: 5%;
     margin-bottom: 5%;
     color: black;
-    font-style: italic;
 }
-label{
-    font-style: italic;
+button:hover{
+    border: 1px solid #ff7112  !important;
+    background-color: black;
 }
 
 </style>
