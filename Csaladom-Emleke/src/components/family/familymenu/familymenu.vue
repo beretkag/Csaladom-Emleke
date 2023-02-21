@@ -4,7 +4,7 @@
       <h5 class="offcanvas-title">
         <img src="../../img/logopng.png" alt="Családom emléke logo" id="logo">
       </h5>
-      <button type="button" class="btn btn-lg btn-primary rounded-circle" data-bs-dismiss="offcanvas">
+      <button type="button" class="btn btn-lg rounded-circle " data-bs-dismiss="offcanvas">
         <h2 class="m-0"><i class="bi bi-arrow-left-circle"></i></h2>
       </button>
     </div>
@@ -51,6 +51,13 @@
 
   #offcanvasScrolling{
     background-color: rgb(226, 226, 226);
+  }
+  button:hover{
+    background-color: #ff7112;
+    border: 1px solid black;
+  }
+  span:hover{
+    color: #ff7112 !important;
   }
 
 
