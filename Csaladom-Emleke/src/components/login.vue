@@ -44,6 +44,7 @@
                 //Sikeres bejelentkezés
                 this.$router.push(import.meta.env.BASE_URL + "csalad");
                 sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
+                this.$store.commit('SetToken',  sessionStorage.getItem('csaladomemleke') ? JSON.parse(sessionStorage.getItem('csaladomemleke')) : "")
               }
             })
             .catch((err) => console.log(err));

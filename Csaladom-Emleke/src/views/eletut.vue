@@ -3,7 +3,7 @@
     <header class="row">
         <img class="col-lg-4 col-md-3 kep m-3 p-0" src="../assets/Profilkepteszt.png" alt="felhasznalo profilkep">
         <h2 class="col-lg-6 col-md-5 col-xs-4 d-flex justify-content-center flex-column">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
-        <div class="col-lg-2 col-md-4 col-xs-4 d-flex justify-content-end flex-column" @click="UjParagrafus()"><button class="btn btn-primary" $click>Új paragrafus írása</button></div>
+        <div class="col-lg-2 col-md-4 col-xs-4 d-flex justify-content-end flex-column" @click="UjParagrafus()"><button class="btn btn-primary">Új paragrafus írása</button></div>
     </header>
     <hr>
     <main>
@@ -35,11 +35,11 @@ export default{
         }
     },
     created(){
-        axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid)
+        axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
         .then(res=>{
             this.node=res.data[0]
             console.log(res.data)
-            axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid)
+            axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
             .then(res=>{
                 this.paragraphs=res.data;
                 console.log(this.paragraphs);

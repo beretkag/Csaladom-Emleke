@@ -97,18 +97,18 @@ import router from '../../router';
                     let idx= ez.$store.getters.Members.find(x=> x.id == args.nodeId).ID;
                     router.push(`/eletut/${idx}`)
                 }
-            });
+                });
             },
             DB_Delete(memberID){
                 let deletedID = this.$store.getters.Members.find(x => x.id == memberID).ID
-                axios.delete(this.$store.getters.baseURL + "/csaladtagok/ID/" + deletedID);
+                axios.delete(this.$store.getters.baseURL + "/csaladtagok/ID/" + deletedID, {headers: {"authorization": "JWT "+this.$store.getters.Token}});
             },
             DB_Insert(member){
                 let partnerek = "";
                 if (member.pids != null) { member.pids.forEach(partner => { partnerek += partner + ","}) }
                 partnerek = partnerek.slice(0,-1);
                 let inserted = {
-                    csaladfaID: this.$store.getters.loggedUser.csaladfak.find(x => x.alapertelmezett == 0).ID,
+                    csaladfaID: this.$store.getters.Members[0].csaladfaID,
                     belsofaID: member.id,
                     alapertelmezett: 1,
                     gender: member.gender,
@@ -116,7 +116,7 @@ import router from '../../router';
                     mid: member.mid,
                     fid: member.fid
                 }
-                axios.post(this.$store.getters.baseURL + "/csaladtagok", inserted)
+                axios.post(this.$store.getters.baseURL + "/csaladtagok", inserted, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
                 .then(res => {
                     member.ID = res.data.insertId;
                     this.Nev_Gender_Nem_Beallitas(member);
@@ -139,7 +139,7 @@ import router from '../../router';
                     fid: member.fid,
                     partnerek: partnerek
                 }
-                axios.patch(this.$store.getters.baseURL + "/csaladtagok/" + member.ID, updated)
+                axios.patch(this.$store.getters.baseURL + "/csaladtagok/" + member.ID, updated, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
 
             },
             Nev_Gender_Nem_Beallitas(item){

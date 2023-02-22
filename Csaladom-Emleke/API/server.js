@@ -79,7 +79,7 @@ app.post('/login', (req, res) => {
             log(req.socket.remoteAddress, `${results.length} records sent form ${table} table (logincheck).`);
             res.status(200).send(jwt.sign({
                 ID:results[0].ID,
-                Nev:results[0].nev,
+                Nev:results[0].Nev,
                 email:results[0].email,
                 jogosultsag:results[0].jogosultsag
             }, process.env.KEY, {expiresIn:"1d"}));
@@ -92,7 +92,6 @@ app.post(`/user/data`, (req, res)=>{
     try {
         res.status(200).send(jwt.verify(req.body.token.split(' ')[1], process.env.KEY));
     } catch (error) {
-        console.log(error.message);
         res.status(200).send({
             ID:0,
             Nev:"",
@@ -290,7 +289,6 @@ app.listen(port, () => {
 
 function tokencheck() {
     return (req, res, next) => {
-        console.log(req.headers)
         try {
             jwt.verify(req.headers.authorization.split(' ')[1], process.env.KEY);
             next();

@@ -18,12 +18,9 @@ export default{
         axios
     },
     created(){
-        this.$store.commit('SetToken',  sessionStorage.getItem('csaladomemleke') ? JSON.parse(sessionStorage.getItem('csaladomemleke')) : "")
 
         axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + this.$store.getters.Token})
         .then(res =>{
-            console.log(res.data);
-            console.log(this.$store.getters.Token);
             //családfa betöltése------------------------------------------------------------------------------------>
             //------------------------------------------------------------------------------------------------------>
             axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + res.data.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
