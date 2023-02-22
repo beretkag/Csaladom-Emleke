@@ -6,6 +6,8 @@ const path = require('path');
 const cors = require('cors');
 const multer = require('multer');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
+
 
 // Image file Upload settings
 var storage = multer.diskStorage({
@@ -64,7 +66,7 @@ app.delete('/fileDelete/:table/:id', tokencheck(), (req, res) => {
 });
 
 // LOGINCHECK
-app.post('/login', tokencheck(), (req, res) => {
+app.post('/login', (req, res) => {
     var table = req.body.table;
     var email = req.body.email;
     var passwd = req.body.password;
@@ -75,11 +77,31 @@ app.post('/login', tokencheck(), (req, res) => {
             res.status(500).send(err);
         } else {
             log(req.socket.remoteAddress, `${results.length} records sent form ${table} table (logincheck).`);
-            res.status(200).send(results);
+            res.status(200).send(jwt.sign({
+                ID:results[0].ID,
+                Nev:results[0].nev,
+                email:results[0].email,
+                jogosultsag:results[0].jogosultsag
+            }, process.env.KEY, {expiresIn:"1d"}));
         }
     });
 
 });
+
+app.post(`/user/data`, (req, res)=>{
+    try {
+        res.status(200).send(jwt.verify(req.body.token.split(' ')[1], process.env.KEY));
+    } catch (error) {
+        console.log(error.message);
+        res.status(200).send({
+            ID:0,
+            Nev:"",
+            email:"",
+            jogosultsag:0
+        });
+    }
+})
+
 // GET ID BY email
 app.get('/forgotpass/:email', tokencheck(), (req, res) => {
     var table = "felhasznalok";
@@ -265,12 +287,20 @@ app.listen(port, () => {
 
 // MIDDLEVARE FUNCTIONS
 
+
 function tokencheck() {
     return (req, res, next) => {
-        if (/*req.headers.authorization == token*/ true) {
+        console.log(req.headers)
+        try {
+            jwt.verify(req.headers.authorization.split(' ')[1], process.env.KEY);
             next();
-        } else {
-            res.status(500).json({ message: 'Illetéktelen hozzáférés!' });
+        } catch (error) {
+            if (req.params.table == "felhasznalok") {
+                next();
+            }
+            else{
+                res.status(401).send(error);
+            }
         }
     };
 }

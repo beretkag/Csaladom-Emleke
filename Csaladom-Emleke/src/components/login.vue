@@ -42,8 +42,8 @@
                 this.$parent.$refs.msg.SetText("Hibás felhasználónév vagy jelszó!", "Hibás bemeneti adatok!");
               } else {
                 //Sikeres bejelentkezés
-                this.$store.commit('SetUser', res.data[0]);
                 this.$router.push(import.meta.env.BASE_URL + "csalad");
+                sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
               }
             })
             .catch((err) => console.log(err));

@@ -17,30 +17,26 @@ export default{
         FamilyTree,
         axios
     },
-    data(){
-        return {
-        }
-        },
-        methods:{
+    created(){
+        this.$store.commit('SetToken',  sessionStorage.getItem('csaladomemleke') ? JSON.parse(sessionStorage.getItem('csaladomemleke')) : "")
 
-        },
-
-
-            created(){
-                //családfa betöltése------------------------------------------------------------------------------------>
-                axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + this.$store.getters.loggedUser.ID)
+        axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + this.$store.getters.Token})
+        .then(res =>{
+            console.log(res.data);
+            console.log(this.$store.getters.Token);
+            //családfa betöltése------------------------------------------------------------------------------------>
+            //------------------------------------------------------------------------------------------------------>
+            axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + res.data.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+            .then(res => {
+                let idx = res.data.find(x => x.alapertelmezett == 0).ID
+                axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + idx, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
                 .then(res => {
-                    let user = this.$store.getters.loggedUser;
-                    this.$store.commit('SetUser', Object.assign(user, {csaladfak: res.data}))
-                    let fa = this.$store.getters.loggedUser.csaladfak.find(x => x.alapertelmezett == 0);
-                    axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + fa.ID)
-                    .then(res => {
-                        this.$store.commit('SetMembers', res.data);
-                        this.$refs.tree.Rajzol();
-                    })
+                    this.$store.commit('SetMembers', res.data);
+                    this.$refs.tree.Rajzol();
                 })
-                //------------------------------------------------------------------------------------------------------>
-            },
+            })
+        })
+    },
             
         }
 </script>
