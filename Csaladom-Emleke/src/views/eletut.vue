@@ -1,21 +1,21 @@
 <template>
-    <button class="btn btn-primary visszagomb rounded-circle"><i class="bi bi-arrow-left"></i></button>
+    <button class="btn btn-primary visszagomb rounded-circle" @click="Vissza()"><i class="bi bi-arrow-left"></i></button>
     <header class="row">
         <img class="col-lg-4 col-md-3 kep m-3 p-0" src="../assets/Profilkepteszt.png" alt="felhasznalo profilkep">
-        <h2 class="col-lg-6 col-md-5 col-xs-4 d-flex justify-content-center flex-column">Becses fiam</h2>
-        <div class="col-lg-2 col-md-4 col-xs-4 d-flex justify-content-end flex-column"><button class="btn btn-primary">Új paragrafus írása</button></div>
+        <h2 class="col-lg-6 col-md-5 col-xs-4 d-flex justify-content-center flex-column">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
+        <div class="col-lg-2 col-md-4 col-xs-4 d-flex justify-content-end flex-column" @click="UjParagrafus()"><button class="btn btn-primary" $click>Új paragrafus írása</button></div>
     </header>
     <hr>
     <main>
-        <div class="m-3">
+        <div class="m-3" v-for="paragraph, index in paragraphs">
             <div class="row">
-                <h3 class="col-10">CIMECSKE</h3>
+                <h3 class="col-10" >{{ paragraph.cim }}</h3>
                 <div class="col-2 d-flex flex-row-reverse">    
-                    <button class="m-1 m-lg-2 m-sm-1 btn btn-danger"><i class="bi bi-trash"></i></button>
-                    <button class="m-1 m-lg-2 m-sm-1 btn btn-warning"><i class="bi bi-pencil"></i></button>
+                    <button class="m-1 m-lg-2 m-sm-1 btn btn-danger" @click="Torles()"><i class="bi bi-trash"></i></button>
+                    <button class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="Szerekesztes()"><i class="bi bi-pencil"></i></button>
                 </div>
             </div>
-            <p class="m-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo aliquam aliquid soluta quam qui tenetur non dolore cupiditate quos voluptates. Voluptate alias consequatur minus fugiat unde similique! Ut, harum dolorem?</p>
+            <p class="m-3">{{ paragraph.szoveg }}</p>
             <hr>
         </div>
     </main>
@@ -42,6 +42,7 @@ export default{
             axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid)
             .then(res=>{
                 this.paragraphs=res.data;
+                console.log(this.paragraphs);
             })
         })
         
