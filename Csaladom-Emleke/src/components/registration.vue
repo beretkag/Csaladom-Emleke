@@ -105,6 +105,9 @@ export default {
           this.newUser.password == null){
             this.$parent.$refs.msg.SetText("Nem töltött ki minden kötelező mezőt!", "Hibás bemeneti adatok!");
       }else{
+        if (!this.newUser.password.match((/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/))) {
+          this.$parent.$refs.msg.SetText("A jelszó nem felel meg a követelményeknek!", "Hibás bemeneti adatok!");
+        } else {
         axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
           .then((res)=>{
             if (res.data.length > 0) {
@@ -141,6 +144,7 @@ export default {
                 })
             }
         })
+      }
     }
   }
   }
