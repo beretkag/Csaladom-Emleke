@@ -14,10 +14,10 @@
         <h1>
             Név módosítás
         </h1>
-       <label for="oldname"> Régi név: </label>
-       <input type="text" name="oldname" class="form-control mb-3">
+       <label for="passwd"> Jelszó: </label>
+       <input type="password" v-model="passwd" class="form-control mb-3">
        <label for="newname"> Új név: </label>
-       <input type="text" name="newname" class="form-control mb-3">
+       <input type="text" v-model="newname" class="form-control mb-3">
        <button class="btn btn-dark" @click="Namechange()">
            Név módosítása 
        </button>
@@ -26,7 +26,9 @@
 </template>
 
 <script>
-  import { RouterLink, RouterView } from 'vue-router';
+  import axios from 'axios';
+import { RouterLink, RouterView } from 'vue-router';
+import sha256 from "crypto-js/sha256";
 
 export default {
   name: 'felhasznalokezeles',
@@ -35,27 +37,41 @@ export default {
     RouterView
   },
   data(){
+      return{
+        passwd: "",
+        newname:"",
+    }
+    felhasznalo:{};
       
+    },
+    created(){
+        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 7)
+        .then(res=>{
+            this.felhasznalo=res.data[0]
+            console.log(res.data)
+        })
+        
     },
     methods:{
       Namechange(){
-        let oldname = this.oldname;
-        let newname = this.newname
-
-          if (oldname == null || newname == null) {
+        let password =  `${sha256(this.passwd)}`;
+        let ujnev = this.newname;
+          if (ujnev == null || password == null) {
               alert('Nem hagyhat üresen mezőt!');
           }
-          else if(oldname != oldname){
-              //nem egyezik a régi névvel
+          else if(password != this.felhasznalo.Jelszo){
+              alert('Nem egyezik a jelszó!');
           }
-          else if(newname != newname){
-              //új név nem megfelelő
+          else if(ujnev == this.felhasznalo.Nev){
+              alert('Az új név nem egyezhet meg a régivel!');
           }
           else{
-              //névváltoztatás backend
-              alert('Sikeresen megváltozott a neve')
+              let adatok = {
+                  Nev: ujnev
+              }
+              axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + 7, adatok)
+              alert('Sikeresen megváltozott a neve');
           }
-
       }
     }
 }
