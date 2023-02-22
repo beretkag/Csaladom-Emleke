@@ -48,7 +48,9 @@ export default{
         
     },
     methods:{
-        
+        Torles(Id){
+            
+        }
     }
 
 }
