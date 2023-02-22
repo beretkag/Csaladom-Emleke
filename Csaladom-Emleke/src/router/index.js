@@ -36,6 +36,11 @@ const router = createRouter({
           component: () => import('../components/family/familymenu/felhasznalokezeles.vue')
         },
         {
+          path: 'Csaladfak',
+          name:'Családfák',
+          component: () => import('../components/family/familymenu/csaladfak.vue')
+        },
+        {
           path:'namemod',
           name:'namemod',
           component: () => import('../components/family/familymenu/felhasznalokezeles/nev_mod.vue')

@@ -19,6 +19,10 @@
           <RouterLink :to="{name: 'Felhasználó-Kezelés'}"><span class="link btn">Felhasználóezelés</span></RouterLink>
         </div>
         <hr>
+        <div class="m-3">
+          <RouterLink :to="{name: 'Családfák'}"><span class="link btn">Családfák</span></RouterLink>
+        </div>
+        <hr class="mb-3">
       </div>
       <div>
         <RouterView />
