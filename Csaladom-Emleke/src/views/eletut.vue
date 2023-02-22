@@ -11,8 +11,8 @@
             <div class="row">
                 <h3 class="col-10" >{{ paragraph.cim }}</h3>
                 <div class="col-2 d-flex flex-row-reverse">    
-                    <button class="m-1 m-lg-2 m-sm-1 btn btn-danger" @click="Torles()"><i class="bi bi-trash"></i></button>
-                    <button class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="Szerekesztes()"><i class="bi bi-pencil"></i></button>
+                    <button class="m-1 m-lg-2 m-sm-1 btn btn-danger" @click="Torles(paragraph.ID)"><i class="bi bi-trash"></i></button>
+                    <button class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="Szerekesztes(paragraph.ID)"><i class="bi bi-pencil"></i></button>
                 </div>
             </div>
             <p class="m-3">{{ paragraph.szoveg }}</p>
@@ -48,7 +48,9 @@ export default{
         
     },
     methods:{
-        
+        Torles(Id){
+            
+        }
     }
 
 }
