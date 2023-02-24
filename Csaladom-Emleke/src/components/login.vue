@@ -38,6 +38,7 @@
         }
         axios.post(this.baseURL, data)
             .then((res) => {
+              console.log(res.data);
               if (res.data.length < 1) {
                 this.$parent.$refs.msg.SetText("Hibás felhasználónév vagy jelszó!", "Hibás bemeneti adatok!");
               } else {

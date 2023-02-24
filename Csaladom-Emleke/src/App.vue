@@ -1,14 +1,10 @@
 <script>
   import { def } from '@vue/shared';
   import { RouterLink, RouterView } from 'vue-router';
-  import Login from "./components/login.vue";
-  import Registration from "./components/registration.vue";
 
   export default {
     name: "App",
     components: {
-      Login,
-      Registration,
       RouterLink,
       RouterView
     },

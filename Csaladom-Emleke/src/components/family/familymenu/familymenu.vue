@@ -55,6 +55,7 @@
 
   #offcanvasScrolling{
     background-color: rgb(226, 226, 226);
+    text-align: center;
   }
   button:hover{
     background-color: #ff7112;
