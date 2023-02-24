@@ -77,7 +77,8 @@ app.post('/login', (req, res) => {
             res.status(500).send(err);
         } else {
             log(req.socket.remoteAddress, `${results.length} records sent form ${table} table (logincheck).`);
-            res.status(200).send(jwt.sign({
+            res.status(200).send(jwt.sign(
+                results.length == 0 ? results : {
                 ID:results[0].ID,
                 Nev:results[0].Nev,
                 email:results[0].email,
