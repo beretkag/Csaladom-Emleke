@@ -8,6 +8,11 @@ const multer = require('multer');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
+const app = express();
+
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Image file Upload settings
 var storage = multer.diskStorage({
@@ -20,7 +25,6 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-const app = express();
 const port = process.env.PORT;
 const token = process.env.TOKEN;
 const debug = process.env.DEBUG;
@@ -33,9 +37,6 @@ var pool = mysql.createPool({
     database: process.env.DBNAME
 });
 
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 // file upload
 app.post('/fileUpload', upload.single('file'), (req, res) => {
@@ -77,8 +78,9 @@ app.post('/login', (req, res) => {
             res.status(500).send(err);
         } else {
             log(req.socket.remoteAddress, `${results.length} records sent form ${table} table (logincheck).`);
-            res.status(200).send(jwt.sign(
-                results.length == 0 ? results : {
+            res.status(200).send(
+                results.length == 0 ? results :
+                jwt.sign({
                 ID:results[0].ID,
                 Nev:results[0].Nev,
                 email:results[0].email,
