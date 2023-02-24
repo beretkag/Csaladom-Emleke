@@ -23,11 +23,11 @@ export default{
     },
     created(){
 
-        axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + this.$store.getters.Token})
+        axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
         .then(res =>{
             //családfa betöltése------------------------------------------------------------------------------------>
             //------------------------------------------------------------------------------------------------------>
-            axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+            axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(res => {
                 this.$store.commit('SetMembers', res.data);
                 this.$refs.tree.Rajzol();

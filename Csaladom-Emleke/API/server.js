@@ -7,6 +7,7 @@ const cors = require('cors');
 const multer = require('multer');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const { get } = require('http');
 
 const app = express();
 
@@ -296,7 +297,7 @@ function tokencheck() {
             jwt.verify(req.headers.authorization.split(' ')[1], process.env.KEY);
             next();
         } catch (error) {
-            if (req.params.table == "felhasznalok") {
+            if (req.params.table == "felhasznalok" || (req.params.table == "csaladtagok" && req.method == 'GET')) {
                 next();
             }
             else{
