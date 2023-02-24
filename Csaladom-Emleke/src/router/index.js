@@ -21,9 +21,10 @@ const router = createRouter({
       component: () => import('../views/HowToView.vue')
     },
     {
-      path:'/csalad',
+      path:'/csalad/:csaladfaID',
       name:'family',
       component: () => import('../views/Csalad.vue'),
+      props: route=>({...route.params, csaladfaID: route.params.csaladfaID}),
       children:[
         {
           path:'Beallitasok',

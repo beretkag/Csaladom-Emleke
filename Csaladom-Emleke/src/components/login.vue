@@ -42,9 +42,12 @@
                 this.$parent.$refs.msg.SetText("Hibás felhasználónév vagy jelszó!", "Hibás bemeneti adatok!");
               } else {
                 //Sikeres bejelentkezés
-                this.$router.push(import.meta.env.BASE_URL + "csalad");
                 sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
-                this.$store.commit('SetToken',  sessionStorage.getItem('csaladomemleke') ? JSON.parse(sessionStorage.getItem('csaladomemleke')) : "")
+                this.$store.commit('SetToken',  sessionStorage.getItem('csaladomemleke') ? JSON.parse(sessionStorage.getItem('csaladomemleke')) : "");
+                axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + res.data.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+                .then(results => {
+                  this.$router.push(import.meta.env.BASE_URL + "csalad/" + results[0].data.find(x => x.alapertelmezett == 0).ID);
+                })
               }
             })
             .catch((err) => console.log(err));

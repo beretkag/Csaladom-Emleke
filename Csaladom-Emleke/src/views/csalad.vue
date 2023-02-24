@@ -12,6 +12,10 @@ import FamilyTree from '../components/family/FamilyTree.vue';
 import FamilyMenu from '../components/family/familymenu/familymenu.vue';
 
 export default{
+    props:{
+        csaladfaID:String
+
+    },
     components:{
         FamilyMenu,
         FamilyTree,
@@ -23,14 +27,10 @@ export default{
         .then(res =>{
             //családfa betöltése------------------------------------------------------------------------------------>
             //------------------------------------------------------------------------------------------------------>
-            axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + res.data.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+            axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
             .then(res => {
-                let idx = res.data.find(x => x.alapertelmezett == 0).ID
-                axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + idx, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
-                .then(res => {
-                    this.$store.commit('SetMembers', res.data);
-                    this.$refs.tree.Rajzol();
-                })
+                this.$store.commit('SetMembers', res.data);
+                this.$refs.tree.Rajzol();
             })
         })
     },
