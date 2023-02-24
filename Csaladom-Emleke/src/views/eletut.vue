@@ -38,24 +38,26 @@ export default{
         axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
         .then(res=>{
             this.node=res.data[0]
-            console.log(res.data)
             axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
             .then(res=>{
                 this.paragraphs=res.data;
-                console.log(this.paragraphs);
             })
         })
         
     },
     methods:{
         Torles(Id){
-            
+            axios.delete(this.$store.getters.baseURL+"/eletut/ID/"+Id, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+            .then(res =>{
+                this.paragraphs.splice(this.paragraphs.findIndex(x=>x.ID == Id),1)
+            })
+            console.log(this.paragraphs)
         }
     }
 
 }
 </script>
-<style scoped>
+<style>
 .kep{
     width: 18vw;
     height: 18vw;
