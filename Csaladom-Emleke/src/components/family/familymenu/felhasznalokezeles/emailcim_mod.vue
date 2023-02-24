@@ -39,15 +39,23 @@ export default {
   data(){
       return{
           passwd: "",
-          newmail: ""
+          newmail: "",
+          loggedID: "",
+          felhasznalo:{}
       }
-      felhasznalo:{};
       
     },
     created(){
-        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 7)
+        axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
+        .then(res => {
+            console.log(res.data[0])
+        })
+
+        
+        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 6, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
         .then(res=>{
             this.felhasznalo=res.data[0]
+            console.log(res.data[0]);
         })
     },
     methods:{
@@ -64,7 +72,7 @@ export default {
             let adatok = {
                 email: ujemail
             }
-            axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + 7, adatok)
+            axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + 6, adatok, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
               alert('Sikeresen megváltozott az e-mail címe');
         }
       }

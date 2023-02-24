@@ -45,7 +45,7 @@ export default {
       
     },
     created(){
-        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 7)
+        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 6, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
         .then(res=>{
             this.felhasznalo=res.data[0]
         })
@@ -68,7 +68,7 @@ export default {
               let adatok = {
                   Nev: ujnev
               }
-              axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + 7, adatok)
+              axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + 6, adatok, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
               alert('Sikeresen megváltozott a neve');
           }
       }
