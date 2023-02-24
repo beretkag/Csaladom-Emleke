@@ -21,7 +21,7 @@ import axios from 'axios';
        }
     },
     created(){
-  axios.get(this.$store.getters.baseURL + "/csaladfak").then(res => {
+  axios.get(this.$store.getters.baseURL + "/csaladfak", {headers: {"authorization": "JWT "+this.$store.getters.Token}}).then(res => {
     let data = res.data;
     this.csaladfak = res.data 
   })
