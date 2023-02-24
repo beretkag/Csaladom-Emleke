@@ -50,7 +50,6 @@ export default {
         axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 7)
         .then(res=>{
             this.felhasznalo=res.data[0]
-            console.log(res.data)
         })
     },
   methods:{
