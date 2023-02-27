@@ -48,14 +48,12 @@ export default {
     created(){
         axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
         .then(res => {
-            console.log(res.data[0])
         })
 
         
         axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 6, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
         .then(res=>{
             this.felhasznalo=res.data[0]
-            console.log(res.data[0]);
         })
     },
     methods:{
