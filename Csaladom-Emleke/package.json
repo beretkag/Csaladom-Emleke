@@ -16,6 +16,8 @@
     "crypto-js": "^4.1.1",
     "moment": "^2.29.4",
     "vue": "^3.2.45",
+    "vue-color-kit": "^1.0.5",
+    "vue-color-picker-wheel": "^0.4.3",
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2"
   },

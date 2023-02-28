@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-row justify-content-around">
+    <div class="d-flex flex-row justify-content-around text-center">
         <div>
             <RouterLink :to="{name: 'namemod'}"><button class="btn btn-dark"> Név </button></RouterLink>
         </div>
