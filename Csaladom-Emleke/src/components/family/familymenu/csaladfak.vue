@@ -1,11 +1,23 @@
 <template>
 
- <ul>
-    <li v-for="csaladfa in csaladfak">
-         {{ csaladfa.Nev }}
-    </li>
- </ul>
+<ul class="list-group list-group-flush">
+  <li class="list-group-item" v-for="csaladfa in csaladfak">
+    
+    {{ csaladfa.Nev }}
 
+    <label class="switch" v-if="csaladfa.publikus == 0">
+            <input type="checkbox" checked>
+            <span class="slider round"></span>
+         </label>
+    
+        <label class="switch" v-else>
+            <input type="checkbox">
+            <span class="slider round"></span>
+        </label>
+  
+  </li>
+</ul>
+ 
 </template>
 
 <script>
@@ -17,7 +29,8 @@ import axios from 'axios';
     },
     data(){
        return{
-          csaladfak: []
+          csaladfak: [],
+          elerheto:false
        }
     },
     created(){
@@ -34,6 +47,68 @@ import axios from 'axios';
 
 </script>
 
-<style>
+<style scoped>
+ul li{
+  background-color: rgb(226, 226, 226) !important;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
 
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(82, 82, 82);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 2px;
+  bottom: 4px;
+  background-color: white;
+  border: 1px solid black;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #ff7112;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #ff7112;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(30px);
+  -ms-transform: translateX(30px);
+  transform: translateX(30px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 </style>

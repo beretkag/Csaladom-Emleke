@@ -70,7 +70,7 @@ export default {
             let adatok = {
                 Jelszo: jelszo1
             }
-            axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + 6, adatok, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+            axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + this.felhasznalo.ID, adatok, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
               alert('Sikeresen megváltozott a jelszava');
         }
     }
@@ -79,6 +79,15 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
+h1{
+    font-size: 200%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    color: black;
+}
+button:hover{
+    border: 1px solid #ff7112  !important;
+    background-color: black;
+}
 </style>

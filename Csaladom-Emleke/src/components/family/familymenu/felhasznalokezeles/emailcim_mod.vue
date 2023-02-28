@@ -40,7 +40,6 @@ export default {
       return{
           passwd: "",
           newmail: "",
-          loggedID: "",
           felhasznalo:{}
       }
       
@@ -51,7 +50,7 @@ export default {
         })
 
         
-        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 6, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ this.felhasznalo.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
         .then(res=>{
             this.felhasznalo=res.data[0]
         })
@@ -70,7 +69,7 @@ export default {
             let adatok = {
                 email: ujemail
             }
-            axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + 6, adatok, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+            axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + this.felhasznalo.ID, adatok, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
               alert('Sikeresen megváltozott az e-mail címe');
         }
       }
@@ -79,6 +78,15 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
+h1{
+    font-size: 200%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    color: black;
+}
+button:hover{
+    border: 1px solid #ff7112  !important;
+    background-color: black;
+}
 </style>

@@ -2,8 +2,11 @@
   <div class="d-flex flex-column text-center">
     <div>
         <div class="form-switch mb-3" >
-            <label for="flexSwitchCheckDefault"> Sötét mód</label>
-            <input class="form-check-input ml" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          Sötét mód
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+        </label>
         </div>
     </div>
 
@@ -72,17 +75,77 @@ import { ColorPicker } from 'vue-color-kit'
 
 </script>
 
-<style>
+<style scoped>
+button{
+    margin: 3%;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(82, 82, 82);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 2px;
+  bottom: 4px;
+  background-color: white;
+  border: 1px solid black;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #ff7112;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #ff7112;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(30px);
+  -ms-transform: translateX(30px);
+  transform: translateX(30px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 .color-alpha{
     visibility: hidden !important;
 }
 .color-show{
     visibility: hidden !important;
 }
-button{
-    margin: 3%;
-}
-label{
-    margin-right: 15%;
+.color-type{
+  visibility: hidden !important;
 }
 </style>
