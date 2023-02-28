@@ -16,7 +16,7 @@ import router from '../../router';
             }
         },
         methods: {
-            mytree: function(domEl, x) {
+            mytree: function(domEl, x, sajat) {
                 this.family = new FamilyTree (domEl, {
                     nodes: x,
                     nodeBinding: {
@@ -49,7 +49,7 @@ import router from '../../router';
                                 icon: FamilyTree.icon.edit(24, 24, '#fff'),
                                 text: 'Módosítás',
                                 hideIfEditMode: true,
-                                hideIfDetailsMode: false
+                                hideIfDetailsMode: !sajat
                             },
                             share: null,
                             pdf: null,
@@ -67,33 +67,33 @@ import router from '../../router';
                     }
                 });
             },
-            Rajzol(){
-                this.mytree(this.$refs.tree, this.$store.getters.Members);
-
-                this.family.onUpdateNode((args) => {
-
-                    //Családtag törlése
-                    if (args.removeNodeId != null) {
-                        this.DB_Delete(args.removeNodeId);
-                    }
-
-                    //Új családtag rögzítése
-                    args.addNodesData.forEach(item=> {
-                        this.DB_Insert(item);
+            Rajzol(sajat){
+                this.mytree(this.$refs.tree, this.$store.getters.Members, sajat);
+                if (sajat){
+                    this.family.onUpdateNode((args) => {
+    
+                        //Családtag törlése
+                        if (args.removeNodeId != null) {
+                            this.DB_Delete(args.removeNodeId);
+                        }
+    
+                        //Új családtag rögzítése
+                        args.addNodesData.forEach(item=> {
+                            this.DB_Insert(item);
+                        });
+    
+                        //Módosítás lekezelése
+                        args.updateNodesData.forEach(item => {
+                            item = this.Nev_Gender_Nem_Beallitas(item);
+                            this.DB_Update(item);
+                        });
                     });
+                }
 
-                    //Módosítás lekezelése
-                    args.updateNodesData.forEach(item => {
-                        item = this.Nev_Gender_Nem_Beallitas(item);
-                        this.DB_Update(item);
-                    });
-                });
-
-                
+                //Életút Részleg
                 let ez = this;
                 this.family.editUI.on('button-click', function (sender, args) {
                 if (args.name == 'liferoad') {
-                    //alert('Életút!')
                     let idx= ez.$store.getters.Members.find(x=> x.id == args.nodeId).ID;
                     router.push(`/eletut/${idx}`)
                 }

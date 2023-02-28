@@ -297,7 +297,7 @@ function tokencheck() {
             jwt.verify(req.headers.authorization.split(' ')[1], process.env.KEY);
             next();
         } catch (error) {
-            if (req.params.table == "felhasznalok" || (req.params.table == "csaladtagok" && req.method == 'GET')) {
+            if (req.params.table == "felhasznalok" || ((req.params.table == "csaladfak" || req.params.table == "csaladtagok") && req.method == 'GET')) {
                 next();
             }
             else{

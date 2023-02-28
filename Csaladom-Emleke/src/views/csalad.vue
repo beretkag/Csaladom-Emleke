@@ -10,6 +10,7 @@
 import axios from 'axios';
 import FamilyTree from '../components/family/FamilyTree.vue';
 import FamilyMenu from '../components/family/familymenu/familymenu.vue';
+import router from '../router';
 
 export default{
     props:{
@@ -22,20 +23,45 @@ export default{
         axios
     },
     created(){
-
         axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
         .then(res =>{
-            //családfa betöltése------------------------------------------------------------------------------------>
-            //------------------------------------------------------------------------------------------------------>
+            if (res.data.jogosultsag == 0) {
+                axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                .then(results=>{
+                    console.log(results.data.publikus)
+                    if (results.data.publikus) {
+                        //nem saját családfa: csak megtekinthető
+                        this.GetMembers(false);
+                    }
+                    else {
+                        router.push('/');
+                    }
+                })
+            }
+            else if (res.data.jogosultsag == 1){
+                axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                .then(results=>{
+                    if (results.data[0].felhasznaloID == res.data.ID) {
+                        //saját családfa: megtekinthető és szerkeszthető
+                        this.GetMembers(true);
+                    }
+                })
+            }
+            
+        })
+    },
+    methods:{
+        GetMembers(sajat){
+            //családfa betöltése
             axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(res => {
                 this.$store.commit('SetMembers', res.data);
-                this.$refs.tree.Rajzol();
+                this.$refs.tree.Rajzol(sajat);
             })
-        })
-    },
-            
         }
+    }
+            
+}
 </script>
 
 <style scoped>

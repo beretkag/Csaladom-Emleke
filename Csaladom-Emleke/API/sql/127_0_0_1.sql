@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Feb 20. 13:19
+-- Létrehozás ideje: 2023. Feb 28. 09:39
 -- Kiszolgáló verziója: 10.4.6-MariaDB
 -- PHP verzió: 7.3.8
 
@@ -51,6 +51,7 @@ CREATE TABLE `csaladfak` (
   `ID` int(11) NOT NULL,
   `felhasznaloID` int(11) NOT NULL,
   `alapertelmezett` tinyint(1) NOT NULL,
+  `publikus` tinyint(1) DEFAULT NULL,
   `Nev` varchar(40) COLLATE utf8_hungarian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -58,8 +59,8 @@ CREATE TABLE `csaladfak` (
 -- A tábla adatainak kiíratása `csaladfak`
 --
 
-INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`, `Nev`) VALUES
-(5, 6, 0, 'Gellért Beretka');
+INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`, `publikus`, `Nev`) VALUES
+(5, 6, 0, 0, 'Gellért Beretka');
 
 -- --------------------------------------------------------
 
@@ -90,9 +91,10 @@ CREATE TABLE `csaladtagok` (
 --
 
 INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `belsofaID`, `alapertelmezett`, `profilkep`, `telefonszam`, `keresztnev`, `vezeteknev`, `gender`, `szulhely`, `szulido`, `halido`, `mid`, `fid`, `partnerek`) VALUES
-(4, 5, 'gfhd', 0, NULL, NULL, 'Gellért', 'Beretka', 'male', NULL, '1999-08-23', NULL, '_uq02', NULL, NULL),
+(4, 5, 'gfhd', 0, NULL, NULL, 'Gellért', 'Beretka', 'male', NULL, '1999-08-23', NULL, '_uq02', NULL, '_alqk'),
 (8, 5, '_uq02', 1, NULL, NULL, 'Zsuzsanna', 'Bíró', 'female', NULL, NULL, NULL, NULL, NULL, NULL),
-(19, 5, '_9d74', 1, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, 'gfhd', NULL);
+(19, 5, '_9d74', 1, NULL, NULL, 'Klára', 'Beretka', 'female', NULL, NULL, NULL, '_alqk', 'gfhd', NULL),
+(22, 5, '_alqk', 1, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, NULL, 'gfhd');
 
 -- --------------------------------------------------------
 
@@ -126,7 +128,8 @@ CREATE TABLE `felhasznalok` (
 --
 
 INSERT INTO `felhasznalok` (`ID`, `Nev`, `Jelszo`, `email`, `jogosultsag`) VALUES
-(6, 'Gellért Beretka', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin@admin.com', 1);
+(6, 'Gellért Beretka', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin@admin.com', 1),
+(7, 'Teszt Másik', '2b5830fcf15d8b7a10f4c3a6554e40a1ddeec61776818b7f38ac0b3f5164c0ea', 'teszt@teszt.com', 1);
 
 -- --------------------------------------------------------
 
@@ -205,7 +208,7 @@ ALTER TABLE `csaladfak`
 -- AUTO_INCREMENT a táblához `csaladtagok`
 --
 ALTER TABLE `csaladtagok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT a táblához `eletut`
@@ -217,7 +220,7 @@ ALTER TABLE `eletut`
 -- AUTO_INCREMENT a táblához `felhasznalok`
 --
 ALTER TABLE `felhasznalok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `kepek`
