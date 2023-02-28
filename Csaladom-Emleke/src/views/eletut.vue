@@ -1,9 +1,9 @@
 <template>
-    <button class="btn btn-primary visszagomb rounded-circle" @click="Vissza()"><i class="bi bi-arrow-left"></i></button>
+    <button class="btn btn-primary visszagomb rounded-circle btn-dark" @click="Vissza()"><i class="bi bi-arrow-left"></i></button>
     <header class="row">
         <img class="col-lg-4 col-md-3 kep m-3 p-0" src="../assets/Profilkepteszt.png" alt="felhasznalo profilkep">
         <h2 class="col-lg-6 col-md-5 col-xs-4 d-flex justify-content-center flex-column">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
-        <div class="col-lg-2 col-md-4 col-xs-4 d-flex justify-content-end flex-column" @click="UjParagrafus()"><button class="btn btn-primary">Új paragrafus írása</button></div>
+        <div class="col-lg-2 col-md-4 col-xs-4 d-flex justify-content-end flex-column" @click="UjParagrafus()"><button class="btn btn-dark">Új paragrafus írása</button></div>
     </header>
     <hr>
     <main>
@@ -73,6 +73,9 @@ export default{
                 paragraph.edit=false;
             })
         },
+        Vissza(){
+            
+        }
         
     }
 
