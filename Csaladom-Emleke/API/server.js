@@ -105,6 +105,101 @@ app.post(`/user/data`, (req, res)=>{
     }
 })
 
+app.post(`/registration`, (req, res)=>{
+    var records = req.body.newUser;
+    var str = 'null';
+    var str2 = 'ID';
+
+    var fields = Object.keys(records);
+    var values = Object.values(records);
+
+    values.forEach(value => {
+        if (value == null || value == "") {
+            str += ",NULL"
+        }else {
+            str += ",'" + value + "'"
+        }
+    })
+
+    fields.forEach(field => {
+        str2 += "," + field
+    })
+
+    pool.query(`INSERT INTO felhasznalok (${str2}) VALUES(${str})`, (err, results) => {
+        if (err) {
+            log(req.socket.remoteAddress, err);
+            res.status(500).send(err);
+        } else {
+            log(req.socket.remoteAddress, `${results.affectedRows} record inserted to felhasznalok table.`);
+            /*----------------------------------------*/
+            records = req.body.newCsaladfa;
+            records.felhasznaloID = results.insertId;
+            str = 'null';
+            str2 = 'ID';
+
+            var fields = Object.keys(records);
+            var values = Object.values(records);
+
+            values.forEach(value => {
+                if (value == null || value == "") {
+                    str += ",NULL"
+                }else {
+                    str += ",'" + value + "'"
+                }
+            })
+
+            fields.forEach(field => {
+                str2 += "," + field
+            })
+            pool.query(`INSERT INTO csaladfak (${str2}) VALUES(${str})`, (err, results) => {
+                if (err) {
+                    log(req.socket.remoteAddress, err);
+                    res.status(500).send(err);
+                } else {
+                    log(req.socket.remoteAddress, `${results.affectedRows} record inserted to csaladfak table.`);
+                    /*----------------------------------------*/
+                    let csaladtagok = req.body.csaladtagok;
+                    let csaladfaID = results.insertId;
+                    for (let i = 0; i < csaladtagok.length; i++) {
+                        let record = csaladtagok[i];
+                        record.csaladfaID = csaladfaID;
+                        let _str = 'null';
+                        let _str2 = 'ID';
+    
+                        var fields = Object.keys(record);
+                        var values = Object.values(record);
+    
+                        values.forEach(value => {
+                            if (value == null || value == "") {
+                                _str += ",NULL"
+                            }else {
+                                _str += ",'" + value + "'"
+                            }
+                        })
+    
+                        fields.forEach(field => {
+                            _str2 += "," + field
+                        })
+                        pool.query(`INSERT INTO csaladtagok (${_str2}) VALUES(${_str})`, (err, result) => {
+                            if (err) {
+                                log(req.socket.remoteAddress, err);
+                                res.status(500).send(err);
+                            } else {
+                                log(req.socket.remoteAddress, `${result.affectedRows} record inserted to csaladtagok table.`);
+                                if (i == csaladtagok.length-1) {
+                                    res.status(200).send(results);
+                                }
+                            }
+                        });
+                    }
+                    /*----------------------------------------*/
+                }
+            });
+            /*----------------------------------------*/   
+        }
+    }); 
+});
+
 // GET ID BY email
 app.get('/forgotpass/:email', tokencheck(), (req, res) => {
     var table = "felhasznalok";

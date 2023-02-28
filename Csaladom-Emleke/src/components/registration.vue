@@ -91,7 +91,7 @@ export default {
       let table = "felhasznalok";
       let value = this.newUser.email;
       let field = "email"
-      let data = {
+      let newUser = {
         Nev: this.newUser.firstName + " " + this.newUser.lastName,
         Jelszo: `${sha256(this.newUser.password)}`,
         email: this.newUser.email,
@@ -114,34 +114,28 @@ export default {
               this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak!", "Hibás bemeneti adatok!");
             }
             else{
-              axios.post(this.baseURL + "/" + table, data)
-                .then((res) => {
-                  table = "csaladfak"
-                  let csaladfa = {
-                    felhasznaloID: res.data.insertId,
-                    alapertelmezett: true,
-                    Nev: this.newUser.firstName + " " + this.newUser.lastName
-                  }
-                  axios.post(this.baseURL + "/" + table, csaladfa)
-                    .then((res)=>{
-                      table = "csaladtagok"
-                      let csaladtag = {
-                        csaladfaID: res.data.insertId,
-                        alapertelmezett: true,
-                        keresztnev: this.newUser.firstName,
-                        vezeteknev: this.newUser.lastName,
-                        szulido: this.newUser.szulido.ev + "-" + this.newUser.szulido.honap + "-" + this.newUser.szulido.nap,
-                        gender: this.newUser.gender,
-                        belsofaID: "aaaa"
-                      }
-                      axios.post(this.baseURL + "/" + table, csaladtag)
-                      .then(()=> {
-                        this.$parent.$refs.msg.SetText("Sikeres Regisztráció!\nMostmár bejelentkezhet.", "Sikeres Rewgisztráció!");
-                        this.newUser = {};
-                        this.$parent.isLoginSet(true);
-                      })
-                    })
-                })
+              let data ={};
+              data.newUser = newUser;
+              data.newCsaladfa = {
+                  alapertelmezett: true,
+                  Nev: this.newUser.firstName + " " + this.newUser.lastName,
+                  publikus: true
+              };
+              data.csaladtagok = [];
+              data.csaladtagok.push({
+                alapertelmezett: true,
+                keresztnev: this.newUser.firstName,
+                vezeteknev: this.newUser.lastName,
+                szulido: this.newUser.szulido.ev + "-" + this.newUser.szulido.honap + "-" + this.newUser.szulido.nap,
+                gender: this.newUser.gender,
+                belsofaID: "aaaa"
+              })
+              axios.post(this.baseURL + "/registration", data)
+              .then(() => {
+                this.$parent.$refs.msg.SetText("Sikeres Regisztráció!\nMostmár bejelentkezhet.", "Sikeres Regisztráció!");
+                this.newUser = {};
+                this.$parent.isLoginSet(true);
+              })
             }
         })
       }
