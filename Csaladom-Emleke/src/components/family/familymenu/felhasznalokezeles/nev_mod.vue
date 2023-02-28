@@ -40,12 +40,13 @@ export default {
       return{
         passwd: "",
         newname:"",
+        felhasznalo:{}
     }
-    felhasznalo:{};
       
     },
     created(){
-        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 6, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+        axios.post()
+        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ this.felhasznalo.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
         .then(res=>{
             this.felhasznalo=res.data[0]
         })
@@ -77,7 +78,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 h1{
     font-size: 200%;
     margin-top: 5%;
