@@ -21,16 +21,24 @@
             <p v-else class="m-3">{{ paragraph.szoveg }}</p>
             <hr>
         </div>
+        <Galery />
+
     </main>
 </template>
 <script>
 import { trigger } from '@vue/reactivity';
 import axios from 'axios';
+import router from '../router';
+import Galery from '../components/galery.vue';
+
 
 export default{
     props:{
         nodeid:String
 
+    },
+    components:{
+        Galery
     },
     data(){
         return{
@@ -74,7 +82,24 @@ export default{
             })
         },
         Vissza(){
-            
+            axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+            .then(res =>{
+                router.push("/csalad/"+res.data[0].csaladfaID)
+            })
+        },
+        UjParagrafus(){
+            //console.log(this.$store.getters);
+            let empty={
+                csaladtagID:this.nodeid,
+                cim:"",
+                szoveg:""
+            }
+            axios.post(this.$store.getters.baseURL+"/eletut", empty, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+            .then(res => {
+                empty.ID=res.data.insertId
+                empty.edit=true
+                this.paragraphs.push(empty)
+            })
         }
         
     }
