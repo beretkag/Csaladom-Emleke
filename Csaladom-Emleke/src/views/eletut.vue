@@ -9,16 +9,15 @@
     <main>
         <div class="m-3" v-for="paragraph, index in paragraphs">
             <div class="row">
-                <input v-if="paragraph.edit" type="text" class="form-control col-10"  placeholder="Cím" v-model="para">
+                <input v-if="paragraph.edit" type="text" class="form-control col-10" placeholder="Cím" v-model="paragraph.cim">
                 <h3 class="col-10" v-else >{{ paragraph.cim }}</h3>
                 <div class="col-2 d-flex flex-row-reverse">    
-                    <button v-if="paragraph.edit" class="m-1 m-lg-2 m-sm-1 btn btn-danger" @click="Megse(paragraph)"><i class="bi bi-x-lg"></i></button>
-                    <button v-else class="m-1 m-lg-2 m-sm-1 btn btn-danger" @click="Torles(paragraph)"><i class="bi bi-trash"></i></button>
+                    <button class="m-1 m-lg-2 m-sm-1 btn btn-danger" @click="Torles(paragraph)"><i class="bi bi-trash"></i></button>
                     <button v-if="paragraph.edit" class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
                     <button v-else class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
                 </div>
             </div>
-            <textarea v-if="paragraph.edit" class="form-control m-3" aria-label="With textarea"></textarea>
+            <textarea v-if="paragraph.edit" class="form-control m-3" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
             <p v-else class="m-3">{{ paragraph.szoveg }}</p>
             <hr>
         </div>
@@ -40,10 +39,10 @@ export default{
         }
     },
     created(){
-        axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+        axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res=>{
             this.node=res.data[0]
-            axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+            axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(res=>{
                 this.paragraphs=res.data;
                 this.paragraphs.forEach(element => {
@@ -55,15 +54,26 @@ export default{
     },
     methods:{
         Torles(paragraph){
-            axios.delete(this.$store.getters.baseURL+"/eletut/ID/"+Id, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+            axios.delete(this.$store.getters.baseURL+"/eletut/ID/"+paragraph.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(res =>{
                 this.paragraphs.splice(this.paragraphs.findIndex(x=>x.ID == paragraph.ID),1)
             })
-            console.log(this.paragraphs)
         },
         Szerekesztes(paragraph){
             paragraph.edit=true;
-        }
+
+        },
+        SzerekesztesVeglegesites(paragraph){
+            let updated={
+                cim:paragraph.cim,
+                szoveg:paragraph.szoveg
+            }
+            axios.patch(this.$store.getters.baseURL+"/eletut/"+paragraph.ID, updated, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+            .then(res =>{
+                paragraph.edit=false;
+            })
+        },
+        
     }
 
 }
