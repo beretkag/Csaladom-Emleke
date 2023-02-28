@@ -8,7 +8,7 @@
         <h2 class="m-0"><i class="bi bi-arrow-left-circle"></i></h2>
       </button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body text-center">
       <div>
         <hr>
         <div class="m-3">
