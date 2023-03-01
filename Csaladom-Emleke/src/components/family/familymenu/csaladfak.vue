@@ -5,16 +5,15 @@
     
     {{ csaladfa.Nev }}
 
-    <label class="switch" v-if="csaladfa.publikus == 0">
-            <input type="checkbox" checked>
+    <label class="switch" v-if="csaladfa.alapertelmezett = 1">
+            <input type="checkbox" v-model="csekk" @change="change()" checked>
+            <span class="slider round"></span>
+         </label>
+         <label class="switch" v-else>
+            <input type="checkbox" v-model="csekk" @change="change()">
             <span class="slider round"></span>
          </label>
     
-        <label class="switch" v-else>
-            <input type="checkbox">
-            <span class="slider round"></span>
-        </label>
-  
   </li>
 </ul>
  
@@ -29,6 +28,7 @@ import axios from 'axios';
     },
     data(){
        return{
+          csekk: false,
           csaladfak: [],
           elerheto:false
        }
@@ -41,6 +41,23 @@ import axios from 'axios';
   .catch(err => {
     console.log(err);
   });
+},
+methods:{
+  change(){
+    let rossz = {
+      publikus: 0
+    }
+    let jo = {
+      publikus: 1
+    }
+    if (this.csekk) {
+      axios.patch(this.$store.getters.baseURL + "/csaladfak/" + 5, jo, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+      alert("okay")
+    }
+    else{
+      axios.patch(this.$store.getters.baseURL + "/csaladfak/" + 5, rossz, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+    }
+  }
 }
 
  }

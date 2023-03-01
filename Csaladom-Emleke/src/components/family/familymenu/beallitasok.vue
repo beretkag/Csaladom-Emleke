@@ -1,13 +1,15 @@
 <template>
   <div class="d-flex flex-column text-center">
     <div>
-        <div class="form-switch mb-3" >
+      <div class="d-flex justify-content-around">
+        <span>
           Sötét mód
-          <label class="switch">
-            <input type="checkbox">
-            <span class="slider round"></span>
-        </label>
-        </div>
+        </span>
+        <label class="switch">
+              <input type="checkbox">
+              <span class="slider round"></span>
+           </label>
+      </div>
     </div>
 
       <div class="mb-3">
@@ -75,9 +77,27 @@ import { ColorPicker } from 'vue-color-kit'
 
 </script>
 
+<style>
+
+.color-alpha{
+    visibility: hidden !important;
+}
+.color-show{
+    visibility: hidden !important;
+}
+
+</style>
+
 <style scoped>
 button{
     margin: 3%;
+}
+button:hover{
+    border: 1px solid #ff7112  !important;
+    background-color: black;
+}
+label{
+    margin-right: 15%;
 }
 .switch {
   position: relative;
@@ -139,13 +159,5 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-.color-alpha{
-    visibility: hidden !important;
-}
-.color-show{
-    visibility: hidden !important;
-}
-.color-type{
-  visibility: hidden !important;
-}
+
 </style>
