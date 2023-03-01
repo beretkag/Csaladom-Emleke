@@ -1,7 +1,7 @@
 <template>
     <FamilyMenu />
     <div id="app">
-        <i class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
+        <i v-if="vendeg" class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
         <FamilyTree ref="tree" />
     </div>
 </template>
@@ -15,39 +15,36 @@ import router from '../router';
 export default{
     props:{
         csaladfaID:String
-
     },
     components:{
         FamilyMenu,
         FamilyTree,
         axios
     },
+    data(){
+        return{
+            vendeg:true
+        }
+    },
     created(){
         axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
         .then(res =>{
-            if (res.data.jogosultsag == 0) {
-                axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-                .then(results=>{
-                    console.log(results.data.publikus)
-                    if (results.data.publikus) {
-                        //nem saját családfa: csak megtekinthető
-                        this.GetMembers(false);
-                    }
-                    else {
-                        router.push('/');
-                    }
-                })
-            }
-            else if (res.data.jogosultsag == 1){
-                axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-                .then(results=>{
-                    if (results.data[0].felhasznaloID == res.data.ID) {
-                        //saját családfa: megtekinthető és szerkeszthető
-                        this.GetMembers(true);
-                    }
-                })
-            }
-            
+            axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+            .then(results=>{
+                if (results.data[0].felhasznaloID == res.data.ID) {
+                    //saját családfa: megtekinthető és szerkeszthető
+                    this.GetMembers(true);
+                }
+                else if (results.data[0].publikus == 1){
+                    //nem saját családfa, publikus: csak megtekinthető
+                    this.GetMembers(false);
+                    this.vendeg=false;
+                }
+                else {
+                    //nem saját családfa, nem publikus: nem megtekinthető
+                    router.push('/');
+                }
+            })
         })
     },
     methods:{

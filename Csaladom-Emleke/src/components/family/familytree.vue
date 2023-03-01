@@ -18,6 +18,9 @@ import router from '../../router';
         methods: {
             mytree: function(domEl, x, sajat) {
                 this.family = new FamilyTree (domEl, {
+                    enableSearch: true,
+                    searchFields: ["teljesnev"],
+                    nodeTreeMenu: (sajat ? true : undefined),
                     nodes: x,
                     nodeBinding: {
                         field_0: "teljesnev",
@@ -25,7 +28,6 @@ import router from '../../router';
                         img_0: "img"
                     },
                     mode: 'light',
-                    nodeTreeMenu: true,
                     editForm: {
                         titleBinding: "name",
                         photoBinding: "photo",
@@ -71,7 +73,7 @@ import router from '../../router';
                 this.mytree(this.$refs.tree, this.$store.getters.Members, sajat);
                 if (sajat){
                     this.family.onUpdateNode((args) => {
-    
+                        
                         //Családtag törlése
                         if (args.removeNodeId != null) {
                             this.DB_Delete(args.removeNodeId);
