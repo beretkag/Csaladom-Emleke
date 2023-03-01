@@ -18,13 +18,12 @@ import router from '../../router';
         methods: {
             mytree: function(domEl, x, sajat) {
                 this.family = new FamilyTree (domEl, {
-                    enableSearch: true,
-                    searchFields: ["teljesnev"],
+                    enableSearch:true,
                     nodeTreeMenu: (sajat ? true : undefined),
                     nodes: x,
                     nodeBinding: {
                         field_0: "teljesnev",
-                        field_1: "szulido",
+                        field_1: "telefonszam",
                         img_0: "img"
                     },
                     mode: 'light',
@@ -70,6 +69,7 @@ import router from '../../router';
                 });
             },
             Rajzol(sajat){
+                this.Magyaritas();
                 this.mytree(this.$refs.tree, this.$store.getters.Members, sajat);
                 if (sajat){
                     this.family.onUpdateNode((args) => {
@@ -169,6 +169,15 @@ import router from '../../router';
                 }
                 return item;
             },
+            Magyaritas(){
+                FamilyTree.SEARCH_PLACEHOLDER = "Keresés...";
+                FamilyTree.templates.father.node=FamilyTree.templates.father.node.replace('Add father', 'Apa hozzáadása');
+                FamilyTree.templates.mother.node=FamilyTree.templates.mother.node.replace('Add mother', 'Anya hozzáadása');
+                FamilyTree.templates.son.node=FamilyTree.templates.son.node.replace('Add son', 'Fiú hozzáadása');
+                FamilyTree.templates.daughter.node = FamilyTree.templates.daughter.node.replace('Add daughter', 'Leány hozzáadása')
+                FamilyTree.templates.wife.node = FamilyTree.templates.wife.node.replace('Add wife', 'Feleség Hozzáadása');
+                FamilyTree.templates.husband.node = FamilyTree.templates.husband.node.replace('Add husband', 'Férj hozzáadása');
+            }
 
         },
     }
