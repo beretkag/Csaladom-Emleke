@@ -45,10 +45,10 @@ import axios from 'axios';
 methods:{
   change(){
     let rossz = {
-      alapertelmezett: 0
+      publikus: 0
     }
     let jo = {
-      alapertelmezett: 1
+      publikus: 1
     }
     if (this.csekk) {
       axios.patch(this.$store.getters.baseURL + "/csaladfak/" + 5, jo, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
