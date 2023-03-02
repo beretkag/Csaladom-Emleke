@@ -28,6 +28,8 @@ import router from '../../router';
                     },
                     mode: 'light',
                     editForm: {
+                        saveAndCloseBtn: "Mentés és bezárás",
+                        cancelBtn: "Mégse",
                         titleBinding: "name",
                         photoBinding: "photo",
                         generateElementsFromFields: false,
@@ -177,6 +179,7 @@ import router from '../../router';
                 FamilyTree.templates.daughter.node = FamilyTree.templates.daughter.node.replace('Add daughter', 'Leány hozzáadása')
                 FamilyTree.templates.wife.node = FamilyTree.templates.wife.node.replace('Add wife', 'Feleség Hozzáadása');
                 FamilyTree.templates.husband.node = FamilyTree.templates.husband.node.replace('Add husband', 'Férj hozzáadása');
+                FamilyTree.templates.partner.node = FamilyTree.templates.partner.node.replace('Add partner', 'Partner hozzáadása');
             }
 
         },

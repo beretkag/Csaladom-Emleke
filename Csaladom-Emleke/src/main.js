@@ -4,7 +4,6 @@ import router from './router'
 import store from './store/store'
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-import "bootstrap"
 import moment from "moment";
 import "../node_modules/bootstrap-icons/font/bootstrap-icons.css"
 import sha256 from "crypto-js/sha256"
