@@ -1,5 +1,8 @@
 <template>
-  <button class="btn btn-primary m-3">Kép feltöltése</button>
+  <button class="btn btn-primary" @click="Upload()">Kép feltöltése</button>
+  <input type="file" multiple class="form-control m-3" @change="SelectImage" accept="image/*">
+
+  <img :src="preview" alt="thumbnail" v-for="preview in previews">
   <!--Carousel-->
   <div class="row">
       <span class="col-3"></span>
@@ -31,5 +34,51 @@
 
 </style>
 <script>
+import axios from 'axios';
 
+
+export default{
+  data(){
+    return{
+      images: [],
+      previews: [], 
+    }
+  },
+  methods:{
+    SelectImage(e){
+      this.images = e.target.files;
+
+
+      this.previews = [];
+      console.log(this.images);
+      for (let i = 0; i < this.images.length; i++) {
+        this.AddPreview(this.images[i])        
+      }
+    },
+    AddPreview(file){
+      const reader = new FileReader();
+      reader.addEventListener(
+        "load",
+        () => {
+          this.previews.push(reader.result);
+        },
+        false
+      );
+  
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    },
+    Upload(){
+      let data = new FormData();
+      data.append('file', this.images);
+      axios.post(this.$store.getters.baseURL + "/fileUpload", data)
+      .then(res=>{
+        console.log(res);
+        this.images = [],
+        this.previews = []
+      })
+    }
+  }
+}
 </script>

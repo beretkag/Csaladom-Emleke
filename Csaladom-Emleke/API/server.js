@@ -24,7 +24,7 @@ var storage = multer.diskStorage({
     }
 });
 
-var upload = multer({ storage: storage });
+var upload = multer({ storage: storage,  limits: {fileSize: 5242420}});
 
 const port = process.env.PORT;
 const token = process.env.TOKEN;
@@ -40,9 +40,9 @@ var pool = mysql.createPool({
 
 
 // file upload
-app.post('/fileUpload', upload.single('file'), (req, res) => {
-    log(req.socket.remoteAddress, `1 File uploaded to /Public/uploads (${req.file.filename}`);
-    res.status(200).json(req.file);
+app.post('/fileUpload', upload.array('file'), (req, res) => {
+    log(req.socket.remoteAddress, `${req.files.length} file(s) uploaded to /Public/uploads`);
+    res.status(200).json(req.files);
 });
 
 // file Delete
