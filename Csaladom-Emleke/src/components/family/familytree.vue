@@ -19,6 +19,7 @@ import router from '../../router';
             mytree: function(domEl, x, sajat) {
                 this.family = new FamilyTree (domEl, {
                     enableSearch:true,
+                    searchFields: ["teljesnev", "szulido", "halido", "telefonszam"],
                     nodeTreeMenu: (sajat ? true : undefined),
                     nodes: x,
                     nodeBinding: {
@@ -172,6 +173,7 @@ import router from '../../router';
                 return item;
             },
             Magyaritas(){
+                FamilyTree.SEARCH_HELP_SYMBOL = null;
                 FamilyTree.SEARCH_PLACEHOLDER = "Keresés...";
                 FamilyTree.templates.father.node=FamilyTree.templates.father.node.replace('Add father', 'Apa hozzáadása');
                 FamilyTree.templates.mother.node=FamilyTree.templates.mother.node.replace('Add mother', 'Anya hozzáadása');
