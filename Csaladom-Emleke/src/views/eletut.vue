@@ -27,7 +27,7 @@
             </div>
             <hr>
         </div>
-        <Galery />
+        <Galery :nodeId="nodeid" />
 
     </main>
 </template>

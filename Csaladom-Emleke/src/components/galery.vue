@@ -3,34 +3,35 @@
   <input type="file" multiple class="form-control m-3" @change="SelectImage" accept="image/*">
 
   <img :src="preview" alt="thumbnail" v-for="preview in previews">
-  <!--Carousel-->
-  <div class="row">
-      <span class="col-3"></span>
-      <div id="carouselExampleIndicators" class="carousel slide col-6">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+  <!-- Gallery -->
+  <div class="container">
+         <div class="row">
+            <div class="col-lg-12 text-center my-2">
+                <h4>Isotope filter magical layouts with Bootstrap 4</h4>
+            </div>
+         </div>
+         <div class="portfolio-menu mt-2 mb-4">
+            <ul>
+               <li class="btn btn-outline-dark active" data-filter="*">All</li>
+               <li class="btn btn-outline-dark" data-filter=".gts">Girls T-shirt</li>
+               <li class="btn btn-outline-dark" data-filter=".lap">Laptops</li>
+               <li class="btn btn-outline-dark text" data-filter=".selfie">selfie</li>
+            </ul>
+         </div>
+         <div class="portfolio-item row">
+            <div v-for="picture in pictures" class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+               <a :src="'../../public/uploads/' +picture.Nev " class="fancylight popup-btn" data-fancybox-group="light"> 
+               <img class="img-fluid" :src="'../../public/uploads/' +picture.Nev " alt="">
+               </a>
+            </div>
+         </div>
       </div>
-      <div class="carousel-inner">
-        <div class="carousel-item" :class="{'active':index==0 }">
-          <img src="../assets/picafish.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-          <img src="../assets/crazyfish.jpg" class="d-block w-100" alt="...">
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </div>
+<!-- Gallery -->
 </template>
 <style>
+
+/*https://bootsnipp.com/snippets/1dPDV */
+
 
 </style>
 <script>
@@ -38,11 +39,23 @@ import axios from 'axios';
 
 
 export default{
+  props:{
+        nodeId:String
+
+    },
   data(){
     return{
       images: [],
       previews: [], 
+      pictures:[]
     }
+  },
+  created(){
+    axios.get(this.$store.getters.baseURL+"/kepek/csaladtagID/"+this.nodeId, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+        .then(res=>{
+            this.pictures=res.data
+            console.log(this.pictures);
+        })
   },
   methods:{
     SelectImage(e){
