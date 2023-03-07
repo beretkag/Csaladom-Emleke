@@ -1,6 +1,6 @@
 <template>
   <button class="btn btn-primary" @click="Upload()">Kép feltöltése</button>
-  <input type="file" multiple class="form-control m-3" @change="SelectImage" accept="image/*">
+  <input type="file" multiple class="form-control m-3" @change="SelectImages" accept="image/*">
 
   <img :src="preview" alt="thumbnail" v-for="preview in previews">
   <!-- Gallery -->
@@ -20,8 +20,8 @@
          </div>
          <div class="portfolio-item row">
             <div v-for="picture in pictures" class="item selfie col-lg-3 col-md-4 col-6 col-sm">
-               <a :src="'../../public/uploads/' +picture.Nev " class="fancylight popup-btn" data-fancybox-group="light"> 
-               <img class="img-fluid" :src="'../../public/uploads/' +picture.Nev " alt="">
+               <a :src="'../../API/Uploads/' +picture.Nev " class="fancylight popup-btn" data-fancybox-group="light"> 
+               <img class="img-fluid" :src="'../../API/Uploads/' +picture.Nev " alt="">
                </a>
             </div>
          </div>
@@ -47,7 +47,7 @@ export default{
     return{
       images: [],
       previews: [], 
-      pictures:[]
+      pictures:[],
     }
   },
   created(){
@@ -57,15 +57,16 @@ export default{
         })
   },
   methods:{
-    SelectImage(e){
-      this.images = e.target.files;
-
-
+    SelectImages(e){
       this.previews = [];
-      for (let i = 0; i < this.images.length; i++) {
-        this.AddPreview(this.images[i])        
+      for (let i = 0; i < e.target.files.length; i++) {
+        if (e.target.files[i].type.includes("image")) {
+          this.images.push(e.target.files[i])
+          this.AddPreview(e.target.files[i])        
+        }
       }
     },
+
     AddPreview(file){
       const reader = new FileReader();
       reader.addEventListener(
@@ -82,8 +83,9 @@ export default{
     },
     Upload(){
       let data = new FormData();
-      data.append('files', this.images);
-      console.log(this.images);
+      for (let i = 0; i < this.images.length; i++) {
+        data.append('files', this.images[i]); 
+      }
       axios.post(this.$store.getters.baseURL + "/fileUpload", data, {
         headers: {
           "authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke')),
@@ -93,6 +95,17 @@ export default{
       .then(res=>{
         this.images = [],
         this.previews = []
+        for (let i = 0; i < res.data.length; i++) {
+          let data = {
+            csaladtagID: this.nodeId,
+            Nev: res.data[i].filename
+          }
+          axios.post(this.$store.getters.baseURL+"/kepek", data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+          .then(res=>{
+            data.ID = res.data.insertId;
+            this.pictures.push(data);
+          })
+        }
       })
     }
   }

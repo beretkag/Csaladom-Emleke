@@ -17,7 +17,7 @@ app.use(express.json());
 
 // Image file Upload settings
 var storage = multer.diskStorage({
-    destination: path.join(__dirname + '/Public/uploads'),
+    destination: path.join(__dirname + '/Uploads'),
     filename: function(req, file, cb) {
         let file_name = file.originalname.replace(path.extname(file.originalname), "") + '-' + Date.now() + path.extname(file.originalname);
         cb(null, file_name);
@@ -40,7 +40,7 @@ var pool = mysql.createPool({
 
 
 // file upload
-app.post('/fileUpload', upload.array('files', 10), (req, res) => {
+app.post('/fileUpload', upload.array("files"), (req, res) => {
     log(req.socket.remoteAddress, `${req.files.length} file(s) uploaded to /Public/uploads`);
     res.status(200).json(req.files);
 });
@@ -55,7 +55,7 @@ app.delete('/fileDelete/:table/:id', tokencheck(), (req, res) => {
             res.status(500).send(err);
         } else {
             if (results[0].filename != '') {
-                fs.rm('../Public/uploads/' + results[0].filename, (err) => {
+                fs.rm('./Uploads/' + results[0].filename, (err) => {
                     if (err) {
                         log(req.socket.remoteAddress, err);
                         res.status(500).send(err);
