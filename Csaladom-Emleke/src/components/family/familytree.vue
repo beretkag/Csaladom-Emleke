@@ -95,14 +95,28 @@ import router from '../../router';
                     });
                 }
 
-                //Életút Részleg
                 let ez = this;
+                this.family.editUI.on('button-click', function (sender, args) {
+                    if (args.name == 'remove') {
+                        ez.ForceDelete(ez.$store.getters.Members.find(x=> x.id == args.nodeId));
+                    }
+                });
+                //Életút Részleg
                 this.family.editUI.on('button-click', function (sender, args) {
                 if (args.name == 'liferoad') {
                     let idx= ez.$store.getters.Members.find(x=> x.id == args.nodeId).ID;
                     router.push(`/eletut/${idx}`)
                 }
                 });
+            },
+            ForceDelete(node){
+                if (node.mid == null && node.fid == null && (node.pids == null || node.pids.length == 0)) {
+                    this.DB_Delete(node.id);
+                    let members = this.$store.getters.Members;
+                    members.remove(node);
+                    //STORE MÓDOSÍTÁSA
+                    
+                }
             },
             DB_Delete(memberID){
                 let deletedID = this.$store.getters.Members.find(x => x.id == memberID).ID
