@@ -54,7 +54,6 @@ export default{
     axios.get(this.$store.getters.baseURL+"/kepek/csaladtagID/"+this.nodeId, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res=>{
             this.pictures=res.data
-            console.log(this.pictures);
         })
   },
   methods:{
@@ -63,7 +62,6 @@ export default{
 
 
       this.previews = [];
-      console.log(this.images);
       for (let i = 0; i < this.images.length; i++) {
         this.AddPreview(this.images[i])        
       }
@@ -84,10 +82,15 @@ export default{
     },
     Upload(){
       let data = new FormData();
-      data.append('file', this.images);
-      axios.post(this.$store.getters.baseURL + "/fileUpload", data)
+      data.append('files', this.images);
+      console.log(this.images);
+      axios.post(this.$store.getters.baseURL + "/fileUpload", data, {
+        headers: {
+          "authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke')),
+          'Content-Type': 'multipart/form-data'
+        }
+      })
       .then(res=>{
-        console.log(res);
         this.images = [],
         this.previews = []
       })
