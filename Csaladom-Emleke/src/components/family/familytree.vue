@@ -110,13 +110,31 @@ import router from '../../router';
                 });
             },
             ForceDelete(node){
-                if (node.mid == null && node.fid == null && (node.pids == null || node.pids.length == 0)) {
+                let children = this.GetChildren(node.id);
+                if (node.mid == null && node.fid == null && (node.pids == null || node.pids.length == 0) && children.length == 1) {
+                    //deleted node
                     this.DB_Delete(node.id);
-                    let members = this.$store.getters.Members;
-                    members.remove(node);
-                    //STORE MÓDOSÍTÁSA
-                    
+                    this.$store.commit('DeleteNode', node.ID);
+                    //updated node (child)
+                    let child = children[0];
+                    if (child.fid == node.id) {
+                        child.fid = null
+                    } else {
+                        child.mid = null
+                    }
+                    this.DB_Update(child);
+                    this.$store.commit('UpdateNode', child);
+                    this.Rajzol(true);
                 }
+            },
+            GetChildren(id){
+                let children = []
+                this.$store.getters.Members.forEach(child => {
+                    if (child.mid == id ||child.fid == id) {
+                        children.push(child)
+                    }
+                });
+                return children;
             },
             DB_Delete(memberID){
                 let deletedID = this.$store.getters.Members.find(x => x.id == memberID).ID

@@ -45,6 +45,13 @@ import moment from "moment";
             },
             SetToken: (state, token) => {
                 state.token = token
+            },
+            DeleteNode: (state, nodeId) => {
+                state.members.splice(state.members.findIndex(x => x.ID == nodeId), 1)
+            },
+            UpdateNode: (state, node) => {
+                state.members[state.members.findIndex(x => x.ID == node.ID)] = node
+                console.log(state.members[state.members.findIndex(x => x.ID == node.ID)]);
             }
         }
     })
