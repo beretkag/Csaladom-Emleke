@@ -14,6 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/img', express.static(path.join(__dirname + '/Uploads')))
 
 // Image file Upload settings
 var storage = multer.diskStorage({
@@ -40,7 +41,7 @@ var pool = mysql.createPool({
 
 
 // file upload
-app.post('/fileUpload', upload.array("files"), (req, res) => {
+app.post('/fileUpload', tokencheck(), upload.array("files"), (req, res) => {
     log(req.socket.remoteAddress, `${req.files.length} file(s) uploaded to /Public/uploads`);
     res.status(200).json(req.files);
 });
@@ -49,20 +50,25 @@ app.post('/fileUpload', upload.array("files"), (req, res) => {
 app.delete('/fileDelete/:table/:id', tokencheck(), (req, res) => {
     let table = req.params.table;
     let id = req.params.id;
-    pool.query(`SELECT filename FROM ${table} WHERE ID=${id}`, (err, results) => {
+    pool.query(`SELECT Nev FROM ${table} WHERE ID=${id}`, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
             res.status(500).send(err);
         } else {
-            if (results[0].filename != '') {
-                fs.rm('./Uploads/' + results[0].filename, (err) => {
+            if (results[0].Nev != '') {
+                fs.rm(path.join(__dirname + '/Uploads/' + results[0].Nev), (err) => {
                     if (err) {
                         log(req.socket.remoteAddress, err);
                         res.status(500).send(err);
                     }
+                    else{
+                        res.status(200).send(results[0].Nev)
+                    }
                 });
             }
-            res.status(200).json(results[0].filename);
+            else{
+                res.status(200).json(results[0].Nev);
+            }
         }
     });
 });

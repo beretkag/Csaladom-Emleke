@@ -20,9 +20,10 @@
          </div>
          <div class="portfolio-item row">
             <div v-for="picture in pictures" class="item selfie col-lg-3 col-md-4 col-6 col-sm">
-               <a :src="'../../API/Uploads/' +picture.Nev " class="fancylight popup-btn" data-fancybox-group="light"> 
-               <img class="img-fluid" :src="'../../API/Uploads/' +picture.Nev " alt="">
-               </a>
+                <button class="btn btn-danger" @click="Remove(picture)">Törlés</button>
+                <a :src="'../../API/Uploads/' +picture.Nev " class="fancylight popup-btn" data-fancybox-group="light"> 
+                <img class="img-fluid" :src="$store.getters.baseURL + '/img/' + picture.Nev" alt="">
+                </a>
             </div>
          </div>
       </div>
@@ -53,7 +54,7 @@ export default{
   created(){
     axios.get(this.$store.getters.baseURL+"/kepek/csaladtagID/"+this.nodeId, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res=>{
-            this.pictures=res.data
+          this.pictures=res.data
         })
   },
   methods:{
@@ -106,6 +107,15 @@ export default{
             this.pictures.push(data);
           })
         }
+      })
+    },
+    Remove(picture){
+      axios.delete(this.$store.getters.baseURL + "/fileDelete/kepek/" + picture.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+      .then(res =>{
+        axios.delete(this.$store.getters.baseURL + "/kepek/ID/" + picture.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+        .then(res=>{
+          this.pictures.splice(this.pictures.findIndex(x => x.ID == picture.ID), 1);
+        })
       })
     }
   }
