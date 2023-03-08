@@ -105,39 +105,44 @@ export default {
           this.newUser.password == null){
             this.$parent.$refs.msg.SetText("Nem töltött ki minden kötelező mezőt!", "Hibás bemeneti adatok!");
       }else{
-        if (!this.newUser.password.match((/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/))) {
-          this.$parent.$refs.msg.SetText("A jelszó nem felel meg a követelményeknek!", "Hibás bemeneti adatok!");
-        } else {
-        axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
-          .then((res)=>{
-            if (res.data.length > 0) {
-              this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak!", "Hibás bemeneti adatok!");
-            }
-            else{
-              let data ={};
-              data.newUser = newUser;
-              data.newCsaladfa = {
+        if (!this.newUser.password.match(/(?:[a-z0-9+!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gi)) {
+          this.$parent.$refs.msg.SetText("Helytelen e-mail cím formátum!", "Hibás bemeneti adatok!");
+        }
+        else{
+          if (!this.newUser.password.match((/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/))) {
+            this.$parent.$refs.msg.SetText("A jelszó nem felel meg a követelményeknek!", "Hibás bemeneti adatok!");
+          } else {
+          axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
+            .then((res)=>{
+              if (res.data.length > 0) {
+                this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak!", "Hibás bemeneti adatok!");
+              }
+              else{
+                let data ={};
+                data.newUser = newUser;
+                data.newCsaladfa = {
+                    alapertelmezett: true,
+                    Nev: this.newUser.firstName + " " + this.newUser.lastName,
+                    publikus: true
+                };
+                data.csaladtagok = [];
+                data.csaladtagok.push({
                   alapertelmezett: true,
-                  Nev: this.newUser.firstName + " " + this.newUser.lastName,
-                  publikus: true
-              };
-              data.csaladtagok = [];
-              data.csaladtagok.push({
-                alapertelmezett: true,
-                keresztnev: this.newUser.firstName,
-                vezeteknev: this.newUser.lastName,
-                szulido: this.newUser.szulido.ev + "-" + this.newUser.szulido.honap + "-" + this.newUser.szulido.nap,
-                gender: this.newUser.gender,
-                belsofaID: "aaaa"
-              })
-              axios.post(this.baseURL + "/registration", data)
-              .then(() => {
-                this.$parent.$refs.msg.SetText("Sikeres Regisztráció!\nMostmár bejelentkezhet.", "Sikeres Regisztráció!");
-                this.newUser = {};
-                this.$parent.isLoginSet(true);
-              })
-            }
-        })
+                  keresztnev: this.newUser.firstName,
+                  vezeteknev: this.newUser.lastName,
+                  szulido: this.newUser.szulido.ev + "-" + this.newUser.szulido.honap + "-" + this.newUser.szulido.nap,
+                  gender: this.newUser.gender,
+                  belsofaID: "aaaa"
+                })
+                axios.post(this.baseURL + "/registration", data)
+                .then(() => {
+                  this.$parent.$refs.msg.SetText("Sikeres Regisztráció!\nMostmár bejelentkezhet.", "Sikeres Regisztráció!");
+                  this.newUser = {};
+                  this.$parent.isLoginSet(true);
+                })
+              }
+          })
+        }
       }
     }
   }
