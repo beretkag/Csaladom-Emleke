@@ -6,8 +6,9 @@
         <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column"><button class="btn btn-dark m-3" @click="UjParagrafus()">Új paragrafus írása</button></div>
     </header>
     <hr>
-    <main>
-        <div class="m-3" v-for="paragraph, index in paragraphs">
+    <main class="w-75">
+        <p>
+            <div class="m-3" v-for="paragraph, index in paragraphs">
             <div class="row">
                 <div class="col-6 col-md-5 col-lg-4">
                     <input v-if="paragraph.edit" type="text" class="form-control" placeholder="Cím" v-model="paragraph.cim">
@@ -29,6 +30,7 @@
         </div>
         <Galery :nodeId="nodeid" />
 
+    </p>
     </main>
 </template>
 <script>
@@ -140,6 +142,10 @@ export default{
 }
 p{
     text-align: justify;
+}
+main{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
