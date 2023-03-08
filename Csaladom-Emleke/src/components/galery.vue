@@ -1,43 +1,24 @@
 <template>
-  <button class="btn btn-primary" @click="Upload()">Kép feltöltése</button>
-  <input type="file" multiple class="form-control m-3" @change="SelectImages" accept="image/*">
+  <input type="file" multiple class="form-control" @change="SelectImages" accept="image/*">
+  <div class="text-center">
+    <img :src="preview"  class="m-2 previews " alt="thumbnail" v-for="preview in previews">
+  </div>
+  <div v-if="previews.length!=0" class="text-center">
+    <button  class="btn btn-primary ms-auto" @click="Upload()">Kép feltöltése</button>
+  </div>
 
-  <img :src="preview" alt="thumbnail" v-for="preview in previews">
-  <!-- Gallery -->
-  <div class="container">
-         <div class="row">
-            <div class="col-lg-12 text-center my-2">
-                <h4>Isotope filter magical layouts with Bootstrap 4</h4>
-            </div>
-         </div>
-         <div class="portfolio-menu mt-2 mb-4">
-            <ul>
-               <li class="btn btn-outline-dark active" data-filter="*">All</li>
-               <li class="btn btn-outline-dark" data-filter=".gts">Girls T-shirt</li>
-               <li class="btn btn-outline-dark" data-filter=".lap">Laptops</li>
-               <li class="btn btn-outline-dark text" data-filter=".selfie">selfie</li>
-            </ul>
-         </div>
-         <div class="portfolio-item row">
-            <div v-for="picture in pictures" class="item selfie col-lg-3 col-md-4 col-6 col-sm">
-                <button class="btn btn-danger" @click="Remove(picture)">Törlés</button>
-                <a :src="'../../API/Uploads/' +picture.Nev " class="fancylight popup-btn" data-fancybox-group="light"> 
-                <img class="img-fluid" :src="$store.getters.baseURL + '/img/' + picture.Nev" alt="">
-                </a>
-            </div>
-         </div>
-      </div>
+
 <!-- Gallery -->
-<div id="carouselExampleCaptions" class="carousel slide">
+<div id="carouselExampleCaptions" class="carousel slide m-auto">
   <div class="carousel-indicators">
     <button v-for="picture, index in pictures" type="button" data-bs-target="#carouselExampleCaptions" :aria-current="{'true' : index==0}" :data-bs-slide-to="index" :class="{'active' : index==0}"></button>
   </div>
   <div class="carousel-inner">
     <div v-for="picture, index in pictures" class="carousel-item" :class="{'active' : index==0}">
-      <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="d-block w-100" alt="kép">
+      <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="d-block m-auto pictures  " alt="kép">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
-        <p>Some representative placeholder content for the second slide.</p>
+        <button class="btn btn-danger deleteBtn m-3" @click="Remove(picture)"><i class="bi bi-trash"></i></button>
+        <button class="btn btn-success deleteBtn m-3" @click="Download(picture)"><i class="bi bi-download"></i></button>
       </div>
     </div>
   </div>
@@ -53,8 +34,21 @@
 
 </template>
 <style>
-
-/*https://bootsnipp.com/snippets/1dPDV */
+.carousel-control-prev:hover, .carousel-control-next:hover{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.pictures{
+  object-fit: scale-down;
+  height: 60vh;
+}
+.previews{
+  height: 8vh;
+  
+}
+input{
+  width: 150px !important;
+  margin:0 auto 10px auto ;
+}
 
 
 </style>
@@ -104,6 +98,13 @@ export default{
       if (file) {
         reader.readAsDataURL(file);
       }
+    },
+    Download(picture){
+      var url = '../API/Uploads/' + picture.Nev
+      var tmp = document.createElement('A');
+      tmp.href = url;
+      tmp.download = picture.Nev;
+      tmp.click();
     },
     Upload(){
       let data = new FormData();
