@@ -1,6 +1,6 @@
 <template>
     <button class="btn btn-primary visszagomb rounded-circle btn-dark" @click="Vissza()"><i class="bi bi-arrow-left"></i></button>
-    <header class="row">
+    <header class="row p-3">
         <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" src="../assets/Profilkepteszt.png" alt="felhasznalo profilkep">
         <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
         <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column"><button class="btn btn-dark m-3" @click="UjParagrafus()">Új paragrafus írása</button></div>
@@ -146,6 +146,10 @@ p{
 main{
     margin-left: auto;
     margin-right: auto;
+}
+.row{
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 
