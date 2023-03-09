@@ -22,9 +22,6 @@ import moment from "moment";
             baseURL: state => {
                 return state.baseURL;
             },
-            Token: state => {
-                return state.token;
-            }
         },
         mutations:{
             SetMembers: (state, payload) => {

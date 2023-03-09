@@ -1,4 +1,7 @@
 <template>
+  <h1>
+    Galéria
+  </h1>
   <input type="file" multiple class="form-control" @change="SelectImages" accept="image/*">
   <div class="text-center">
     <img :src="preview"  class="m-2 previews " alt="thumbnail" v-for="preview in previews">
@@ -14,11 +17,14 @@
     <button v-for="picture, index in pictures" type="button" data-bs-target="#carouselExampleCaptions" :aria-current="{'true' : index==0}" :data-bs-slide-to="index" :class="{'active' : index==0}"></button>
   </div>
   <div class="carousel-inner">
-    <div v-for="picture, index in pictures" class="carousel-item" :class="{'active' : index==0}">
-      <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="d-block m-auto pictures  " alt="kép">
+    <div v-for="picture, index in pictures" class="carousel-item h-60vh" :class="{'active' : index==0}">
+      <a :href="$store.getters.baseURL + '/img/' + picture.Nev" class="h-60vh d-flex align-items-center" target="_blank">
+        <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="d-block m-auto pictures" alt="kép">
+      </a>
       <div class="carousel-caption d-none d-md-block">
-        <button class="btn btn-danger deleteBtn m-3" @click="Remove(picture)"><i class="bi bi-trash"></i></button>
-        <button class="btn btn-success deleteBtn m-3" @click="Download(picture)"><i class="bi bi-download"></i></button>
+        <button class="btn btn-danger m-3" @click="Remove(picture)"><i class="bi bi-trash"></i></button>
+        <button class="btn btn-success m-3" @click="Download(picture)"><i class="bi bi-download"></i></button>
+        <button class="btn btn-secondary m-3" @click="SetProfile(picture)"><i class="bi bi-person-bounding-box"></i></button>
       </div>
     </div>
   </div>
@@ -34,13 +40,22 @@
 
 </template>
 <style>
-.carousel-control-prev:hover, .carousel-control-next:hover{
-  background-color: rgba(0, 0, 0, 0.5);
+h1{
+  text-align: center;
+  font-family: "Brush Script MT", cursive;
+  font-size: 500%;
+  margin-bottom: 3vw;
+}
+.carousel-control-prev, .carousel-control-next{
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .pictures{
   object-fit: scale-down;
-  height: 60vh;
 }
+.h-60vh{
+  height: 40vw;
+}
+
 .previews{
   height: 8vh;
   
@@ -141,7 +156,12 @@ export default{
           this.pictures.splice(this.pictures.findIndex(x => x.ID == picture.ID), 1);
         })
       })
-    }
+    },
+    SetProfile(picture){
+      let node = this.$store.getters.Members[0]
+      node.profilkep = picture.Nev
+      this.$store.commit('UpdateNode', node);
+    },
   }
 }
 </script>

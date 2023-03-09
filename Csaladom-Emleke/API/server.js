@@ -25,7 +25,7 @@ var storage = multer.diskStorage({
     }
 });
 
-var upload = multer({ storage: storage,  limits: {fileSize: 5242420}});
+var upload = multer({ storage: storage,  limits: {fileSize: 10485760}});
 
 const port = process.env.PORT;
 const token = process.env.TOKEN;
