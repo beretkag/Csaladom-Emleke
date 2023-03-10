@@ -19,12 +19,15 @@
   <div class="carousel-inner">
     <div v-for="picture, index in pictures" class="carousel-item h-60vh" :class="{'active' : index==0}">
       <a :href="$store.getters.baseURL + '/img/' + picture.Nev" class="h-60vh d-flex align-items-center" target="_blank">
-        <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="d-block m-auto pictures" alt="kép">
+        <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="m-auto pictures" alt="kép">
       </a>
-      <div class="carousel-caption d-none d-md-block">
-        <button class="btn btn-danger m-3" @click="Remove(picture)"><i class="bi bi-trash"></i></button>
-        <button class="btn btn-success m-3" @click="Download(picture)"><i class="bi bi-download"></i></button>
-        <button class="btn btn-secondary m-3" @click="SetProfile(picture)"><i class="bi bi-person-bounding-box"></i></button>
+      <div class="carousel-caption p-0 d-flex align-items-end justify-content-center">
+        <button class="btn btn-sm btn-danger m-2 position-relative bottom-0" @click="Remove(picture)"><i class="bi bi-trash"></i></button>
+        <button class="btn btn-sm btn-success m-2 position-relative bottom-0" @click="Download(picture)"><i class="bi bi-download"></i></button>
+        <button class="btn btn-sm btn-secondary m-2 position-relative bottom-0" @click="SetProfile(picture)">
+          <i class="bi bi-x-lg" v-if="picture.Nev == this.$store.getters.Members[0].profilkep"></i>
+          <i class="bi bi-person-bounding-box" v-else></i>
+        </button>
       </div>
     </div>
   </div>
@@ -40,6 +43,7 @@
 
 </template>
 <style scoped>
+
 h1{
   text-align: center;
   font-family: "Brush Script MT", cursive;
@@ -49,13 +53,15 @@ h1{
 .carousel-control-prev, .carousel-control-next{
   background-color: rgba(0, 0, 0, 0.2);
 }
-.pictures{
-  object-fit: scale-down;
-}
 .h-60vh{
   height: 40vw;
 }
 
+.pictures{
+  /* object-fit: scale-down; */
+  width: unset !important;
+  height: 40vw;
+}
 .previews{
   height: 8vh;
   
@@ -154,13 +160,25 @@ export default{
         axios.delete(this.$store.getters.baseURL + "/kepek/ID/" + picture.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res=>{
           this.pictures.splice(this.pictures.findIndex(x => x.ID == picture.ID), 1);
+          let node = this.$store.getters.Members[0]
+          node.profilkep = "";
+          this.$store.commit('UpdateNode', node); 
         })
       })
     },
     SetProfile(picture){
-      let node = this.$store.getters.Members[0]
-      node.profilkep = picture.Nev
-      this.$store.commit('UpdateNode', node);
+      let data={};
+      if (this.$store.getters.Members[0].profilkep == null || this.$store.getters.Members[0].profilkep == "") {
+        data.profilkep= picture.Nev
+      } else {
+        data.profilkep = "";
+      }
+      axios.patch(this.$store.getters.baseURL + "/csaladtagok/" + this.nodeId, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+      .then(res => {
+        let node = this.$store.getters.Members[0]
+        node.profilkep = data.profilkep;
+        this.$store.commit('UpdateNode', node);
+      })
     },
   }
 }

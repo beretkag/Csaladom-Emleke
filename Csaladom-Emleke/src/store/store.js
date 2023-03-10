@@ -48,7 +48,6 @@ import moment from "moment";
             },
             UpdateNode: (state, node) => {
                 state.members[state.members.findIndex(x => x.ID == node.ID)] = node
-                console.log(state.members[state.members.findIndex(x => x.ID == node.ID)]);
             }
         }
     })
