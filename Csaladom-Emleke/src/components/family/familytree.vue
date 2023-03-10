@@ -138,7 +138,16 @@ import router from '../../router';
             },
             DB_Delete(memberID){
                 let deletedID = this.$store.getters.Members.find(x => x.id == memberID).ID
-                axios.delete(this.$store.getters.baseURL + "/csaladtagok/ID/" + deletedID, {headers: {"authorization": "JWT "+this.$store.getters.Token}});
+                axios.delete(this.$store.getters.baseURL + "/kepek/csaladtagID/" + deletedID)
+                .then(res=>{
+                    axios.delete(this.$store.getters.baseURL + "/eletut/csaladtagID/" + deletedID)
+                    .then(res=>{
+                        axios.delete(this.$store.getters.baseURL + "/csaladtagok/ID/" + deletedID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+                        .then(res=>{
+
+                        })
+                    })
+                })
             },
             DB_Insert(member){
                 let partnerek = "";

@@ -162,7 +162,9 @@ export default{
       .then(res =>{
         axios.delete(this.$store.getters.baseURL + "/kepek/ID/" + picture.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res=>{
+          //console.log(this.pictures.findIndex(x => x.ID == picture.ID));
           this.pictures.splice(this.pictures.findIndex(x => x.ID == picture.ID), 1);
+          console.log(this.pictures);
           if (this.$store.getters.baseURL + '/img/' + picture.Nev == this.$store.getters.Members[0].profilkep) {
             let data ={
               profilkep: ""
