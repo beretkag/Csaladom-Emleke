@@ -267,11 +267,6 @@ app.get('/:table/:field/:value', tokencheck(), (req, res) => {
     });
 });
 
-
-
-
-
-
 // GET RECORDS WITH LIKE
 app.get('/like/:table/:field/:value', tokencheck(), (req, res) => {
     var table = req.params.table;
