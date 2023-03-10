@@ -138,15 +138,19 @@ import router from '../../router';
             },
             DB_Delete(memberID){
                 let deletedID = this.$store.getters.Members.find(x => x.id == memberID).ID
-                axios.delete(this.$store.getters.baseURL + "/kepek/csaladtagID/" + deletedID)
+                axios.delete(this.$store.getters.baseURL + "/fileDelete/kepek/csaladtagID/" + deletedID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                 .then(res=>{
-                    axios.delete(this.$store.getters.baseURL + "/eletut/csaladtagID/" + deletedID)
+                    axios.delete(this.$store.getters.baseURL + "/kepek/csaladtagID/" + deletedID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                     .then(res=>{
-                        axios.delete(this.$store.getters.baseURL + "/csaladtagok/ID/" + deletedID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+                        axios.delete(this.$store.getters.baseURL + "/eletut/csaladtagID/" + deletedID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                         .then(res=>{
+                            axios.delete(this.$store.getters.baseURL + "/csaladtagok/ID/" + deletedID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                            .then(res=>{
 
+                            })
                         })
                     })
+
                 })
             },
             DB_Insert(member){
@@ -162,7 +166,7 @@ import router from '../../router';
                     mid: member.mid,
                     fid: member.fid
                 }
-                axios.post(this.$store.getters.baseURL + "/csaladtagok", inserted, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+                axios.post(this.$store.getters.baseURL + "/csaladtagok", inserted, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                 .then(res => {
                     member.ID = res.data.insertId;
                     this.Nev_Gender_Nem_Beallitas(member);
@@ -185,7 +189,7 @@ import router from '../../router';
                     fid: member.fid,
                     partnerek: partnerek
                 }
-                axios.patch(this.$store.getters.baseURL + "/csaladtagok/" + member.ID, updated, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+                axios.patch(this.$store.getters.baseURL + "/csaladtagok/" + member.ID, updated, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
 
             },
             Nev_Gender_Nem_Beallitas(item){

@@ -22,8 +22,13 @@
         <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="m-auto pictures" alt="kép">
       </a>
       <div class="carousel-caption p-0 d-flex align-items-end justify-content-center">
-        <button class="btn btn-sm btn-danger m-2 position-relative bottom-0" @click="Remove(picture)"><i class="bi bi-trash"></i></button>
-        <button class="btn btn-sm btn-success m-2 position-relative bottom-0" @click="Download(picture)"><i class="bi bi-download"></i></button>
+        <button class="btn btn-sm btn-danger m-2 position-relative bottom-0" data-bs-target="#carouselExampleCaptions" :data-bs-slide="index+1 == pictures.length ? 'next' : null" @click="Remove(picture)"
+          v-if="$store.getters.baseURL + '/img/' + picture.Nev != this.$store.getters.Members[0].profilkep">
+          <i class="bi bi-trash"></i>
+        </button>
+        <button class="btn btn-sm btn-success m-2 position-relative bottom-0" @click="Download(picture)">
+          <i class="bi bi-download"></i>
+        </button>
         <button class="btn btn-sm btn-secondary m-2 position-relative bottom-0" @click="SetProfile(picture)">
           <i class="bi bi-x-lg" v-if="$store.getters.baseURL + '/img/' + picture.Nev == this.$store.getters.Members[0].profilkep"></i>
           <i class="bi bi-person-bounding-box" v-else></i>
@@ -158,13 +163,11 @@ export default{
       })
     },
     Remove(picture){
-      axios.delete(this.$store.getters.baseURL + "/fileDelete/kepek/" + picture.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+      axios.delete(this.$store.getters.baseURL + "/fileDelete/kepek/ID/" + picture.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
       .then(res =>{
         axios.delete(this.$store.getters.baseURL + "/kepek/ID/" + picture.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res=>{
-          //console.log(this.pictures.findIndex(x => x.ID == picture.ID));
           this.pictures.splice(this.pictures.findIndex(x => x.ID == picture.ID), 1);
-          console.log(this.pictures);
           if (this.$store.getters.baseURL + '/img/' + picture.Nev == this.$store.getters.Members[0].profilkep) {
             let data ={
               profilkep: ""
@@ -181,10 +184,10 @@ export default{
     },
     SetProfile(picture){
       let data={};
-      if (this.$store.getters.Members[0].profilkep == null || this.$store.getters.Members[0].profilkep == "") {
-        data.profilkep= picture.Nev
-      } else {
+      if (this.$store.getters.baseURL + '/img/' + picture.Nev == this.$store.getters.Members[0].profilkep) {
         data.profilkep = "";
+      } else {
+        data.profilkep= picture.Nev
       }
       axios.patch(this.$store.getters.baseURL + "/csaladtagok/" + this.nodeId, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
       .then(res => {

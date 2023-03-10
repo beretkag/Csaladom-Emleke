@@ -43,33 +43,32 @@ var pool = mysql.createPool({
 
 // file upload
 app.post('/fileUpload', tokencheck(), upload.array("files"), (req, res) => {
-    log(req.socket.remoteAddress, `${req.files.length} file(s) uploaded to /Public/uploads`);
+    log(req.socket.remoteAddress, `${req.files.length} file(s) uploaded to Uploads`);
     res.status(200).json(req.files);
 });
 
 // file Delete
-app.delete('/fileDelete/:table/:id', tokencheck(), (req, res) => {
+app.delete('/fileDelete/:table/:field/:val', tokencheck(), (req, res) => {
     let table = req.params.table;
-    let id = req.params.id;
-    pool.query(`SELECT Nev FROM ${table} WHERE ID=${id}`, (err, results) => {
+    let field = req.params.field;
+    let val = req.params.val;
+    console.log(`${table} : ${field} : ${val}`);
+    pool.query(`SELECT Nev FROM ${table} WHERE ${field} = ${val}`, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
             res.status(500).send(err);
         } else {
-            if (results[0].Nev != '') {
-                fs.rm(path.join(__dirname + '/Uploads/' + results[0].Nev), (err) => {
+            for (let i = 0; i < results.length; i++) {
+                fs.rm(path.join(__dirname + '/Uploads/' + results[i].Nev), (err) => {
                     if (err) {
                         log(req.socket.remoteAddress, err);
-                        res.status(500).send(err);
                     }
                     else{
-                        res.status(200).send(results[0].Nev)
+                        log(req.socket.remoteAddress, `${results[i].Nev} deleted from Uploads`);
                     }
                 });
             }
-            else{
-                res.status(200).json(results[0].Nev);
-            }
+            res.status(200).send(results)
         }
     });
 });
