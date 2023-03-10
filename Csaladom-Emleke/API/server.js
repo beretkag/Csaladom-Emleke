@@ -20,6 +20,7 @@ app.use('/img', express.static(path.join(__dirname + '/Uploads')))
 var storage = multer.diskStorage({
     destination: path.join(__dirname + '/Uploads'),
     filename: function(req, file, cb) {
+        file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');
         let file_name = file.originalname.replace(path.extname(file.originalname), "") + '-' + Date.now() + path.extname(file.originalname);
         cb(null, file_name);
     }

@@ -34,6 +34,7 @@ import moment from "moment";
                     item.vezeteknev = item.vezeteknev == null ? "" : item.vezeteknev;
                     item.keresztnev = item.keresztnev == null ? "" : item.keresztnev;
                     item.teljesnev = item.vezeteknev + " " + item.keresztnev;
+                    item.profilkep = item.profilkep != null ? state.baseURL + '/img/' + item.profilkep : null;
                 });
                 state.members =  payload
             },

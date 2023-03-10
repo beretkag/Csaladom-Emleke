@@ -25,14 +25,14 @@ import router from '../../router';
                     nodeBinding: {
                         field_0: "teljesnev",
                         field_1: "telefonszam",
-                        img_0: "img"
+                        img_0: "profilkep"
                     },
                     mode: 'light',
                     editForm: {
                         saveAndCloseBtn: "Mentés és bezárás",
                         cancelBtn: "Mégse",
                         titleBinding: "name",
-                        photoBinding: "photo",
+                        photoBinding: "profilkep",
                         generateElementsFromFields: false,
                         addMore: false,
                         elements: [

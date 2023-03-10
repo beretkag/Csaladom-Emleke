@@ -25,7 +25,7 @@
         <button class="btn btn-sm btn-danger m-2 position-relative bottom-0" @click="Remove(picture)"><i class="bi bi-trash"></i></button>
         <button class="btn btn-sm btn-success m-2 position-relative bottom-0" @click="Download(picture)"><i class="bi bi-download"></i></button>
         <button class="btn btn-sm btn-secondary m-2 position-relative bottom-0" @click="SetProfile(picture)">
-          <i class="bi bi-x-lg" v-if="picture.Nev == this.$store.getters.Members[0].profilkep"></i>
+          <i class="bi bi-x-lg" v-if="$store.getters.baseURL + '/img/' + picture.Nev == this.$store.getters.Members[0].profilkep"></i>
           <i class="bi bi-person-bounding-box" v-else></i>
         </button>
       </div>
@@ -43,6 +43,9 @@
 
 </template>
 <style scoped>
+.carousel-caption .btn{
+  z-index: 999;
+}
 
 h1{
   text-align: center;
@@ -160,9 +163,17 @@ export default{
         axios.delete(this.$store.getters.baseURL + "/kepek/ID/" + picture.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res=>{
           this.pictures.splice(this.pictures.findIndex(x => x.ID == picture.ID), 1);
-          let node = this.$store.getters.Members[0]
-          node.profilkep = "";
-          this.$store.commit('UpdateNode', node); 
+          if (this.$store.getters.baseURL + '/img/' + picture.Nev == this.$store.getters.Members[0].profilkep) {
+            let data ={
+              profilkep: ""
+            }
+            axios.patch(this.$store.getters.baseURL + "/csaladtagok/" + this.nodeId, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+            .then(res => {
+              let node = this.$store.getters.Members[0]
+              node.profilkep = null;
+              this.$store.commit('UpdateNode', node);
+            })
+          }
         })
       })
     },
@@ -176,7 +187,7 @@ export default{
       axios.patch(this.$store.getters.baseURL + "/csaladtagok/" + this.nodeId, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
       .then(res => {
         let node = this.$store.getters.Members[0]
-        node.profilkep = data.profilkep;
+        node.profilkep = data.profilkep != "" ? this.$store.getters.baseURL + "/img/" + data.profilkep : null;
         this.$store.commit('UpdateNode', node);
       })
     },
