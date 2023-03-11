@@ -63,12 +63,25 @@ export default{
 
 <style scoped>
 
-#menuBtn{
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    z-index: 999;
+
+@media all and (max-width:1000px) {
+    #menuBtn{
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        z-index: 999;
+    }
 }
+
+@media all and (min-width:1001px) {
+    #menuBtn{
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        z-index: 999;
+    }
+}
+
 #menuBtn:hover{
    border: 1px solid #ff7112;
 }
