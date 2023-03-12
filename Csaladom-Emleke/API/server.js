@@ -163,45 +163,50 @@ app.post(`/registration`, (req, res)=>{
                     res.status(500).send(err);
                 } else {
                     log(req.socket.remoteAddress, `${results.affectedRows} record inserted to csaladfak table.`);
-                    /*----------------------------------------*/
-                    let csaladtagok = req.body.csaladtagok;
-                    let csaladfaID = results.insertId;
-                    for (let i = 0; i < csaladtagok.length; i++) {
-                        let record = csaladtagok[i];
-                        record.csaladfaID = csaladfaID;
-                        let _str = 'null';
-                        let _str2 = 'ID';
-    
-                        var fields = Object.keys(record);
-                        var values = Object.values(record);
-    
-                        values.forEach(value => {
-                            if (value == null || value == "") {
-                                _str += ",NULL"
-                            }else {
-                                _str += ",'" + value + "'"
+                    pool.query(`INSERT INTO beallitasok (ID, csaladfaID, publikus) VALUES(NULL, ${results.insertId}, 0)`, (err) => {
+                        if (err) {
+                            log(req.socket.remoteAddress, err);
+                            res.status(500).send(err);
+                        } else {
+                            log(req.socket.remoteAddress, `1 record inserted to beallitasok table.`);
+                            let csaladtagok = req.body.csaladtagok;
+                            let csaladfaID = results.insertId;
+                            for (let i = 0; i < csaladtagok.length; i++) {
+                                let record = csaladtagok[i];
+                                record.csaladfaID = csaladfaID;
+                                let _str = 'null';
+                                let _str2 = 'ID';
+            
+                                var fields = Object.keys(record);
+                                var values = Object.values(record);
+            
+                                values.forEach(value => {
+                                    if (value == null || value == "") {
+                                        _str += ",NULL"
+                                    }else {
+                                        _str += ",'" + value + "'"
+                                    }
+                                })
+            
+                                fields.forEach(field => {
+                                    _str2 += "," + field
+                                })
+                                pool.query(`INSERT INTO csaladtagok (${_str2}) VALUES(${_str})`, (err, result) => {
+                                    if (err) {
+                                        log(req.socket.remoteAddress, err);
+                                        res.status(500).send(err);
+                                    } else {
+                                        log(req.socket.remoteAddress, `${result.affectedRows} record inserted to csaladtagok table.`);
+                                        if (i == csaladtagok.length-1) {
+                                            res.status(200).send(results);
+                                        }
+                                    }
+                                });
                             }
-                        })
-    
-                        fields.forEach(field => {
-                            _str2 += "," + field
-                        })
-                        pool.query(`INSERT INTO csaladtagok (${_str2}) VALUES(${_str})`, (err, result) => {
-                            if (err) {
-                                log(req.socket.remoteAddress, err);
-                                res.status(500).send(err);
-                            } else {
-                                log(req.socket.remoteAddress, `${result.affectedRows} record inserted to csaladtagok table.`);
-                                if (i == csaladtagok.length-1) {
-                                    res.status(200).send(results);
-                                }
-                            }
-                        });
-                    }
-                    /*----------------------------------------*/
+                        }
+                    })
                 }
             });
-            /*----------------------------------------*/   
         }
     }); 
 });
@@ -393,7 +398,7 @@ function tokencheck() {
             jwt.verify(req.headers.authorization.split(' ')[1], process.env.KEY);
             next();
         } catch (error) {
-            if (req.params.table == "felhasznalok" || ((req.params.table == "csaladfak" || req.params.table == "csaladtagok") && req.method == 'GET')) {
+            if (req.params.table == "felhasznalok" || ((req.params.table == "csaladfak" || req.params.table == "csaladtagok" || req.params.table == "beallitasok" || req.params.table == "eletut" || req.params.table == "kepek" ) && req.method == 'GET')) {
                 next();
             }
             else{

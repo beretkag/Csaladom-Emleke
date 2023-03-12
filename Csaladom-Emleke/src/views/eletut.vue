@@ -3,7 +3,7 @@
     <header class="row p-3">
         <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" :src="this.$store.getters.Members[0].profilkep">
         <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
-        <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column"><button class="btn btn-dark m-3" @click="UjParagrafus()">Új paragrafus írása</button></div>
+        <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column" v-if="!vendeg"><button class="btn btn-dark m-3" @click="UjParagrafus()">Új paragrafus írása</button></div>
     </header>
     <hr>
     <main class="w-75">
@@ -16,9 +16,9 @@
                 </div>
                 <div class="col-6 col-md-7 col-lg-8 d-flex flex-row-reverse">
                     <div>
-                        <button v-if="paragraph.edit" class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
-                        <button v-else class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
-                        <button class="m-1 m-lg-2 m-sm-1 btn btn-danger" @click="Torles(paragraph)"><i class="bi bi-trash"></i></button>
+                        <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
+                        <button v-if="!paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
+                        <button v-if="!vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-danger" @click="Torles(paragraph)"><i class="bi bi-trash"></i></button>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
             </div>
             <hr>
         </div>
-        <Galery :nodeId="nodeid" />
+        <Galery :nodeId="nodeid" ref="gallery" />
 
     </p>
     </main>
@@ -51,6 +51,7 @@ export default{
         return{
             node:{},
             paragraphs:[],
+            vendeg:true
         }
     },
     created(){
@@ -58,14 +59,40 @@ export default{
         .then(res=>{
             this.node=res.data[0]
             this.$store.commit('SetMembers', [this.node]);
-            axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-            .then(res=>{
-                this.paragraphs=res.data;
-                this.paragraphs.forEach(element => {
-                    element.edit=false;
-                });
+            axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
+            .then(sajat =>{
+                axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.node.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                .then(csaladfa=>{
+                    axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.node.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                    .then(publik =>{
+                        if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
+                            //saját családfa: megtekinthető és szerkeszthető
+                            this.vendeg = false;
+                            this.$refs.gallery.vendeg = false;
+                        }
+                        else if (publik.data[0].publikus == 0){
+                            //nem saját családfa, publikus: csak megtekinthető
+                            alert(publik.data[0].publikus);
+                            router.push('/');
+                        }
+                        axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                        .then(res=>{
+                            this.paragraphs=res.data;
+                            this.paragraphs.forEach(element => {
+                                element.edit=false;
+                            });
+                        })
+                    })
+
+                })
             })
+
+
+
+
         })
+
+
         
     },
     methods:{

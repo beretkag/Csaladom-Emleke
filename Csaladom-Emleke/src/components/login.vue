@@ -43,12 +43,11 @@
           } else {
             //Sikeres bejelentkezés
             sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
-            this.$store.commit('SetToken',  sessionStorage.getItem('csaladomemleke') ? JSON.parse(sessionStorage.getItem('csaladomemleke')) : "");
             axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + res.data})
             .then(res =>{
               axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + res.data.ID, {headers: {"authorization": "JWT "+JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
               .then(results => {
-                this.$router.push(import.meta.env.BASE_URL + "csalad/" + results.data.find(x => x.alapertelmezett == 0).ID);
+                this.$router.push(import.meta.env.BASE_URL + "csalad/" + results.data[0].ID);
               })
             })
           }

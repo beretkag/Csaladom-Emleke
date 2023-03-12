@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Már 12. 15:28
+-- Létrehozás ideje: 2023. Már 12. 22:20
 -- Kiszolgáló verziója: 10.4.25-MariaDB
 -- PHP verzió: 8.1.10
 
@@ -32,13 +32,18 @@ USE `csaladomemleke`;
 CREATE TABLE `beallitasok` (
   `ID` int(11) NOT NULL,
   `csaladfaID` int(11) NOT NULL,
-  `Nev` varchar(30) COLLATE utf8_hungarian_ci NOT NULL,
   `publikus` tinyint(1) NOT NULL,
-  `hatterszin` varchar(6) COLLATE utf8_hungarian_ci NOT NULL,
-  `alapertelmezettszin` varchar(6) COLLATE utf8_hungarian_ci NOT NULL,
-  `noszin` varchar(6) COLLATE utf8_hungarian_ci NOT NULL,
-  `ferfiszin` varchar(6) COLLATE utf8_hungarian_ci NOT NULL
+  `hatterszin` varchar(6) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `noszin` varchar(6) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `ferfiszin` varchar(6) COLLATE utf8_hungarian_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `beallitasok`
+--
+
+INSERT INTO `beallitasok` (`ID`, `csaladfaID`, `publikus`, `hatterszin`, `noszin`, `ferfiszin`) VALUES
+(1, 5, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -58,7 +63,7 @@ CREATE TABLE `csaladfak` (
 --
 
 INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`, `Nev`) VALUES
-(5, 6, 0, 'Gellért Beretka');
+(5, 6, 1, 'Gellért Beretka');
 
 -- --------------------------------------------------------
 
@@ -105,6 +110,13 @@ CREATE TABLE `eletut` (
   `cim` varchar(100) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `szoveg` text COLLATE utf8_hungarian_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `eletut`
+--
+
+INSERT INTO `eletut` (`ID`, `csaladtagID`, `cim`, `szoveg`) VALUES
+(4, 71, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -192,7 +204,7 @@ ALTER TABLE `kepek`
 -- AUTO_INCREMENT a táblához `beallitasok`
 --
 ALTER TABLE `beallitasok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `csaladfak`
@@ -210,7 +222,7 @@ ALTER TABLE `csaladtagok`
 -- AUTO_INCREMENT a táblához `eletut`
 --
 ALTER TABLE `eletut`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `felhasznalok`

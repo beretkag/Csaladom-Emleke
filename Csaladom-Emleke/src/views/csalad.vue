@@ -1,7 +1,9 @@
 <template>
-    <FamilyMenu />
     <div id="app">
-        <i v-if="vendeg" class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
+        <div v-if="!vendeg">
+            <i class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
+            <FamilyMenu />
+        </div>
         <FamilyTree ref="tree" />
     </div>
 </template>
@@ -28,22 +30,26 @@ export default{
     },
     created(){
         axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
-        .then(res =>{
+        .then(sajat =>{
             axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-            .then(results=>{
-                if (results.data[0].felhasznaloID == res.data.ID) {
-                    //saját családfa: megtekinthető és szerkeszthető
-                    this.GetMembers(true);
-                }
-                else if (results.data[0].publikus == 1){
-                    //nem saját családfa, publikus: csak megtekinthető
-                    this.GetMembers(false);
-                    this.vendeg=false;
-                }
-                else {
-                    //nem saját családfa, nem publikus: nem megtekinthető
-                    router.push('/');
-                }
+            .then(csaladfa=>{
+                axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                .then(publik =>{
+                    if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
+                        //saját családfa: megtekinthető és szerkeszthető
+                        this.vendeg = false;
+                        this.GetMembers(true);
+                    }
+                    else if (publik.data[0].publikus == 1){
+                        //nem saját családfa, publikus: csak megtekinthető
+                        this.GetMembers(false);
+                    }
+                    else {
+                        //nem saját családfa, nem publikus: nem megtekinthető
+                        router.push('/');
+                    }
+                })
+
             })
         })
     },

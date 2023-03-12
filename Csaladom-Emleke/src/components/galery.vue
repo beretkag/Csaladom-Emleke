@@ -2,11 +2,11 @@
   <h1>
     Galéria
   </h1>
-  <input type="file" multiple class="form-control" @change="SelectImages" accept="image/*">
+  <input v-if="!vendeg" type="file" multiple class="form-control" @change="SelectImages" accept="image/*">
   <div class="text-center">
     <img :src="preview"  class="m-2 previews " alt="thumbnail" v-for="preview in previews">
   </div>
-  <div v-if="previews.length!=0" class="text-center">
+  <div v-if="previews.length!=0 && !vendeg" class="text-center">
     <button  class="btn btn-primary ms-auto" @click="Upload()">Kép feltöltése</button>
   </div>
 
@@ -93,8 +93,9 @@ export default{
   data(){
     return{
       images: [],
-      previews: [], 
+      previews: [],
       pictures:[],
+      vendeg:true
     }
   },
   created(){
