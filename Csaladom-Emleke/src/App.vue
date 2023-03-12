@@ -1,12 +1,15 @@
 <script>
   import { def } from '@vue/shared';
   import { RouterLink, RouterView } from 'vue-router';
+  import alertMsg from './components/alertMsg.vue'
+
 
   export default {
     name: "App",
     components: {
       RouterLink,
-      RouterView
+      RouterView,
+      alertMsg,
     },
     data(){
       return {
@@ -24,6 +27,7 @@
 
 <template>
   <RouterView />
+  <alertMsg/>
 </template>
 
 <style>

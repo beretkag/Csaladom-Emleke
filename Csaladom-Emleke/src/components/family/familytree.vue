@@ -160,7 +160,6 @@ import router from '../../router';
                 let inserted = {
                     csaladfaID: this.$store.getters.Members[0].csaladfaID,
                     belsofaID: member.id,
-                    alapertelmezett: 1,
                     gender: member.gender,
                     partnerek: partnerek,
                     mid: member.mid,

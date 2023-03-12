@@ -14,7 +14,6 @@
     <HowToStart />
   </div>
   <div id="modals">
-    <alertMsg variant="secondary" ref='msg'/>
     <forgotpass />
   </div>
   
@@ -24,7 +23,6 @@
     import Registration from '../components/registration.vue'
     import HowToStart from '../components/howtostart.vue'
     import Login from '../components/login.vue'
-    import alertMsg from '../components/alertMsg.vue'
     import navmenu from '../components/menu.vue'
     import forgotpass from '../components/forgotpass.vue'
 
@@ -32,7 +30,6 @@
 
     name:"Index",
     components:{
-      alertMsg,
       navmenu,
       Login,
       Registration,

@@ -1,5 +1,5 @@
 <template>
-  <h1>
+  <h1 class="mb-3">
       Regisztráció
   </h1>
     <div class="d-flex justify-content-start">
@@ -14,34 +14,23 @@
       </div>
     </div>
   <div class="mb-3">
-    <input type="text" placeholder="Vezetéknév" class="form-control" v-model="newUser.lastName">
+    <input type="text" placeholder="Vezetéknév" class="form-control" :class="{'is-invalid' : missings.lastName}" v-model="newUser.lastName" @click="SetMissing('lastName')">
   </div>
   <div class="mb-3">
-    <input type="text" placeholder="Keresztnév" class="form-control" v-model="newUser.firstName">
+    <input type="text" placeholder="Keresztnév" class="form-control" :class="{'is-invalid' : missings.firstName}" v-model="newUser.firstName" @click="SetMissing('firstName')">
   </div>
   <div class="mb-3">
-    <input type="email" placeholder="E-mail cím" class="form-control" v-model="newUser.email">
+    <input type="email" placeholder="E-mail cím" class="form-control" :class="{'is-invalid' : missings.email}" v-model="newUser.email" @click="SetMissing('email')">
   </div>
-  <div class="mb-3">
-    <input type="password" placeholder="Jelszó" class="form-control" v-model="newUser.password">
+  <div class="mb-3 input-group">
+    <input type="password" placeholder="Jelszó" class="form-control" :class="{'is-invalid' : missings.password}" v-model="newUser.password" @click="SetMissing('password')">
+    <span class="input-group-text" :title="requirements" @click="$store.commit('ShowMsg', {text: requirements, type: 'secondary'})"><i class="bi bi-info-circle"></i></span>
   </div>
 
-  <label for="szuletes">Születés </label>
-  <div class="input-group mb-3" name="szuletes">
-    <span class="input-group-text">ÉÉ:</span>
-    <select class="form-select" v-model="newUser.szulido.ev" placeholder="Születési év">
-      <option v-for="i in 120" :value="new Date().getFullYear()-i+1">{{new Date().getFullYear()-i+1}}</option>
-    </select>
-    <span class="input-group-text">HH:</span>
-    <select class="form-select" v-model="newUser.szulido.honap" placeholder="Születési év">
-      <option v-for="i in 12" :value="i">{{i}}</option>
-    </select>
-    <span class="input-group-text">NN:</span>
-    <select class="form-select" v-model="newUser.szulido.nap" placeholder="Születési év">
-      <option v-for="i in 31" :value="i">{{i}}</option>
-    </select>
-  </div>
+  <label>Születés </label>
+  <VueDatePicker id="datePicker" class="mb-3" v-model="newUser.szulido" auto-apply :enable-time-picker="false" :max-date="new Date()" :day-names="['Hé', 'Ke', 'Sze', 'Csü', 'Pé', 'Szo', 'Va']" locale="hu"/>
 
+  <hr>
 
   <label for="apa">Apa</label>
   <div class="row mb-3" name="apa">
@@ -72,20 +61,34 @@
 <script>
 import axios from "axios";
 import sha256 from "crypto-js/sha256";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import moment from "moment";
+import '@vuepic/vue-datepicker/dist/main.css'
+
 
 export default {
   name: 'Registration',
-  components: {},
+  components: {
+    VueDatePicker,
+    moment
+  },
 
   data() {
     return{
       baseURL: this.$store.getters.baseURL,
       newUser: {
-        szulido: {}
-      }
+        szulido: new Date,
+        gender: "female"
+      },
+      missings: {
+        lastName: false,
+        firstName: false,
+        email: false,
+        password: false
+      },
+      requirements: "Követelmények:\nlegalább 8 karakter,\ntartalmazzon kisbetűt,\ntartalmazzon nagybetűt,\ntartalmazzon számot",
     };
   },
-
   methods: {
     Registration(){
       let table = "felhasznalok";
@@ -98,24 +101,20 @@ export default {
         jogosultsag: 1
       }
 
-      if(this.newUser.gender == null ||
-          this.newUser.lastName == null ||
-          this.newUser.firstName == null ||
-          this.newUser.email == null ||
-          this.newUser.password == null){
-            this.$parent.$refs.msg.SetText("Nem töltött ki minden kötelező mezőt!", "Hibás bemeneti adatok!");
+      if(this.Missings().length > 0){
+            this.$store.commit('ShowMsg', {text:"Nem töltött ki minden kötelező mezőt!", type: "danger"})
       }else{
-        if (!this.newUser.password.match(/(?:[a-z0-9+!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gi)) {
-          this.$parent.$refs.msg.SetText("Helytelen e-mail cím formátum!", "Hibás bemeneti adatok!");
+        if (!this.newUser.email.match(/(?:[a-z0-9+!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gi)) {
+          this.$store.commit('ShowMsg', {text:"Helytelen e-mail cím formátum!", type: "danger"})
         }
         else{
           if (!this.newUser.password.match((/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/))) {
-            this.$parent.$refs.msg.SetText("A jelszó nem felel meg a követelményeknek!", "Hibás bemeneti adatok!");
+            this.$store.commit('ShowMsg', {text:"A jelszó nem felel meg a követelményeknek!", type: "danger"})
           } else {
           axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
             .then((res)=>{
               if (res.data.length > 0) {
-                this.$parent.$refs.msg.SetText("Ezzel az e-mail címmel már regisztráltak!", "Hibás bemeneti adatok!");
+                this.$store.commit('ShowMsg', {text:"Ezzel az e-mail címmel már regisztráltak!", type: "danger"})
               }
               else{
                 let data ={};
@@ -123,20 +122,19 @@ export default {
                 data.newCsaladfa = {
                     alapertelmezett: true,
                     Nev: this.newUser.firstName + " " + this.newUser.lastName,
-                    publikus: true
                 };
                 data.csaladtagok = [];
                 data.csaladtagok.push({
-                  alapertelmezett: true,
                   keresztnev: this.newUser.firstName,
                   vezeteknev: this.newUser.lastName,
-                  szulido: this.newUser.szulido.ev + "-" + this.newUser.szulido.honap + "-" + this.newUser.szulido.nap,
+                  szulido: moment(this.newUser.szulido).format('YYYY-MM-DD'),
                   gender: this.newUser.gender,
                   belsofaID: "aaaa"
                 })
+                data.csaladtagok = this.AddParent_s(data.csaladtagok);
                 axios.post(this.baseURL + "/registration", data)
                 .then(() => {
-                  this.$parent.$refs.msg.SetText("Sikeres Regisztráció!\nMostmár bejelentkezhet.", "Sikeres Regisztráció!");
+                  this.$store.commit('ShowMsg', {text:"Sikeres Regisztráció!\nMostmár bejelentkezhet.", type: "success"})
                   this.newUser = {};
                   this.$parent.isLoginSet(true);
                 })
@@ -145,13 +143,50 @@ export default {
         }
       }
     }
-  }
+  },
+  AddParent_s(csaladtagok){
+    let parents = [{name:"mother", gender:"female"}, {name: "father", gender:"male"}];
+    parents.forEach(parent => {
+      let name = "";
+      this.newUser[parent.name+"LastName"] = this.newUser[parent.name+"LastName"] == undefined ? "" : this.newUser[parent.name +"LastName"]
+      this.newUser[parent.name+"FirstName"] = this.newUser[parent.name+"FirstName"] == undefined ? "" : this.newUser[parent.name +"FirstName"]
+      if ((name + this.newUser[parent.name+"LastName"] + this.newUser[parent.name+"FirstName"]).length > 0) {
+        csaladtagok.push({
+          keresztnev: name + this.newUser[parent.name+"FirstName"],
+          vezeteknev: name + this.newUser[parent.name+"LastName"],
+          gender: parent.gender,
+          belsofaID: parent.gender.slice(0,4),
+       })
+        csaladtagok[0][parent.gender == "female" ? "mid" : "fid"] = parent.gender.slice(0,4);
+      }
+    });
+    if (csaladtagok.length > 2) {
+      csaladtagok[1].partnerek = csaladtagok[2].belsofaID;
+      csaladtagok[2].partnerek = csaladtagok[1].belsofaID;
+    }
+    return csaladtagok;
+  },
+  Missings(){
+    let required = Object.keys(this.missings);
+    let missed = []
+    required.forEach(item => {
+      if (this.newUser[item] == null || this.newUser[item] == "") {
+        this.missings[item] = true;
+        missed.push(item);
+      }
+    });
+    return missed;
+  },
+  SetMissing(item){
+    this.missings[item] = false;
+  },
   }
 }
 </script>
 
-<style scoped>
+<style>
       #regbutton{
       background-color: #ff7112;
   }
+
 </style>

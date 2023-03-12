@@ -13,7 +13,11 @@ import moment from "moment";
                 { id: 4, mid: 1, fid: 2, name: "Savin Stevens", gender: "male", img: "https://cdn.balkan.app/shared/m10/1.jpg"  },
                 { id: 5, mid: 1, fid: 2, name: "Emma Stevens", gender: "female", img: "https://cdn.balkan.app/shared/w10/3.jpg" }
             ],
-            token: sessionStorage.getItem('csaladomemleke') ? JSON.parse(sessionStorage.getItem('csaladomemleke'))  : "" 
+            alertMsg:{
+                message: "",
+                visible: false,
+                style: "danger"
+            }
         },
         getters: {
             Members: state => {
@@ -22,6 +26,9 @@ import moment from "moment";
             baseURL: state => {
                 return state.baseURL;
             },
+            alertMsg: state => {
+                return state.alertMsg;
+            }
         },
         mutations:{
             SetMembers: (state, payload) => {
@@ -41,14 +48,19 @@ import moment from "moment";
             SetUser: (state, payload) => {
                 state.loggedUser = payload;
             },
-            SetToken: (state, token) => {
-                state.token = token
-            },
             DeleteNode: (state, nodeId) => {
                 state.members.splice(state.members.findIndex(x => x.ID == nodeId), 1)
             },
             UpdateNode: (state, node) => {
                 state.members[state.members.findIndex(x => x.ID == node.ID)] = node
+            },
+            ShowMsg: (state, payload) => {
+                state.alertMsg.message = payload.text;
+                state.alertMsg.visible = true;
+                state.alertMsg.style = payload.type;
+            },
+            HideMsg: state =>{
+                state.alertMsg.visible = false;
             }
         }
     })
