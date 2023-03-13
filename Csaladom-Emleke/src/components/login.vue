@@ -39,7 +39,7 @@
         axios.post(this.baseURL, data)
         .then((res) => {
           if (res.data.length < 1) {
-            this.$parent.$refs.msg.SetText("Hibás felhasználónév vagy jelszó!", "Hibás bemeneti adatok!");
+            this.$store.commit('ShowMsg', {text:"Hibás felhasználónév vagy jelszó!", type: "danger"})
           } else {
             //Sikeres bejelentkezés
             sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
