@@ -84,7 +84,8 @@ export default {
         lastName: false,
         firstName: false,
         email: false,
-        password: false
+        password: false,
+        szulido: false
       },
       requirements: "Követelmények:\nlegalább 8 karakter,\ntartalmazzon kisbetűt,\ntartalmazzon nagybetűt,\ntartalmazzon számot",
     };
