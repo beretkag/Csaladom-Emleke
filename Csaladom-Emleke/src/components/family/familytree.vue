@@ -68,7 +68,7 @@ import router from '../../router';
                                 hideIfDetailsMode: false
                             },
                             qrcode:{
-                                icon: `<svg><image href="../../components/img/qrcodeicon.png" alt=""></svg>`,//elérés még nem jó
+                                icon: `<svg><image href="${this.$store.getters.baseURL}/assets/qrcodeicon.png" style="width: 35px; height: 35px;" alt="" sty></svg>`,//elérés még nem jó
                                 text: 'Módosítás',
                                 hideIfEditMode: true,
                                 hideIfDetailsMode: !sajat
