@@ -52,7 +52,6 @@ methods:{
     }
     if (this.csekk) {
       axios.patch(this.$store.getters.baseURL + "/csaladfak/" + 5, jo, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
-      alert("okay")
     }
     else{
       axios.patch(this.$store.getters.baseURL + "/csaladfak/" + 5, rossz, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
