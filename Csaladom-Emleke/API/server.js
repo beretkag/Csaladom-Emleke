@@ -212,12 +212,12 @@ app.post(`/registration`, (req, res)=>{
     }); 
 });
 
-// GET ID BY email
+// GET ID and Name BY email
 app.get('/forgotpass/:email', tokencheck(), (req, res) => {
     var table = "felhasznalok";
     var field = "email";
     var value = req.params.email;
-    pool.query(`SELECT ID FROM ${table} WHERE ${field}='${value}'`, (err, results) => {
+    pool.query(`SELECT ID, Nev FROM ${table} WHERE ${field}='${value}'`, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
             res.status(500).send(err);
