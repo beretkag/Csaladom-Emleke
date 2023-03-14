@@ -72,7 +72,6 @@ export default{
                         }
                         else if (publik.data[0].publikus == 0){
                             //nem saját családfa, publikus: csak megtekinthető
-                            alert(publik.data[0].publikus);
                             router.push('/');
                         }
                         axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})

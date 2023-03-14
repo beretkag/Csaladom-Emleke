@@ -52,6 +52,7 @@
 <style scoped>
 .hogyankezd{
   margin-top: 10%;
+  overflow-x: hidden;
 }
 .bejelentkezeslink{
   text-decoration: none;
