@@ -2,6 +2,14 @@
     <div id="tree" ref="tree"></div>
 </template>
 
+<style>
+
+#tree form{
+    z-index: 100;
+} 
+
+</style>
+
 <script>
 
     import FamilyTree from '@balkangraph/familytree.js'
@@ -27,7 +35,7 @@ import router from '../../router';
                         field_1: "telefonszam",
                         img_0: "profilkep"
                     },
-                    mode: 'light',
+                    mode: 'dark',
                     editForm: {
                         saveAndCloseBtn: "Mentés és bezárás",
                         cancelBtn: "Mégse",
@@ -68,9 +76,9 @@ import router from '../../router';
                                 hideIfDetailsMode: false
                             },
                             qrcode:{
-                                icon: `<svg><image href="${this.$store.getters.baseURL}/assets/qrcodeicon.png" style="width: 35px; height: 35px;" alt="" sty></svg>`,//elérés még nem jó
-                                text: 'Módosítás',
-                                hideIfEditMode: true,
+                                icon: `<svg width="30" height="30" ><image href="${this.$store.getters.baseURL}/assets/qrcodeicon.png" style="width: 30px; height: 26px;" alt="" sty></svg>`,
+                                text: 'QR kód',
+                                hideIfEditMode: false,
                                 hideIfDetailsMode: !sajat
                             }
                         }

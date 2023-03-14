@@ -75,7 +75,7 @@ export default{
         position: absolute;
         bottom: 5px;
         left: 5px;
-        z-index: 999;
+        z-index: 50;
     }
 }
 
@@ -84,7 +84,7 @@ export default{
         position: absolute;
         top: 5px;
         left: 5px;
-        z-index: 999;
+        z-index: 50;
     }
 }
 
