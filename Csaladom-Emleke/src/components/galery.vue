@@ -107,6 +107,7 @@ export default{
   methods:{
     SelectImages(e){
       this.previews = [];
+      this.images = [];
       for (let i = 0; i < e.target.files.length; i++) {
         if (e.target.files[i].type.includes("image") && e.target.files[i].size < 5242881) {
           this.images.push(e.target.files[i])

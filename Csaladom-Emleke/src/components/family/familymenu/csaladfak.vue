@@ -1,19 +1,8 @@
 <template>
 
-<ul class="list-group list-group-flush">
+<ul class="text-start m-3">
   <li class="list-group-item" v-for="csaladfa in csaladfak">
-    
-    {{ csaladfa.Nev }}
-
-    <label class="switch" v-if="csaladfa.alapertelmezett = 1">
-            <input type="checkbox" v-model="csekk" @change="change()" checked>
-            <span class="slider round"></span>
-         </label>
-         <label class="switch" v-else>
-            <input type="checkbox" v-model="csekk" @change="change()">
-            <span class="slider round"></span>
-         </label>
-    
+    {{ csaladfa.Nev }}    
   </li>
 </ul>
  
@@ -23,24 +12,22 @@
 import axios from 'axios';
 
  export default{
-    components: {
-      axios
-    },
-    data(){
-       return{
-          csekk: false,
-          csaladfak: [],
-          elerheto:false
-       }
-    },
-    created(){
-  axios.get(this.$store.getters.baseURL + "/csaladfak", {headers: {"authorization": "JWT "+this.$store.getters.Token}}).then(res => {
-    let data = res.data;
-    this.csaladfak = res.data 
+components: {
+  axios
+},
+data(){
+    return{
+      csaladfak: [],
+    }
+},
+created(){
+  axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
+  .then(sajat =>{
+    axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + sajat.data.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+      .then(res=>{
+        this.csaladfak = res.data;
+      })
   })
-  .catch(err => {
-    console.log(err);
-  });
 },
 methods:{
   change(){
