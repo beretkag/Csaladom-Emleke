@@ -66,6 +66,12 @@ import router from '../../router';
                                 text: 'Életút',
                                 hideIfEditMode: false,
                                 hideIfDetailsMode: false
+                            },
+                            qrcode:{
+                                icon: `<svg><image href="../../components/img/qrcodeicon.png" alt=""></svg>`,//elérés még nem jó
+                                text: 'Módosítás',
+                                hideIfEditMode: true,
+                                hideIfDetailsMode: !sajat
                             }
                         }
                     }

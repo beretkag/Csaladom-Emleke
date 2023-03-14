@@ -22,7 +22,11 @@
         <div class="m-3">
           <RouterLink :to="{name: 'Családfák'}"><span class="link btn">Családfák</span></RouterLink>
         </div>
-        <hr class="mb-3">
+        <hr>
+        <div class="m-3">
+          <RouterLink :to="{name: 'Felhasználók'}"><span class="link btn">Felhasználók</span></RouterLink>
+        </div>
+        <hr>
       </div>
       <div>
         <RouterView />
