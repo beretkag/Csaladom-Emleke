@@ -35,7 +35,7 @@ import router from '../../router';
                         field_1: "telefonszam",
                         img_0: "profilkep"
                     },
-                    mode: 'dark',
+                    mode: 'light',
                     editForm: {
                         saveAndCloseBtn: "Mentés és bezárás",
                         cancelBtn: "Mégse",
