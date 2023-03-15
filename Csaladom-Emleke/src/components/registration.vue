@@ -24,7 +24,18 @@
   </div>
   <div class="mb-3 input-group">
     <input type="password" placeholder="Jelszó" class="form-control" :class="{'is-invalid' : missings.password}" v-model="newUser.password" @click="SetMissing('password')">
-    <span class="input-group-text" :title="requirements" @click="$store.commit('ShowMsg', {text: requirements, type: 'secondary'})"><i class="bi bi-info-circle"></i></span>
+    <Popper arrow hover>
+      <button class="input-group-text"><i class="bi bi-info-circle"></i></button>
+      <template #content>
+        <h5>Követelmények:</h5>
+        <hr>
+        <ul>
+          <li v-for=" requirement in requirements">
+            {{ requirement }}
+          </li>
+        </ul>
+      </template>
+    </Popper>
   </div>
 
   <label>Születés </label>
@@ -62,6 +73,7 @@
 import axios from "axios";
 import sha256 from "crypto-js/sha256";
 import VueDatePicker from '@vuepic/vue-datepicker';
+import Popper from "vue3-popper";
 import moment from "moment";
 import '@vuepic/vue-datepicker/dist/main.css'
 
@@ -70,7 +82,8 @@ export default {
   name: 'Registration',
   components: {
     VueDatePicker,
-    moment
+    Popper,
+    moment,
   },
 
   data() {
@@ -87,7 +100,7 @@ export default {
         password: false,
         szulido: false
       },
-      requirements: "Követelmények:\nlegalább 8 karakter,\ntartalmazzon kisbetűt,\ntartalmazzon nagybetűt,\ntartalmazzon számot",
+      requirements: ["legalább 8 karakter", "tartalmazzon kisbetűt", "tartalmazzon nagybetűt", "tartalmazzon számot"]
     };
   },
   methods: {
@@ -189,8 +202,17 @@ export default {
 </script>
 
 <style>
-      #regbutton{
-      background-color: #ff7112;
+  #regbutton{
+    background-color: #ff7112;
+  }
+
+  :root {
+    --popper-theme-background-color: #ffffff;
+    --popper-theme-background-color-hover: #ffffff;
+    --popper-theme-text-color: #2b2b2b;
+    --popper-theme-border-radius: 6px;
+    --popper-theme-padding: 32px;
+    --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
   }
 
 </style>
