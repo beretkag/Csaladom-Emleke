@@ -1,10 +1,10 @@
 <template>
     <div id="app">
         <div v-if="!vendeg">
-            <i class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"></i>
-            <FamilyMenu />
+            <i class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"></i>
+            <FamilyMenu :csaladfaID="csaladfaID"/>
         </div>
-        <FamilyTree ref="tree" />
+        <FamilyTree ref="tree"/>
     </div>
 </template>
 
@@ -35,6 +35,7 @@ export default{
             .then(csaladfa=>{
                 axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                 .then(publik =>{
+                    this.$store.commit('SetCsaladfaID', this.csaladfaID);
                     if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
                         //saját családfa: megtekinthető és szerkeszthető
                         this.vendeg = false;
@@ -56,12 +57,21 @@ export default{
     methods:{
         GetMembers(sajat){
             //családfa betöltése
-            axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+            axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + this.$store.getters.CsaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(res => {
                 this.$store.commit('SetMembers', res.data);
                 this.$refs.tree.Rajzol(sajat);
             })
         }
+    },
+    watch:{
+        '$route.params.csaladfaID': {
+                handler: function(csaladfaID) {
+                    this.$store.commit('SetCsaladfaID', csaladfaID)
+                    this.GetMembers(!this.vendeg);
+                },
+                deep: true,
+            }
     }
             
 }

@@ -11,6 +11,7 @@
     <div class="offcanvas-body text-center">
       <div>
         <hr>
+
         <div class="m-3">
           <RouterLink :to="{name: 'Beállítások'}"><span class="link btn">Beállítások</span></RouterLink>
         </div>
@@ -31,6 +32,7 @@
       <div>
         <RouterView />
       </div>
+
     </div>
   </div>
 </template>
@@ -39,16 +41,25 @@
     import { RouterLink, RouterView } from 'vue-router';
 
     export default {
+      props:{
+        csaladfaID: String,
+      },
       name: 'familymenu',
       components:{
         RouterLink,
         RouterView
-      }
+      },
+      
     }
 
 </script>
 
 <style scoped>
+
+  .offcanvas{
+    z-index: 200 !important;
+  }
+
   .link{
     font-size:larger;
   }

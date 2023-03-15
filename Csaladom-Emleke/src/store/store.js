@@ -17,7 +17,8 @@ import moment from "moment";
                 message: "",
                 visible: false,
                 style: "danger"
-            }
+            },
+            csaldfaID:"",
         },
         getters: {
             Members: state => {
@@ -28,6 +29,9 @@ import moment from "moment";
             },
             alertMsg: state => {
                 return state.alertMsg;
+            },
+            CsaladfaID: state =>{
+                return state.csaldfaID;
             }
         },
         mutations:{
@@ -36,7 +40,8 @@ import moment from "moment";
                     item.id = item.belsofaID;
                     item.szulido = item.szulido == null ? null : moment(item.szulido).format('YYYY-MM-DD');
                     item.halido = item.halido == null ? null : moment(item.halido).format('YYYY-MM-DD');
-                    item.nem = item.gender == "male" ? "Férfi" : "Nő";
+                    item.nem = item.gender == "male" ? "Férfi" : item.nem;
+                    item.nem = item.gender == "female" ? "Nő" : item.nem;
                     item.pids = item.partnerek == null ? null : item.partnerek.split(",");
                     item.vezeteknev = item.vezeteknev == null ? "" : item.vezeteknev;
                     item.keresztnev = item.keresztnev == null ? "" : item.keresztnev;
@@ -61,6 +66,9 @@ import moment from "moment";
             },
             HideMsg: state =>{
                 state.alertMsg.visible = false;
+            },
+            SetCsaladfaID: (state, csaldfaID) => {
+                state.csaldfaID = csaldfaID;
             }
         }
     })

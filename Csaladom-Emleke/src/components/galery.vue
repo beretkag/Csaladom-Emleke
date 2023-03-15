@@ -95,13 +95,18 @@ export default{
       images: [],
       previews: [],
       pictures:[],
-      vendeg:true
+      csaladfaID:"",
+      vendeg:true,
     }
   },
   created(){
-    axios.get(this.$store.getters.baseURL+"/kepek/csaladtagID/"+this.nodeId, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-        .then(res=>{
-          this.pictures=res.data
+    axios.get(this.$store.getters.baseURL+"/kepek/csaladtagID/" + this.nodeId, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+        .then(res => {
+          this.pictures = res.data
+          axios.get(this.$store.getters.baseURL + "/csaladtagok/ID/" + this.nodeId, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+          .then(res => {
+            this.csaladfaID = res.data[0].csaladfaID;
+          })
         })
   },
   methods:{
@@ -155,6 +160,7 @@ export default{
         for (let i = 0; i < res.data.length; i++) {
           let data = {
             csaladtagID: this.nodeId,
+            csaladfaID: this.csaladfaID,
             Nev: res.data[i].filename
           }
           axios.post(this.$store.getters.baseURL+"/kepek", data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})

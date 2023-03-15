@@ -137,7 +137,6 @@ export default {
                 let data ={};
                 data.newUser = newUser;
                 data.newCsaladfa = {
-                    alapertelmezett: true,
                     Nev: this.newUser.firstName + " " + this.newUser.lastName,
                 };
                 data.csaladtagok = [];
@@ -201,7 +200,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   #regbutton{
     background-color: #ff7112;
   }

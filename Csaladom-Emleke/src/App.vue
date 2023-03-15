@@ -26,7 +26,7 @@
 </script>
 
 <template>
-  <RouterView />
+  <RouterView/>
   <alertMsg/>
 </template>
 
