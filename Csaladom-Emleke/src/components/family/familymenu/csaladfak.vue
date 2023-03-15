@@ -12,8 +12,8 @@
     </div>
     <hr class="orange ml-3 mr-3">
   </li>
-  <li>
-    <p class="text-start plus" v-if="csaladfak.length < 5">
+  <li v-if="csaladfak.length < 5">
+    <p class="text-start plus" >
       <i class="bi bi-plus-circle btn btn-sm m-0" data-bs-toggle="modal" data-bs-target="#newTreeModal"></i>
     </p>
   </li>
@@ -58,7 +58,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="Dismiss()">Mégse</button>
-        <button type="button" class="btn btn-primary orange-bgc" data-bs-dismiss="modal" @click="AddNewTree()">Létrehozás</button>
+        <button type="button" class="btn btn-primary orange-bgc" :data-bs-dismiss="Check()" @click="AddNewTree()">Létrehozás</button>
       </div>
     </div>
   </div>
@@ -101,6 +101,10 @@ methods:{
   },
   SetMissingName(){
     this.missingname = false;
+  },
+  Check()
+  {
+    return this.newTree.name == null || this.newTree.name == "" ? undefined : 'modal'
   },
   AddNewTree(){
     if (this.newTree.name == null || this.newTree.name == "") {

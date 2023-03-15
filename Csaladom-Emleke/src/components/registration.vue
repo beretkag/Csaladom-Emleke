@@ -200,13 +200,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   #regbutton{
     background-color: #ff7112;
   }
 
   :root {
-    --popper-theme-background-color: #ffffff;
+    --popper-theme-background-color: #ffffff !important;
     --popper-theme-background-color-hover: #ffffff;
     --popper-theme-text-color: #2b2b2b;
     --popper-theme-border-radius: 6px;
