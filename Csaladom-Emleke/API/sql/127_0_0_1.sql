@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Már 12. 22:20
+-- Létrehozás ideje: 2023. Már 15. 16:47
 -- Kiszolgáló verziója: 10.4.25-MariaDB
 -- PHP verzió: 8.1.10
 
@@ -54,7 +54,6 @@ INSERT INTO `beallitasok` (`ID`, `csaladfaID`, `publikus`, `hatterszin`, `noszin
 CREATE TABLE `csaladfak` (
   `ID` int(11) NOT NULL,
   `felhasznaloID` int(11) NOT NULL,
-  `alapertelmezett` tinyint(1) NOT NULL,
   `Nev` varchar(40) COLLATE utf8_hungarian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -62,8 +61,8 @@ CREATE TABLE `csaladfak` (
 -- A tábla adatainak kiíratása `csaladfak`
 --
 
-INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `alapertelmezett`, `Nev`) VALUES
-(5, 6, 1, 'Gellért Beretka');
+INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `Nev`) VALUES
+(5, 6, 'Gellért Beretka');
 
 -- --------------------------------------------------------
 
@@ -111,13 +110,6 @@ CREATE TABLE `eletut` (
   `szoveg` text COLLATE utf8_hungarian_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
---
--- A tábla adatainak kiíratása `eletut`
---
-
-INSERT INTO `eletut` (`ID`, `csaladtagID`, `cim`, `szoveg`) VALUES
-(4, 71, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -148,6 +140,7 @@ INSERT INTO `felhasznalok` (`ID`, `Nev`, `Jelszo`, `email`, `jogosultsag`) VALUE
 CREATE TABLE `kepek` (
   `ID` int(11) NOT NULL,
   `csaladtagID` int(11) NOT NULL,
+  `csaladfaID` int(11) NOT NULL,
   `Nev` varchar(200) COLLATE utf8_hungarian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -194,7 +187,8 @@ ALTER TABLE `felhasznalok`
 --
 ALTER TABLE `kepek`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `csaladtagID` (`csaladtagID`);
+  ADD KEY `csaladtagID` (`csaladtagID`),
+  ADD KEY `csaladfaID` (`csaladfaID`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -204,19 +198,19 @@ ALTER TABLE `kepek`
 -- AUTO_INCREMENT a táblához `beallitasok`
 --
 ALTER TABLE `beallitasok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT a táblához `csaladfak`
 --
 ALTER TABLE `csaladfak`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT a táblához `csaladtagok`
 --
 ALTER TABLE `csaladtagok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT a táblához `eletut`
@@ -268,7 +262,8 @@ ALTER TABLE `eletut`
 -- Megkötések a táblához `kepek`
 --
 ALTER TABLE `kepek`
-  ADD CONSTRAINT `kepek_ibfk_1` FOREIGN KEY (`csaladtagID`) REFERENCES `csaladtagok` (`ID`);
+  ADD CONSTRAINT `kepek_ibfk_1` FOREIGN KEY (`csaladtagID`) REFERENCES `csaladtagok` (`ID`),
+  ADD CONSTRAINT `kepek_ibfk_2` FOREIGN KEY (`csaladfaID`) REFERENCES `csaladfak` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
