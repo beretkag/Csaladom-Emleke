@@ -25,7 +25,7 @@
         </div>
         <hr>
         <div class="m-3">
-          <RouterLink :to="{name: 'Felhasználók'}"><span class="link btn">Felhasználók</span></RouterLink>
+            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="mb-3"> <span class="link btn"> Felhasználók</span> </a>
         </div>
         <hr>
       </div>
@@ -35,10 +35,17 @@
 
     </div>
   </div>
+  <div>
+    <manage />
+  </div>
+
+  <!-- Modal -->
+
 </template>
     
 <script>
     import { RouterLink, RouterView } from 'vue-router';
+    import manage from '../familymenu/admin/felhasznalok.vue'
 
     export default {
       props:{
@@ -47,7 +54,8 @@
       name: 'familymenu',
       components:{
         RouterLink,
-        RouterView
+        RouterView,
+        manage
       },
       
     }

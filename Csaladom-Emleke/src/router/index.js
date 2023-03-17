@@ -21,11 +21,6 @@ const router = createRouter({
       component: () => import('../views/HowToView.vue')
     },
     {
-      path:'/Felhasznalok',
-      name:'Felhasználók',
-      component: () =>import('../components/family/familymenu/admin/felhasznalok.vue')
-    },
-    {
       path:'/csalad/:csaladfaID',
       name:'family',
       component: () => import('../views/Csalad.vue'),
