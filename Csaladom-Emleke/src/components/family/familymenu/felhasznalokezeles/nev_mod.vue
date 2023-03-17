@@ -45,7 +45,6 @@ export default {
       
     },
     created(){
-        axios.post()
         axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ this.felhasznalo.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
         .then(res=>{
             this.felhasznalo=res.data[0]

@@ -1,5 +1,14 @@
 <template>
-    <table class="table table-hover table-dark">
+
+<div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header orange-bgc">
+        <h1 class="modal-title fs-5" id="exampleModalLabel"> Felhasználók </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover table-dark">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -19,6 +28,11 @@
     </tr>
   </tbody>
 </table>
+      </div>
+    </div>
+  </div>
+</div>
+
    </template>
    
    <script>
@@ -52,7 +66,7 @@ methods:{
     })
       }
       else{
-          alert("admint nem lehet törölni")
+          alert("Admint nem lehet törölni")
       }
 
   },
@@ -65,7 +79,9 @@ methods:{
    </script>
    
    <style>
-table{
-    margin-top: 2% !important;
+.orange-bgc{
+  background-color: #ff7112;
+  border-color: #8b3800;
+  color: white;
 }
    </style>
