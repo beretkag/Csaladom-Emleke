@@ -122,6 +122,21 @@ import router from '../../router';
                     router.push(`/eletut/${idx}`)
                 }
                 });
+                this.family.editUI.on('button-click', function (sender, args) {
+                if (args.name == 'qrcode') {
+                    let idx= ez.$store.getters.Members.find(x=> x.id == args.nodeId).ID;
+                    console.log("gombra rányomott");
+                    ez.QRCodeGen(idx)
+                }
+                });
+            },
+            QRCodeGen(idx){
+                console.log("vihar elötti csend");
+                axios.post(this.$store.getters.baseURL+"/qrcode/"+idx)
+                .then(res =>{
+                    console.log("siker :"+res.data)
+                })
+
             },
             ForceDelete(node){
                 let children = this.GetChildren(node.id);

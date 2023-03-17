@@ -8,8 +8,14 @@ const multer = require('multer');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const { get } = require('http');
+var QRCode = require('qrcode')
 
 const app = express();
+
+
+
+
+
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -40,6 +46,24 @@ var pool = mysql.createPool({
     password: process.env.DBPASS,
     database: process.env.DBNAME
 });
+
+// GENERATE QR CODE BY LINK
+app.post('/qrcode/:id', /*tokencheck(), */ (req,res)=>{
+    console.log(req.params.id+"idka")
+    console.log("idka");
+    //path.join(__dirname + `/Uploads/link_${link}.png`
+    var link = process.env.DOMAIN + "/eletut/"+ req.params.id;
+    //ide majd még kell valami
+    QRCode.toFile(`./Uploads/qrcode.png`, link, function (err) {
+        if(err) {
+            res.status(500).send(err)
+            console.log("hiba utáni");
+        }else{   
+            res.status(200).send(`link_${link}`)
+            console.log("már jó");
+        }
+    })
+})
 
 
 // file upload
@@ -227,6 +251,9 @@ app.get('/forgotpass/:email', tokencheck(), (req, res) => {
         }
     });
 });
+
+
+
 
 // GET ALL RECORDS
 app.get('/:table', tokencheck(), (req, res) => {
