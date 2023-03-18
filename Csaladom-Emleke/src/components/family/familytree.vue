@@ -20,7 +20,8 @@ import router from '../../router';
         name: 'tree',
         data(){
             return {
-                family: {}
+                family: {},
+                settings:{}
             }
         },
         methods: {
@@ -35,7 +36,7 @@ import router from '../../router';
                         field_1: "telefonszam",
                         img_0: "profilkep"
                     },
-                    mode: 'light',
+                    mode:this.$store.getters.Settings.darkmode ? 'dark' : 'light',
                     editForm: {
                         saveAndCloseBtn: "Mentés és bezárás",
                         cancelBtn: "Mégse",
@@ -131,6 +132,10 @@ import router from '../../router';
                 });
             },
             QRCodeGen(idx){
+                // let sett = this.$store.getters.Settings;
+                // sett.darkmode = 1;
+                // this.$store.commit('LoadSettings', sett);
+                // return
                 console.log("vihar elötti csend");
                 axios.post(this.$store.getters.baseURL+"/qrcode/"+idx)
                 .then(res =>{
@@ -256,7 +261,62 @@ import router from '../../router';
                 FamilyTree.templates.husband.node = FamilyTree.templates.husband.node.replace('Add husband', 'Férj hozzáadása');
                 FamilyTree.templates.partner.node = FamilyTree.templates.partner.node.replace('Add partner', 'Partner hozzáadása');
             }
-
         },
+        watch:{
+            '$store.getters.Settings': {
+                handler: function(Settings) {
+                    try {
+                        this.settings = Settings;
+                        this.settings.noszin = this.settings.noszin == null ? '#f57c00' : this.settings.noszin;
+                        this.settings.ferfiszin = this.settings.ferfiszin == null ? '#039be5' : this.settings.ferfiszin;
+                        this.family.config.mode = Settings.darkmode ? 'dark' : 'light';
+                        this.family.draw();
+                    } catch (error) { }
+                },
+                deep: true,
+            }
+        }
     }
 </script>
+
+<style>
+    /* Male color binding */
+    svg.tommy .node.male>rect {
+        fill: v-bind('settings.ferfiszin');
+    }
+
+    .tommy_male .bft-edit-form-header, .tommy_male .bft-img-button, .tommy_female .bft-img-button:hover{
+        background-color: v-bind('settings.ferfiszin') !important;
+    }
+
+    /* Female color binding */
+    svg.tommy .node.female>rect {
+        fill: v-bind('settings.noszin');
+    }
+
+    .tommy_female .bft-edit-form-header, .tommy_female .bft-img-button, .tommy_male .bft-img-button:hover{
+        background-color: v-bind('settings.noszin') !important;
+    }
+
+    /* Button color binding */
+    .bft-button, .bft-button.transparent:hover{
+        background-color: v-bind('settings.ferfiszin') !important;
+
+    }
+    
+    .bft-button.transparent {
+        background-color: transparent !important;
+        color: v-bind('settings.ferfiszin') !important;
+    }
+
+    .bft-button:hover{
+        opacity: 0.7;
+    }
+
+    .bft-button.transparent:hover{
+        color: #fff !important;
+    }
+
+
+
+</style>

@@ -57,11 +57,17 @@ export default{
     methods:{
         GetMembers(sajat){
             //családfa betöltése
-            axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + this.$store.getters.CsaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+            axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.$store.getters.CsaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(res => {
-                this.$store.commit('SetMembers', res.data);
-                this.$refs.tree.Rajzol(sajat);
+                this.$store.commit('LoadSettings', res.data[0]);
+                let settings = res.data[0];
+                axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + this.$store.getters.CsaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                .then(res => {
+                    this.$store.commit('SetMembers', res.data);
+                    this.$refs.tree.Rajzol(sajat, settings);
+                })
             })
+            
         }
     },
     watch:{

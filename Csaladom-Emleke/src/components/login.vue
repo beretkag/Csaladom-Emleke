@@ -4,9 +4,9 @@
            Bejelentkezés
        </h1>
        <label for="email"> E-mail cím </label>
-       <input v-model="user.email" type="email" name="email" class="form-control mb-3" :class="{'is-invalid' : missings.email}">
+       <input v-model="user.email" type="email" name="email" class="form-control mb-3" :class="{'is-invalid' : missings.email}" @click="SetMissing('email')">
        <label for="passwd"> Jelszó: </label>
-       <input v-model="user.password" type="password" name="passwd" class="form-control" :class="{'is-invalid' : missings.password}">
+       <input v-model="user.password" type="password" name="passwd" class="form-control" :class="{'is-invalid' : missings.password}" @click="SetMissing('password')">
       <a id="forgotpass" data-bs-toggle="modal" data-bs-target="#exampleModal" class="mb-3"> Elfelejtette a jelszavát? </a>
        
        <button id="loginbutton" class="btn" @click="LogIn()">
@@ -34,6 +34,9 @@
       }
     },
     methods:{
+      SetMissing(missing){
+        this.missings[missing]=false;
+      },
       LogIn(){
         let data = {
           table: "felhasznalok",

@@ -1,163 +1,202 @@
 <template>
-  <div class="d-flex flex-column text-center">
-    <div>
-      <div class="d-flex justify-content-around">
-        <span>
-          Sötét mód
-        </span>
-        <label class="switch">
-              <input type="checkbox">
-              <span class="slider round"></span>
-           </label>
-      </div>
-    </div>
+<div class="container, d-flex justify-content-center">
 
-      <div class="mb-3">
-          <button class="btn btn-dark mb-3" @click="Ferfi()">
-              Férfi szín
-          </button>
-          <button class="btn btn-dark mb-3" @click="Noi()">
-              Női szín 
-          </button>
-          <div v-if="ferfi">
-              Férfi szín módosítása
+  <table id="settings">
+    <tr>
+      <td>
+        <h4>Publikus családfa</h4>
+      </td>
+      <td>
+        <h5 class="mb-3">
+          <div class="form-check form-switch m-2 pb-2">
+            <input class="form-check-input text-center" type="checkbox" role="switch" v-model="settings.publikus">
           </div>
-          <div v-if="noi">
-            Női szín módosítása
+        </h5>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h4>Családfa sötét mód</h4>
+      </td>
+      <td>
+        <h5 class="mb-3">
+          <div class="form-check form-switch m-2 pb-2">
+            <input class="form-check-input" type="checkbox" role="switch" v-model="settings.darkmode">
           </div>
-        <div v-if="szin" :style="{background: color}">
+        </h5>
+      </td>
+    </tr>
+
+    <hr>
+
+    <tr>
+      <td>
+        <h4>Férfi jelölő szín</h4>
+      </td>
+      <td>
+        <Popper arrow>
+          <button class="btn" id="ferfiszin">
+            &nbsp
+          </button>
+          <template #content>
+            <h3>Férfi:</h3>
             <ColorPicker
-                theme="dark"
-                :color="color"
-                :sucker-area="suckerArea"
-                @changeColor="changeColor">
-            </ColorPicker>
-  </div>
-      </div>
- 
-  </div>
+              :color="$store.getters.Settings.ferfiszin"
+              theme="light"
+              :sucker-hide="true"
+              @changeColor="changeMaleColor"
+              :colors-default="[]"
+            />
+          </template>
+        </Popper>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h4>Nő jelölő szín</h4>
+      </td>
+      <td>
+        <Popper arrow>
+          <button class="btn" id="noszin">
+            &nbsp
+          </button>
+          <template #content>
+            <h3>Nő:</h3>
+            <ColorPicker
+              :color="$store.getters.Settings.noszin"
+              theme="light"
+              :sucker-hide="true"
+              @changeColor="changeFemaleColor"
+              :colors-default="[]"
+            />
+          </template>
+        </Popper>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2">
+        <div class="d-flex justify-content-around">
+          <button type="button" class="btn btn-secondary" @click="Dismiss()">
+          Mégse
+        </button>
+        <button type="button" class="btn btn-primary" @click="Save()">
+          Mentés
+        </button>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
 
 </template>
 
 <script>
-import { ColorPicker } from 'vue-color-kit'
+  import Popper from "vue3-popper";
+  import { ColorPicker } from 'vue-color-kit'
   import 'vue-color-kit/dist/vue-color-kit.css'
+  import axios from 'axios';
 
   export default {
     components: {
       ColorPicker,
+      Popper,
     },
     data() {
       return {
-        color: '#59c7f9',
-        suckerCanvas: null,
-        suckerArea: [],
-        ferfi: false,
-        noi:false,
-        szin:false
+        settings:{},
       }
     },
     methods: {
-      changeColor(color) {
-        const { r, g, b, a } = color.rgba
-        this.color = `rgba(${r}, ${g}, ${b}, ${a})`
+      Save(){
+        let data={
+          darkmode: this.settings.darkmode ? "1" : "0",
+          publikus: this.settings.publikus ? "1" : "0",
+          noszin: this.settings.noszin,
+          ferfiszin: this.settings.ferfiszin
+        }
+        axios.patch(this.$store.getters.baseURL + "/beallitasok/" + this.settings.ID, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+        .then(res => {
+          this.$store.commit('LoadSettings', this.settings);
+        })
       },
-      Ferfi(){
-        this.ferfi = true;
-        this.noi = false;
-        this.szin = true;
+      Dismiss(){
+        this.settings.publikus = this.$store.getters.Settings.publikus;
+        this.settings.darkmode = this.$store.getters.Settings.darkmode;
+        this.settings.noszin = this.$store.getters.Settings.noszin
+        this.settings.ferfiszin = this.$store.getters.Settings.ferfiszin;
+        
       },
-      Noi(){
-        this.ferfi = false;
-        this.noi = true;
-        this.szin = true;
-      }
+      changeMaleColor(color){
+        this.settings.ferfiszin = color.hex
+      },
+      changeFemaleColor(color){
+        this.settings.noszin = color.hex
+      },
     },
+    watch:{
+      '$store.getters.Settings' :{
+        handler: function(Settings) {
+          if (this.settings.darkmode == undefined) {
+            this.settings={
+              publikus: Settings.publikus,
+              darkmode: Settings.darkmode,
+              noszin: Settings.noszin,
+              ferfiszin: Settings.ferfiszin,
+              csaladfaID: Settings.csaladfaID,
+              ID: Settings.ID
+            }
+          }
+        },
+        deep: true,
+      }
+    }
   }
 
 </script>
 
 <style>
 
-.color-alpha{
-    visibility: hidden !important;
-}
-.color-show{
-    visibility: hidden !important;
+
+#settings td:nth-child(1){
+  text-align: start;
 }
 
-</style>
-
-<style scoped>
-button{
-    margin: 3%;
-}
-button:hover{
-    border: 1px solid #ff7112  !important;
-    background-color: black;
-}
-label{
-    margin-right: 15%;
-}
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 25px;
+#settings td:nth-child(2) *{
+  line-height: 50% !important;
+  vertical-align: top !important;
 }
 
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
+#settings td{
+  padding-top: 20px !important;
 }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgb(82, 82, 82);
-  -webkit-transition: .4s;
-  transition: .4s;
+#ferfiszin{
+  background-color: v-bind('settings.ferfiszin') !important;
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 17px;
-  width: 17px;
-  left: 2px;
-  bottom: 4px;
-  background-color: white;
-  border: 1px solid black;
-  -webkit-transition: .4s;
-  transition: .4s;
+#noszin{
+  background-color: v-bind('settings.noszin') !important;
 }
 
-input:checked + .slider {
-  background-color: #ff7112;
+#settings *, ::after, ::before {
+    box-sizing: unset;
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #ff7112;
+.color-alpha, .color-type{
+  display: none !important;
 }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(30px);
-  -ms-transform: translateX(30px);
-  transform: translateX(30px);
+.hue canvas{
+  width: 230% !important;
+  height: 152px;
 }
 
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
+.hue .slide{
+  width: 230% !important;
 }
 
-.slider.round:before {
-  border-radius: 50%;
-}
 
 </style>
