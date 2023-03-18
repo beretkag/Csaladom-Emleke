@@ -1,6 +1,11 @@
 <template>
-<div class="container, d-flex justify-content-center">
+<div class="container, d-flex flex-column justify-content-center p-3">
 
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="nev" placeholder="Családfa neve" v-model="settings.Nev">
+    <label for="nev">Családfa neve</label>
+  </div>
+  
   <table id="settings">
     <tr>
       <td>
@@ -121,12 +126,22 @@
         .then(res => {
           this.$store.commit('LoadSettings', this.settings);
         })
+        if (this.settings.Nev != this.$store.getters.Settings.Nev) {
+          let fa ={
+            Nev: this.settings.Nev,
+          }
+          axios.patch(this.$store.getters.baseURL + "/csaladfak/" + this.$store.getters.Settings.csaladfaID, fa, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+          .then(res => {
+
+          })
+        }
       },
       Dismiss(){
         this.settings.publikus = this.$store.getters.Settings.publikus;
         this.settings.darkmode = this.$store.getters.Settings.darkmode;
         this.settings.noszin = this.$store.getters.Settings.noszin
         this.settings.ferfiszin = this.$store.getters.Settings.ferfiszin;
+        this.settings.Nev = this.$store.getters.Settings.Nev;
         
       },
       changeMaleColor(color){
@@ -146,7 +161,8 @@
               noszin: Settings.noszin,
               ferfiszin: Settings.ferfiszin,
               csaladfaID: Settings.csaladfaID,
-              ID: Settings.ID
+              ID: Settings.ID,
+              Nev: Settings.Nev 
             }
           }
         },

@@ -71,11 +71,12 @@ import moment from "moment";
             LoadSettings: (state, payload) => {
                 state.settings = {
                     ID: payload.ID,
-                    CsaladfaID: payload.CsaladfaID,
+                    csaladfaID: payload.csaladfaID,
                     publikus: payload.publikus == 1 ? true :false,
                     darkmode: payload.darkmode == 1 ? true :false,
                     noszin: payload.noszin,
-                    ferfiszin: payload.ferfiszin
+                    ferfiszin: payload.ferfiszin,
+                    Nev: payload.Nev
                 }
             }
         }
