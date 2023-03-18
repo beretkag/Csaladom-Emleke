@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Már 15. 16:47
+-- Létrehozás ideje: 2023. Már 18. 19:08
 -- Kiszolgáló verziója: 10.4.25-MariaDB
 -- PHP verzió: 8.1.10
 
@@ -33,17 +33,17 @@ CREATE TABLE `beallitasok` (
   `ID` int(11) NOT NULL,
   `csaladfaID` int(11) NOT NULL,
   `publikus` tinyint(1) NOT NULL,
-  `hatterszin` varchar(6) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `noszin` varchar(6) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `ferfiszin` varchar(6) COLLATE utf8_hungarian_ci DEFAULT NULL
+  `darkmode` tinyint(1) NOT NULL DEFAULT 0,
+  `noszin` varchar(20) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `ferfiszin` varchar(20) COLLATE utf8_hungarian_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `beallitasok`
 --
 
-INSERT INTO `beallitasok` (`ID`, `csaladfaID`, `publikus`, `hatterszin`, `noszin`, `ferfiszin`) VALUES
-(1, 5, 1, NULL, NULL, NULL);
+INSERT INTO `beallitasok` (`ID`, `csaladfaID`, `publikus`, `darkmode`, `noszin`, `ferfiszin`) VALUES
+(1, 5, 1, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,7 @@ CREATE TABLE `csaladfak` (
 --
 
 INSERT INTO `csaladfak` (`ID`, `felhasznaloID`, `Nev`) VALUES
-(5, 6, 'Gellért Beretka');
+(5, 6, 'Családfa');
 
 -- --------------------------------------------------------
 
@@ -92,10 +92,10 @@ CREATE TABLE `csaladtagok` (
 --
 
 INSERT INTO `csaladtagok` (`ID`, `csaladfaID`, `belsofaID`, `profilkep`, `telefonszam`, `keresztnev`, `vezeteknev`, `gender`, `szulhely`, `szulido`, `halido`, `mid`, `fid`, `partnerek`) VALUES
-(4, 5, 'gfhd', NULL, NULL, 'Gellért', 'Beretka', 'male', NULL, '1999-08-23', NULL, '_uq02', '_3ru7', '_jnm7'),
+(4, 5, 'gfhd', NULL, NULL, 'Gellért', 'Beretka', 'male', NULL, '1999-08-23', NULL, '_uq02', NULL, '_b8n9'),
 (8, 5, '_uq02', NULL, NULL, 'Zsuzsanna', 'Bíró', 'female', NULL, NULL, NULL, NULL, NULL, NULL),
-(70, 5, '_9zg2', NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, '_jnm7', 'gfhd', NULL),
-(71, 5, '_jnm7', NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, NULL, 'gfhd');
+(136, 5, '_3h88', NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, '_b8n9', 'gfhd', NULL),
+(137, 5, '_b8n9', NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, NULL, 'gfhd');
 
 -- --------------------------------------------------------
 
@@ -198,25 +198,25 @@ ALTER TABLE `kepek`
 -- AUTO_INCREMENT a táblához `beallitasok`
 --
 ALTER TABLE `beallitasok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT a táblához `csaladfak`
 --
 ALTER TABLE `csaladfak`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT a táblához `csaladtagok`
 --
 ALTER TABLE `csaladtagok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT a táblához `eletut`
 --
 ALTER TABLE `eletut`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT a táblához `felhasznalok`
@@ -228,7 +228,7 @@ ALTER TABLE `felhasznalok`
 -- AUTO_INCREMENT a táblához `kepek`
 --
 ALTER TABLE `kepek`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
 
 --
 -- Megkötések a kiírt táblákhoz
