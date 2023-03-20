@@ -48,19 +48,14 @@ var pool = mysql.createPool({
 });
 
 // GENERATE QR CODE BY LINK
-app.post('/qrcode/:id', /*tokencheck(), */ (req,res)=>{
-    console.log(req.params.id+"idka")
-    console.log("idka");
-    //path.join(__dirname + `/Uploads/link_${link}.png`
+app.get('/qrcode/:id', tokencheck(), (req,res)=>{
     var link = process.env.DOMAIN + "/eletut/"+ req.params.id;
-    //ide majd még kell valami
-    QRCode.toFile(`./Uploads/qrcode.png`, link, function (err) {
+    var filename=`qrcode_${req.params.id}.png`
+    QRCode.toFile(`./Uploads/${filename}`, link, function (err) {
         if(err) {
             res.status(500).send(err)
-            console.log("hiba utáni");
         }else{   
-            res.status(200).send(`link_${link}`)
-            console.log("már jó");
+            res.status(200).send(filename)
         }
     })
 })
@@ -422,6 +417,8 @@ app.listen(port, () => {
 
 function tokencheck() {
     return (req, res, next) => {
+            console.log("tokent chekkelek");
+            console.log(req.headers.authorization);
         try {
             jwt.verify(req.headers.authorization.split(' ')[1], process.env.KEY);
             next();
