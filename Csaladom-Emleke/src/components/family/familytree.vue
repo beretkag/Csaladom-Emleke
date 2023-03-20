@@ -126,20 +126,14 @@ import router from '../../router';
                 this.family.editUI.on('button-click', function (sender, args) {
                 if (args.name == 'qrcode') {
                     let idx= ez.$store.getters.Members.find(x=> x.id == args.nodeId).ID;
-                    console.log("gombra rányomott");
                     ez.QRCodeGen(idx)
                 }
                 });
             },
             QRCodeGen(idx){
-                // let sett = this.$store.getters.Settings;
-                // sett.darkmode = 1;
-                // this.$store.commit('LoadSettings', sett);
-                // return
-                console.log("vihar elötti csend");
-                axios.post(this.$store.getters.baseURL+"/qrcode/"+idx)
+                axios.get(this.$store.getters.baseURL+"/qrcode/"+idx, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                 .then(res =>{
-                    console.log("siker :"+res.data)
+                    
                 })
 
             },
@@ -231,7 +225,7 @@ import router from '../../router';
                 item.teljesnev = item.vezeteknev + " " + item.keresztnev;
 
 
-                
+
 
                 if (item.nem != null) {
                     item.nem = item.nem.replace(/\s/g, '_');
