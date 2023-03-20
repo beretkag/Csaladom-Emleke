@@ -77,7 +77,7 @@ import router from '../../router';
                                 hideIfDetailsMode: false
                             },
                             qrcode:{
-                                icon: `<svg width="30" height="30" ><image href="${this.$store.getters.baseURL}/assets/qrcodeicon.png" style="width: 30px; height: 26px;" alt="" sty></svg>`,
+                                icon: `<svg width="30" height="30"><image href="${this.$store.getters.baseURL}/assets/qrcodeicon.png" style="width: 30px; height: 26px;" alt="" sty></svg>`,
                                 text: 'QR kód',
                                 hideIfEditMode: false,
                                 hideIfDetailsMode: !sajat
@@ -126,14 +126,14 @@ import router from '../../router';
                 this.family.editUI.on('button-click', function (sender, args) {
                 if (args.name == 'qrcode') {
                     let idx= ez.$store.getters.Members.find(x=> x.id == args.nodeId).ID;
-                    ez.QRCodeGen(idx)
+                    ez.QRCodeGen(idx, ez.$store.getters.Members.find(x=> x.id == args.nodeId))
                 }
                 });
             },
-            QRCodeGen(idx){
+            QRCodeGen(idx, node){
                 axios.get(this.$store.getters.baseURL+"/qrcode/"+idx, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                 .then(res =>{
-                    
+                    this.$store.commit('SetQrCode', { img:res.data, visible:true, node:node } );
                 })
 
             },

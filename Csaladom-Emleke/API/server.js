@@ -417,8 +417,6 @@ app.listen(port, () => {
 
 function tokencheck() {
     return (req, res, next) => {
-            console.log("tokent chekkelek");
-            console.log(req.headers.authorization);
         try {
             jwt.verify(req.headers.authorization.split(' ')[1], process.env.KEY);
             next();

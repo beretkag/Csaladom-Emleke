@@ -1,5 +1,7 @@
 <template>
     <div id="app">
+        <qr_modal />
+
         <div v-if="!vendeg">
             <i class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"></i>
             <FamilyMenu :csaladfaID="csaladfaID"/>
@@ -13,6 +15,7 @@ import axios from 'axios';
 import FamilyTree from '../components/family/FamilyTree.vue';
 import FamilyMenu from '../components/family/familymenu/familymenu.vue';
 import router from '../router';
+import qr_modal from '../components/family/qr_modal.vue';
 
 export default{
     props:{
@@ -21,6 +24,7 @@ export default{
     components:{
         FamilyMenu,
         FamilyTree,
+        qr_modal,
         axios
     },
     data(){

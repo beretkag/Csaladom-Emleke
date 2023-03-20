@@ -6,11 +6,17 @@ import moment from "moment";
     const store = createStore({
         state: {
             baseURL: "http://localhost:3000",
+            domain: "localhost:5173",
             members: [],
             alertMsg:{
                 message: "",
                 visible: false,
                 style: "danger"
+            },
+            qr_modal:{
+                img: "",
+                visible: false,
+                node: {}
             },
             csaldfaID:"",
             settings:{},
@@ -22,6 +28,9 @@ import moment from "moment";
             baseURL: state => {
                 return state.baseURL;
             },
+            Domain: state => {
+                return state.domain;
+            },
             alertMsg: state => {
                 return state.alertMsg;
             },
@@ -30,6 +39,9 @@ import moment from "moment";
             },
             Settings: state => {
                 return state.settings;
+            },
+            QR_Modal: state =>{
+                return state.qr_modal;
             }
         },
         mutations:{
@@ -78,6 +90,9 @@ import moment from "moment";
                     ferfiszin: payload.ferfiszin,
                     Nev: payload.Nev
                 }
+            },
+            SetQrCode:(state, payload) =>{
+                state.qr_modal=payload
             }
         }
     })
