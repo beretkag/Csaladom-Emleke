@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <qr_modal />
+        <qr_modal v-if="$store.getters.QR_Modal.visible" :url="$store.getters.Domain+'/eletut/'+$store.getters.QR_Modal.node.ID"/>
 
         <div v-if="!vendeg">
             <i class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"></i>

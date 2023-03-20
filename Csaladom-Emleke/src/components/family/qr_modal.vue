@@ -1,6 +1,6 @@
 <template>
     <!-- Modal -->
-    <div v-if="$store.getters.QR_Modal.visible" class="modal d-block" id="qrmodal" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div  class="modal d-block" id="qrmodal" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -15,6 +15,15 @@
                         </span>
                     </div>
                     <img :src="$store.getters.baseURL + '/img/' + $store.getters.QR_Modal.img" alt="">
+                    <div class="d-flex flex-row">
+                        <ButtonFacebook text="" :url="url" isRounded hasIcon/>
+                        <ButtonTwitter text="" :url="url" isRounded hasIcon/>
+                        <ButtonReddit text="" :url="url" isRounded hasIcon/>
+                        <ButtonLinkedIn text="" :url="url" isRounded hasIcon/>
+                        <ButtonPinterest text="" :url="url" isRounded hasIcon/>
+                        <ButtonWhatsapp text="" :url="url" isRounded hasIcon/>
+                    </div>
+                    <button  @click="Download($store.getters.QR_Modal.img)" class="btn btn-success"><i class="bi bi-download"></i></button>
                 </div>
             </div>
         </div>
@@ -23,14 +32,33 @@
 
 
 <script>
-import router from '../../router';
+import {ButtonFacebook, ButtonTwitter, ButtonReddit, ButtonLinkedIn, ButtonPinterest, ButtonWhatsapp} from 'share-button-links'
+
 
 export default{
-
+    components:{
+        ButtonFacebook,
+        ButtonTwitter,
+        ButtonReddit, 
+        ButtonLinkedIn, 
+        ButtonPinterest, 
+        ButtonWhatsapp
+    },
+    props:{
+        url:String,
+    },
     methods:{
         ModalClose(){
             this.$store.commit('SetQrCode', { img:'', visible:false, node:null} );
-        }
+        },
+        Download(picture){
+          var url = '../API/Uploads/' + picture
+          var tmp = document.createElement('A');
+          tmp.href = url;
+          tmp.download = this.$store.getters.QR_Modal.node.teljesnev+" qrcode";
+          tmp.click();
+        },
+
     }
 }
 
@@ -40,7 +68,7 @@ export default{
 img{
     width: 90vw;
     max-width: 300px;
-    
+    image-rendering: pixelated;
 
 }
 
