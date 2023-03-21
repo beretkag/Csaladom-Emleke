@@ -11,13 +11,13 @@
         </div>
     </div>
     <div class="d-flex flex-column justify-content-between m-3">
-        <h1>
+        <h1 class="familytreetext">
             Név módosítás
         </h1>
        <label for="passwd"> Jelszó: </label>
-       <input type="password" v-model="passwd" class="form-control mb-3">
+       <input type="password" v-model="passwd" class="form-control mb-3 familytreeinput">
        <label for="newname"> Új név: </label>
-       <input type="text" v-model="newname" class="form-control mb-3">
+       <input type="text" v-model="newname" class="form-control mb-3 familytreeinput">
        <button class="btn btn-dark" @click="Namechange()">
            Név módosítása 
        </button>

@@ -14,7 +14,7 @@
   </li>
   <li v-if="csaladfak.length < 5">
     <p class="text-start plus" >
-      <i class="bi bi-plus-circle btn btn-sm m-0" data-bs-toggle="modal" data-bs-target="#newTreeModal"></i>
+      <i class="bi bi-plus-circle btn btn-sm m-0 familytreetext" data-bs-toggle="modal" data-bs-target="#newTreeModal"></i>
     </p>
   </li>
 </ul>
@@ -27,21 +27,21 @@
         <h1 class="modal-title fs-5" >Új családfa létrehozása</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="Dismiss()"></button>
       </div>
-      <div class="modal-body text-start">
+      <div class="modal-body text-start themebg">
         <div class="mb-3">
-          <label>Családfa neve:</label>
-          <input type="text" placeholder="Név" class="form-control" :class="{'is-invalid' : missingname}" v-model="newTree.name" @click="SetMissingName()">
+          <label class="familytreetext">Családfa neve:</label>
+          <input type="text" placeholder="Név" class="form-control familytreeinput" :class="{'is-invalid' : missingname} " v-model="newTree.name" @click="SetMissingName()">
         </div>
 
         <hr>
 
         <div>
-          <label class="mb-3">Első családtag:</label>
+          <label class="mb-3 familytreetext">Első családtag:</label>
           <div class="mb-3">
-            <input type="text" placeholder="Vezetéknév" class="form-control" v-model="newTree.lastName">
+            <input type="text" placeholder="Vezetéknév" class="form-control familytreeinput" v-model="newTree.lastName">
           </div>
           <div class="mb-3">
-            <input type="text" placeholder="Keresztnév" class="form-control" v-model="newTree.firstName">
+            <input type="text" placeholder="Keresztnév" class="form-control familytreeinput" v-model="newTree.firstName">
           </div>
           <div class="d-flex justify-content-start ml-3">
             <label>Neme: &nbsp</label>
@@ -56,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer themebg">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="Dismiss()">Mégse</button>
         <button type="button" class="btn btn-primary orange-bgc" :data-bs-dismiss="Check()" @click="AddNewTree()">Létrehozás</button>
       </div>
@@ -167,7 +167,7 @@ methods:{
 <style>
 
 
-.plus:hover{
+.plus *:hover{
   color: #ff7112;
 }
 

@@ -3,7 +3,7 @@
 
   <div class="form-floating mb-3">
     <input type="text" class="form-control familytreeinput" id="nev" placeholder="Családfa neve" v-model="settings.Nev">
-    <label for="nev" class="familytreelabel">Családfa neve</label>
+    <label for="nev" class="familytreetext">Családfa neve</label>
   </div>
   
   <table id="settings">

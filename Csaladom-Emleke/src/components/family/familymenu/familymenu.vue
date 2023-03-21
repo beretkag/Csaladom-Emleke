@@ -4,7 +4,7 @@
       <h5 class="offcanvas-title">
         <img src="../../img/logopng.png" alt="Családom emléke logo" id="logo">
       </h5>
-      <button type="button" class="btn btn-lg rounded-circle " data-bs-dismiss="offcanvas">
+      <button class="btn btn-lg rounded-circle " data-bs-dismiss="offcanvas">
         <h2 class="m-0"><i class="bi bi-arrow-left-circle"></i></h2>
       </button>
     </div>
@@ -76,7 +76,6 @@
             bgcolor:"rgb(43, 43, 43)",
             color:"white",
             inputbgcolor:"rgb(51,51,51)",
-            inputlabelcolor:"white",
             
           }
         }else{
@@ -84,7 +83,6 @@
             bgcolor:"rgb(226, 226, 226)",
             color:"black",
             inputbgcolor:"white",
-            inputlabelcolor:"black",
             
           }
         }
@@ -100,16 +98,22 @@
 
 <style >
 
-  .familytreelabel{
-    color: v-bind('sidebarStyle.inputlabelcolor');
+.familytreetext{
+    color: v-bind('sidebarStyle.color') !important;
   }
   .familytreeinput{
     background-color: v-bind('sidebarStyle.inputbgcolor');
+    color: v-bind('sidebarStyle.color');
+
   }
   .familytreeinput:focus{
     background-color: v-bind('sidebarStyle.inputbgcolor');
-    background-color: v-bind('sidebarStyle.inputbgcolor');
+    color: v-bind('sidebarStyle.color');
   }
+  .themebg{
+    background-color: v-bind('sidebarStyle.bgcolor');
+  }
+  
   .offcanvas{
     z-index: 200 !important;
     color: v-bind('sidebarStyle.color') !important;

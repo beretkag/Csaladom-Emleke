@@ -11,15 +11,15 @@
         </div>
     </div>
     <div class="d-flex flex-column justify-content-between m-3">
-        <h1>
+        <h1 class="familytreetext">
             Jelszó módosítás
         </h1>
        <label for="oldpass"> Régi jelszó: </label>
-       <input type="password" v-model="oldpass" class="form-control mb-3">
+       <input type="password" v-model="oldpass" class="form-control mb-3 familytreeinput">
        <label for="passwd1"> Új jelszó: </label>
-       <input type="password" v-model="passwd1" class="form-control mb-3">
+       <input type="password" v-model="passwd1" class="form-control mb-3 familytreeinput">
        <label for="passwd2"> Új jelszó újra: </label>
-       <input type="password" v-model="passwd2" class="form-control mb-3">
+       <input type="password" v-model="passwd2" class="form-control mb-3 familytreeinput">
        <button class="btn btn-dark" @click="Passchange()">
            Jelszó módosítása 
        </button>
