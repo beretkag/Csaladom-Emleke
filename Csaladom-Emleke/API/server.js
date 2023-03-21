@@ -14,9 +14,6 @@ const app = express();
 
 
 
-
-
-
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -54,7 +51,7 @@ app.get('/qrcode/:id', tokencheck(), (req,res)=>{
     QRCode.toFile(`./Uploads/${filename}`, link, function (err) {
         if(err) {
             res.status(500).send(err)
-        }else{   
+        }else{
             res.status(200).send(filename)
         }
     })
@@ -92,6 +89,21 @@ app.delete('/fileDelete/:table/:field/:val', tokencheck(), (req, res) => {
         }
     });
 });
+
+// QR Code Delete
+app.delete('/qrDelete/:id', tokencheck(), (req,res) => {
+    fs.rm(path.join(__dirname + '/Uploads/qrcode_' + req.params.id + '.png'), (err) =>{
+        if (err) {
+            log(req.socket.remoteAddress, err);
+            res.status(500).send(err)
+        }
+        else{
+            log(req.socket.remoteAddress, `1 QR Code deleted from Uploads`);
+            res.status(200).send({id: req.params.id})
+        }
+    })
+})
+
 
 // LOGINCHECK
 app.post('/login', (req, res) => {

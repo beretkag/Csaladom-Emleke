@@ -15,7 +15,7 @@
                         </span>
                     </div>
                     <img :src="$store.getters.baseURL + '/img/' + $store.getters.QR_Modal.img" alt="">
-                    <div class="d-flex flex-row">
+                    <div class="d-flex flex-row" id="shareButtons">
                         <ButtonFacebook text="" :url="url" isRounded hasIcon/>
                         <ButtonTwitter text="" :url="url" isRounded hasIcon/>
                         <ButtonReddit text="" :url="url" isRounded hasIcon/>
@@ -23,7 +23,7 @@
                         <ButtonPinterest text="" :url="url" isRounded hasIcon/>
                         <ButtonWhatsapp text="" :url="url" isRounded hasIcon/>
                     </div>
-                    <button  @click="Download($store.getters.QR_Modal.img)" class="btn btn-success"><i class="bi bi-download"></i></button>
+                    <button  @click="Download($store.getters.QR_Modal.img)" class="btn btn-success rounded-circle"><i class="bi bi-download"></i></button>
                 </div>
             </div>
         </div>
@@ -33,6 +33,7 @@
 
 <script>
 import {ButtonFacebook, ButtonTwitter, ButtonReddit, ButtonLinkedIn, ButtonPinterest, ButtonWhatsapp} from 'share-button-links'
+import axios from 'axios';
 
 
 export default{
@@ -49,7 +50,11 @@ export default{
     },
     methods:{
         ModalClose(){
-            this.$store.commit('SetQrCode', { img:'', visible:false, node:null} );
+            axios.delete(this.$store.getters.baseURL + '/qrDelete/' + this.$store.getters.QR_Modal.node.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+            .then(res => {
+                console.log('itt');
+                this.$store.commit('SetQrCode', { img:'', visible:false, node:null} );
+            })
         },
         Download(picture){
           var url = '../API/Uploads/' + picture
@@ -69,7 +74,18 @@ img{
     width: 90vw;
     max-width: 300px;
     image-rendering: pixelated;
+}
 
+#shareButtons a{
+    height: 40px !important;
+    width: 40px !important;
+    padding: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 5px;
+    flex-wrap: wrap;
 }
 
 </style>
