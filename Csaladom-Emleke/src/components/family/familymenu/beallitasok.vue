@@ -45,7 +45,7 @@
           </button>
           <template #content>
             <h3>Férfi:</h3>
-            <ColorPicker
+            <ColorPicker v-if="$store.getters.Settings.darkmode != undefined"
               :color="$store.getters.Settings.ferfiszin"
               theme="light"
               :sucker-hide="true"
@@ -68,7 +68,7 @@
           </button>
           <template #content>
             <h3>Nő:</h3>
-            <ColorPicker
+            <ColorPicker v-if="$store.getters.Settings.darkmode != undefined"
               :color="$store.getters.Settings.noszin"
               theme="light"
               :sucker-hide="true"

@@ -16,6 +16,7 @@
     "bootstrap-icons": "^1.10.3",
     "crypto-js": "^4.1.1",
     "moment": "^2.29.4",
+    "share-button-links": "^2.3.5",
     "vue": "^3.2.45",
     "vue-color-kit": "^1.0.5",
     "vue-color-picker-wheel": "^0.4.3",

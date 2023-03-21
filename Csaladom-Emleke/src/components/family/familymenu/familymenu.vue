@@ -57,6 +57,26 @@
         RouterView,
         manage
       },
+      data(){
+        return{
+          sidebarStyle:{},
+
+        }
+      },
+      created(){
+        if (this.$store.getters.Settings.darkmode) {
+          this.sidebarStyle={
+            bgcolor:"rgb(226, 226, 226)"
+  
+          }
+        }else{
+          this.sidebarStyle={
+            bgcolor:"rgb(43, 43, 43)"
+  
+          }
+        }
+
+    }
       
     }
 
@@ -77,7 +97,7 @@
   }
 
   #offcanvasScrolling{
-    background-color: rgb(226, 226, 226);
+    background-color: v-bind('sidebarStyle.bgcolor');
     text-align: center;
   }
   button:hover{
