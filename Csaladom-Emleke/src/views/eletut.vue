@@ -1,7 +1,8 @@
 <template>
     <button class="btn btn-primary visszagomb rounded-circle btn-dark" @click="Vissza()"><i class="bi bi-arrow-left"></i></button>
     <header class="row p-3">
-        <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" :src="this.$store.getters.Members[0].profilkep">
+        
+        <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" :src="SetProfilePic()">
         <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
         <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column" v-if="!vendeg"><button class="btn btn-dark m-3" @click="UjParagrafus()">Új paragrafus írása</button></div>
     </header>
@@ -95,6 +96,13 @@ export default{
         
     },
     methods:{
+        SetProfilePic(){
+            if (this.$store.getters.Members[0].profilkep==null) {
+                return `${this.$store.getters.baseURL}/assets/nopic.png`
+            }else{
+                return this.$store.getters.Members[0].profilkep
+            }
+        },
         Torles(paragraph){
             axios.delete(this.$store.getters.baseURL+"/eletut/ID/"+paragraph.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(res =>{
