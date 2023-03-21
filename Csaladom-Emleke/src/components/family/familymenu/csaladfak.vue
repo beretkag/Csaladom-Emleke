@@ -169,6 +169,7 @@ methods:{
 
 .plus *:hover{
   color: #ff7112;
+  /* nem hoverel */
 }
 
 .active, .active *{
