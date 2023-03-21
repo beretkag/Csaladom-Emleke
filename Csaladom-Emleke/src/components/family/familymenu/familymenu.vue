@@ -9,7 +9,7 @@
       </button>
     </div>
     <div class="offcanvas-body text-center">
-      <div>
+      <div id="maindiv">
         <hr>
 
         <div class="m-3">
@@ -64,28 +64,58 @@
         }
       },
       created(){
-        if (this.$store.getters.Settings.darkmode) {
+        
+        
+
+    },
+    watch:{
+      '$store.getters.Settings' :{
+        handler: function(Settings) {
+          if (this.$store.getters.Settings.darkmode) {
           this.sidebarStyle={
-            bgcolor:"rgb(226, 226, 226)"
-  
+            bgcolor:"rgb(43, 43, 43)",
+            color:"white",
+            inputbgcolor:"rgb(51,51,51)",
+            inputlabelcolor:"white",
+            
           }
         }else{
           this.sidebarStyle={
-            bgcolor:"rgb(43, 43, 43)"
-  
+            bgcolor:"rgb(226, 226, 226)",
+            color:"black",
+            inputbgcolor:"white",
+            inputlabelcolor:"black",
+            
           }
         }
-
+        },
+        deep: true,
+      }
     }
+
       
     }
 
 </script>
 
-<style scoped>
+<style >
 
+  .familytreelabel{
+    color: v-bind('sidebarStyle.inputlabelcolor');
+  }
+  .familytreeinput{
+    background-color: v-bind('sidebarStyle.inputbgcolor');
+  }
+  .familytreeinput:focus{
+    background-color: v-bind('sidebarStyle.inputbgcolor');
+    background-color: v-bind('sidebarStyle.inputbgcolor');
+  }
   .offcanvas{
     z-index: 200 !important;
+    color: v-bind('sidebarStyle.color') !important;
+  }
+  #maindiv *{
+    color: v-bind('sidebarStyle.color');
   }
 
   .link{
