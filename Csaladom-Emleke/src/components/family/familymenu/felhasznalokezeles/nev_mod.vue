@@ -15,9 +15,9 @@
             Név módosítás
         </h1>
        <label for="passwd"> Jelszó: </label>
-       <input type="password" v-model="passwd" class="form-control mb-3 familytreeinput">
+       <input type="password" v-model="passwd" class="form-control mb-3 familytreeinput" :class="{'is-invalid' : missings.passwd}" @click="SetMissing('passwd')">
        <label for="newname"> Új név: </label>
-       <input type="text" v-model="newname" class="form-control mb-3 familytreeinput">
+       <input type="text" v-model="newname" class="form-control mb-3 familytreeinput" :class="{'is-invalid' : missings.newname}" @click="SetMissing('newname')">
        <button class="btn btn-dark" @click="Namechange()">
            Név módosítása 
        </button>
@@ -40,14 +40,16 @@ export default {
       return{
         passwd: "",
         newname:"",
+        missings:{
+            passwd: false,
+            newname: false
+        }
     }
       
     },
     methods:{
       Namechange(){
-        let password = `${sha256(this.passwd)}`;
-
-        if (this.passwd == "" || this.newname == "") {
+        if (this.Missings(this.missings).length > 0) {
             this.$store.commit('ShowMsg', {text:"Nem töltött ki minden adatot!", type: "danger"})
         }
         else {
@@ -56,6 +58,7 @@ export default {
                 axios.get(this.$store.getters.baseURL + '/felhasznalok/ID/' + sajat.data.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                 .then(res => {
                     if (res.data[0].Jelszo != `${sha256(this.passwd)}`) {
+                        this.missings.passwd = true;
                         this.$store.commit('ShowMsg', {text:"Hibás jelszót adott meg!", type: "danger"})
                     }
                     else {
@@ -64,18 +67,38 @@ export default {
                         }
                         axios.patch(this.$store.getters.baseURL + '/felhasznalok/' + res.data[0].ID, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                         .then(res => {
-                            this.$store.commit('ShowMsg', {text:"Név sikeresen megváltoztatva!", type: "success"})
-                            this.passwd = "";
-                            this.newname = "";
+                            data = {
+                                table: "felhasznalok",
+                                email: sajat.data.email,
+                                passwd: `${sha256(this.passwd)}`
+                            }
+                            axios.post(this.$store.getters.baseURL + '/login', data)
+                            .then(res => {
+                                sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
+                                this.$store.commit('ShowMsg', {text:"Név sikeresen megváltoztatva!", type: "success"})
+                                this.passwd = "";
+                                this.newname = "";
+                            })
                         })
                     }
                 })
             })
         } 
-
-
-
-      }
+      },
+      Missings(){
+        let required = Object.keys(this.missings);
+        let missed = [];
+        required.forEach(item => {
+          if (this[item] == null || this[item].length == 0) {
+            missed.push(item);
+            this.missings[item] = true;
+          }
+        });
+        return missed;
+      },
+      SetMissing(missing){
+        this.missings[missing]=false;
+      },
     }
 }
 

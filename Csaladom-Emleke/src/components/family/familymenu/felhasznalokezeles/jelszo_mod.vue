@@ -15,11 +15,11 @@
             Jelszó módosítás
         </h1>
        <label for="oldpass"> Régi jelszó: </label>
-       <input type="password" v-model="oldpass" class="form-control mb-3 familytreeinput">
+       <input type="password" v-model="oldpass" class="form-control mb-3 familytreeinput" :class="{'is-invalid' : missings.oldpass}" @click="SetMissing('oldpass')">
        <label for="passwd1"> Új jelszó: </label>
-       <input type="password" v-model="passwd1" class="form-control mb-3 familytreeinput">
+       <input type="password" v-model="passwd1" class="form-control mb-3 familytreeinput" :class="{'is-invalid' : missings.passwd1}" @click="SetMissing('passwd1')">
        <label for="passwd2"> Új jelszó újra: </label>
-       <input type="password" v-model="passwd2" class="form-control mb-3 familytreeinput">
+       <input type="password" v-model="passwd2" class="form-control mb-3 familytreeinput" :class="{'is-invalid' : missings.passwd2}" @click="SetMissing('passwd2')">
        <button class="btn btn-dark" @click="Passchange()">
            Jelszó módosítása 
        </button>
@@ -42,22 +42,30 @@ export default {
       return{
         oldpass:"",
         passwd1:"",
-        passwd2:""
+        passwd2:"",
+        missings:{
+            oldpass: false,
+            passwd1: false,
+            passwd2: false,
+        }
       }
-      felhasznalo:{};
   },
   methods:{
     Passchange(){
-        if (this.passwd1 == "" || this.passwd2 == "" || this.oldpass == "") {
+        if (this.Missings(this.missings).length > 0) {
             this.$store.commit('ShowMsg', {text:"Nem töltött ki minden adatot!", type: "danger"})
         }
         else {
             if (this.passwd1 != this.passwd2) {
                 this.$store.commit('ShowMsg', {text:"Nem egyeznek a jelszavak!", type: "danger"})
+                this.missings.passwd1 = true;
+                this.missings.passwd2 = true;
             }
             else{
                 if (!this.passwd1.match((/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/))) {
                     this.$store.commit('ShowMsg', {text:"A jelszó nem felel meg a követelményeknek!", type: "danger"})
+                    this.missings.passwd1 = true;
+                    this.missings.passwd2 = true;
                 }
                 else{
                     axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
@@ -66,6 +74,7 @@ export default {
                         .then(res => {
                             if (res.data[0].Jelszo != `${sha256(this.passwd)}`) {
                                 this.$store.commit('ShowMsg', {text:"Hibás jelszót adott meg!", type: "danger"})
+                                this.missings.oldpass = true;
                             }
                             else {
                                 let data = {
@@ -73,10 +82,19 @@ export default {
                                 }
                                 axios.patch(this.$store.getters.baseURL + '/felhasznalok/' + res.data[0].ID, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                                 .then(res => {
-                                    this.$store.commit('ShowMsg', {text:"Jelszó sikeresen megváltoztatva!", type: "success"})
-                                    this.passwd1 = "";
-                                    this.passwd1 = "";
-                                    this.oldpass = "";
+                                    data = {
+                                        table: "felhasznalok",
+                                        email: sajat.data.email,
+                                        passwd: `${sha256(this.passwd)}`
+                                    }
+                                    axios.post(this.$store.getters.baseURL + '/login', data)
+                                    .then(res => {
+                                        sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
+                                        this.$store.commit('ShowMsg', {text:"Jelszó sikeresen megváltoztatva!", type: "success"})
+                                        this.passwd1 = "";
+                                        this.passwd1 = "";
+                                        this.oldpass = "";
+                                    })
                                 })
                             }
                         })
@@ -84,7 +102,21 @@ export default {
                 }
             }
         } 
-    }
+    },
+    Missings(){
+        let required = Object.keys(this.missings);
+        let missed = [];
+        required.forEach(item => {
+          if (this[item] == null || this[item].length == 0) {
+            missed.push(item);
+            this.missings[item] = true;
+          }
+        });
+        return missed;
+      },
+      SetMissing(missing){
+        this.missings[missing]=false;
+      },
   }
 }
 

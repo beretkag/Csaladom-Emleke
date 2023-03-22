@@ -15,9 +15,9 @@
             E-mail cím módosítás
         </h1>
        <label for="passwd"> Jelszó: </label>
-       <input type="password" v-model="passwd" class="form-control mb-3 familytreeinput">
+       <input type="password" v-model="passwd" class="form-control mb-3 familytreeinput" :class="{'is-invalid' : missings.passwd}" @click="SetMissing('passwd')">
        <label for="newmail"> Új e-mail cím: </label>
-       <input type="email" v-model="newmail" class="form-control mb-3 familytreeinput">
+       <input type="email" v-model="newmail" class="form-control mb-3 familytreeinput" :class="{'is-invalid' : missings.newmail}" @click="SetMissing('newmail')">
        <button class="btn btn-dark" @click="Emailchange()">
            E-mail cím módosítása 
        </button>
@@ -40,21 +40,27 @@ export default {
       return{
           passwd: "",
           newmail: "",
+          missings:{
+            passwd: false,
+            newmail: false
+          }
       }
     },
     methods:{
       Emailchange(){
-        if (this.passwd == "" || this.newmail == "") {
+        if (this.Missings(this.missings).length > 0) {
             this.$store.commit('ShowMsg', {text:"Nem töltött ki minden adatot!", type: "danger"})
         }
         else {
             if (!this.newmail.match(/(?:[a-z0-9+!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gi)) {
                 this.$store.commit('ShowMsg', {text:"Helytelen e-mail cím formátum!", type: "danger"})
+                this.missings.newmail = true;
             }
             else{
                 axios.get(this.$store.getters.baseURL + '/felhasznalok/email/' + this.newmail, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                 .then(res => {
                     if (res.data.length > 0) {
+                        this.missings.newmail = true;
                         this.$store.commit('ShowMsg', {text:"Ezzel az e-mail címmel már regisztráltak!", type: "danger"})
                     }
                     else {
@@ -64,6 +70,7 @@ export default {
                             .then(res => {
                                 if (res.data[0].Jelszo != `${sha256(this.passwd)}`) {
                                     this.$store.commit('ShowMsg', {text:"Hibás jelszót adott meg!", type: "danger"})
+                                    this.missings.passwd = true;
                                 }
                                 else {
                                     let data = {
@@ -71,9 +78,18 @@ export default {
                                     }
                                     axios.patch(this.$store.getters.baseURL + '/felhasznalok/' + res.data[0].ID, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                                     .then(res => {
-                                        this.$store.commit('ShowMsg', {text:"E-mail cím sikeresen megváltoztatva!", type: "success"})
+                                        data = {
+                                        table: "felhasznalok",
+                                        email: sajat.data.email,
+                                        passwd: `${sha256(this.passwd)}`
+                                        }
+                                        axios.post(this.$store.getters.baseURL + '/login', data)
+                                        .then(res => {
+                                            sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
+                                            this.$store.commit('ShowMsg', {text:"E-mail cím sikeresen megváltoztatva!", type: "success"})
                                         this.passwd = "";
                                         this.newmail = "";
+                                        })
                                     })
                                 }
                             })
@@ -82,7 +98,21 @@ export default {
                 })
             }
         } 
-      }
+      },
+      Missings(){
+        let required = Object.keys(this.missings);
+        let missed = [];
+        required.forEach(item => {
+          if (this[item] == null || this[item].length == 0) {
+            missed.push(item);
+            this.missings[item] = true;
+          }
+        });
+        return missed;
+      },
+      SetMissing(missing){
+        this.missings[missing]=false;
+      },
     }
 }
 
