@@ -76,6 +76,8 @@ img{
     width: 90vw;
     max-width: 300px;
     image-rendering: pixelated;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 #shareButtons a{

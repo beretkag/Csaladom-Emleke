@@ -113,6 +113,7 @@ export default{
 
 <style>
 
+/* Dark / Light mode binding */
   .modalheader{
     background-color: rgb(255,113,18) !important;
     color: white;
@@ -153,6 +154,7 @@ export default{
     text-align: center;
   }
 
+  /* ----------------------------------------- */
 @media all and (max-width:1000px) {
     #menuBtn{
         position: absolute;

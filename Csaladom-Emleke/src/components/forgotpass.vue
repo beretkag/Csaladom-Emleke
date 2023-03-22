@@ -26,7 +26,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezárás</button>
-        <button class="btn btn-primary" @click="genPassword()">Új jelszó küldése</button>
+        <button class="btn btn-primary" @click="SetNewPassword()">Új jelszó küldése</button>
       </div>
     </div>
   </div>
@@ -88,18 +88,26 @@ import sha256 from "crypto-js/sha256"
           Jelszo:`${sha256(this.pw)}`
         }
         this.SendingNewPasswordInEmail(pw)
-        axios.patch(this.$store.getters.baseURL+"/felhasznalok/"+this.userId,felhasznalo)
+        axios.patch(this.$store.getters.baseURL+"/felhasznalok/"+this.userId,felhasznalo, )
             .then(res=>{
               if (res.data.affectedRows==0) {
                 this.msg='hiba'
               }else{
                 this.msg='siker'
               }
-              console.log(pw)
             })
       },
       SendingNewPasswordInEmail(pw){
-        this.user.email
+        let maildatas={
+          to:this.user.email,
+          subject: "Családom emléke új jelszó",
+          message: "Az új jelszava a bejelentkezéshez: "+pw,
+        }
+        axios.post('/sendmail', maildatas, )
+        .then(res =>{
+            console.log("elkuldve")
+          }
+        )
       }
     }
   }
