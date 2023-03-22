@@ -4,6 +4,9 @@
       <h5 class="offcanvas-title">
         <img src="../../img/logopng.png" alt="Családom emléke logo" id="logo">
       </h5>
+      <div class="text-wrap text-break">
+        <!-- Felhsaználó neve -->
+      </div>
       <button class="btn btn-lg rounded-circle " data-bs-dismiss="offcanvas">
         <h2 class="m-0"><i class="bi bi-arrow-left-circle familytreetext"></i></h2>
       </button>
@@ -25,7 +28,7 @@
         </div>
         <hr>
         <div class="m-3">
-            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="mb-3"> <span class="link btn"> Felhasználók</span> </a>
+            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="mb-3"> <span class="link btn">Felhasználók</span> </a>
         </div>
         <hr>
       </div>

@@ -4,7 +4,7 @@
 
         <div v-if="!vendeg">
             <i class="bi bi-menu-up btn btn-dark btn-lg rounded-circle m-3" id="menuBtn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"></i>
-            <FamilyMenu :csaladfaID="csaladfaID"/>
+            <FamilyMenu :csaladfaID="csaladfaID" />
         </div>
         <FamilyTree ref="tree"/>
     </div>
