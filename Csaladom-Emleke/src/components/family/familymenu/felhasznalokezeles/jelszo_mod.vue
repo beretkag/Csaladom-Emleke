@@ -46,33 +46,44 @@ export default {
       }
       felhasznalo:{};
   },
-  created(){
-        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ 6, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
-        .then(res=>{
-            this.felhasznalo=res.data[0]
-        })
-    },
   methods:{
     Passchange(){
-        let regijelszo = `${sha256(this.oldpass)}`;
-        let jelszo1 = `${sha256(this.passwd1)}`;
-        let jelszo2 = `${sha256(this.passwd2)}`;
-        if (regijelszo == null || jelszo1 == null || jelszo2 == null) {
-              alert('Nem hagyhat üresen mezőt!');
-          }
-        else if( regijelszo != this.felhasznalo.Jelszo){
-            alert('Nem jó a jelszó')
+        if (this.passwd1 == "" || this.passwd2 == "" || this.oldpass == "") {
+            this.$store.commit('ShowMsg', {text:"Nem töltött ki minden adatot!", type: "danger"})
         }
-        else if( jelszo1 != jelszo2){
-            alert('A két beírt jelszó nm jó')
-        }
-        else{
-            let adatok = {
-                Jelszo: jelszo1
+        else {
+            if (this.passwd1 != this.passwd2) {
+                this.$store.commit('ShowMsg', {text:"Nem egyeznek a jelszavak!", type: "danger"})
             }
-            axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + this.felhasznalo.ID, adatok, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
-              alert('Sikeresen megváltozott a jelszava');
-        }
+            else{
+                if (!this.passwd1.match((/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/))) {
+                    this.$store.commit('ShowMsg', {text:"A jelszó nem felel meg a követelményeknek!", type: "danger"})
+                }
+                else{
+                    axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
+                    .then(sajat => {
+                        axios.get(this.$store.getters.baseURL + '/felhasznalok/ID/' + sajat.data.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                        .then(res => {
+                            if (res.data[0].Jelszo != `${sha256(this.passwd)}`) {
+                                this.$store.commit('ShowMsg', {text:"Hibás jelszót adott meg!", type: "danger"})
+                            }
+                            else {
+                                let data = {
+                                    Jelszo: this.passwd1
+                                }
+                                axios.patch(this.$store.getters.baseURL + '/felhasznalok/' + res.data[0].ID, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                                .then(res => {
+                                    this.$store.commit('ShowMsg', {text:"Jelszó sikeresen megváltoztatva!", type: "success"})
+                                    this.passwd1 = "";
+                                    this.passwd1 = "";
+                                    this.oldpass = "";
+                                })
+                            }
+                        })
+                    })
+                }
+            }
+        } 
     }
   }
 }

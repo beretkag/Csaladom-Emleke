@@ -71,6 +71,7 @@ export default {
                                     }
                                     axios.patch(this.$store.getters.baseURL + '/felhasznalok/' + res.data[0].ID, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                                     .then(res => {
+                                        this.$store.commit('ShowMsg', {text:"E-mail cím sikeresen megváltoztatva!", type: "success"})
                                         this.passwd = "";
                                         this.newmail = "";
                                     })
@@ -79,8 +80,6 @@ export default {
                         })
                     }
                 })
-
-
             }
         } 
       }
