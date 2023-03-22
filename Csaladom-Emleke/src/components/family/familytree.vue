@@ -129,6 +129,7 @@ import router from '../../router';
                     ez.QRCodeGen(idx, ez.$store.getters.Members.find(x=> x.id == args.nodeId))
                 }
                 });
+                console.log(this.family);
             },
             QRCodeGen(idx, node){
                 axios.get(this.$store.getters.baseURL+"/qrcode/"+idx, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
@@ -265,6 +266,10 @@ import router from '../../router';
                         this.settings.noszin = this.settings.noszin == null ? '#f57c00' : this.settings.noszin;
                         this.settings.ferfiszin = this.settings.ferfiszin == null ? '#039be5' : this.settings.ferfiszin;
                         this.family.config.mode = Settings.darkmode ? 'dark' : 'light';
+                        this.family.element.classList.remove('bft-dark');
+                        this.family.element.classList.remove('bft-light');
+                        this.family.element.classList.add('bft-' + (this.settings.darkmode ? 'dark' : 'light'))
+                        console.log(this.family);
                         this.family.draw();
                     } catch (error) { }
                 },
