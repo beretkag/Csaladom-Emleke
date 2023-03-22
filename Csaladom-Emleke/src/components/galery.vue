@@ -17,9 +17,11 @@
     <button v-for="picture, index in pictures" type="button" data-bs-target="#carouselExampleCaptions" :aria-current="{'true' : index==0}" :data-bs-slide-to="index" :class="{'active' : index==0}"></button>
   </div>
   <div class="carousel-inner">
-    <div v-for="picture, index in pictures" class="carousel-item h-60vh" :class="{'active' : index==0}">
-      <a :href="$store.getters.baseURL + '/img/' + picture.Nev" class="h-60vh d-flex align-items-center" target="_blank">
-        <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="m-auto pictures" alt="kép">
+    <div v-for="picture, index in pictures" class="carousel-item h-40vw" :class="{'active' : index==0}">
+      <a :href="$store.getters.baseURL + '/img/' + picture.Nev" class="h-40vw d-flex flex-column justify-content-center align-items-center" target="_blank">
+        <div>
+          <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="m-auto mb-3 pictures" alt="kép">
+        </div>
       </a>
       <div class="carousel-caption p-0 d-flex align-items-end justify-content-center">
         <button class="btn btn-sm btn-danger m-2 position-relative bottom-0" data-bs-target="#carouselExampleCaptions" :data-bs-slide="index+1 == pictures.length ? 'next' : null" @click="Remove(picture)"
@@ -48,6 +50,7 @@
 
 </template>
 <style scoped>
+
 .carousel-caption .btn{
   z-index: 999;
 }
@@ -61,14 +64,13 @@ h1{
 .carousel-control-prev, .carousel-control-next{
   background-color: rgba(0, 0, 0, 0.2);
 }
-.h-60vh{
+.h-40vw{
   height: 40vw;
 }
 
 .pictures{
-  /* object-fit: scale-down; */
-  width: unset !important;
-  height: 40vw;
+  max-width: 75vw;
+  max-height: 40vw;
 }
 .previews{
   height: 8vh;
@@ -76,7 +78,7 @@ h1{
 }
 input{
   width: 150px !important;
-  margin:0 auto 10px auto ;
+  margin:0 auto 10px auto;
 }
 
 

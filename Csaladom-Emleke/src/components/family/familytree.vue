@@ -268,7 +268,6 @@ import router from '../../router';
                         this.family.element.classList.remove('bft-dark');
                         this.family.element.classList.remove('bft-light');
                         this.family.element.classList.add('bft-' + (this.settings.darkmode ? 'dark' : 'light'))
-                        console.log(this.family);
                         this.family.draw();
                     } catch (error) { }
                 },

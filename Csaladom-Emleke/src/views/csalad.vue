@@ -77,7 +77,7 @@ export default{
                     })
                 })
             })
-            
+
         }
     },
     watch:{
@@ -108,7 +108,7 @@ export default{
       }
     }
 }
-            
+
 
 </script>
 
@@ -142,7 +142,7 @@ export default{
   .themebg{
     background-color: v-bind('sidebarStyle.bgcolor');
   }
-  
+
   .offcanvas{
     z-index: 200 !important;
     color: v-bind('sidebarStyle.color') !important;
@@ -163,11 +163,11 @@ export default{
     border-bottom: v-bind('sidebarStyle.bgcolor') 2px solid;
   }
   #maindiv div a:hover{
-    padding-right: 50px;
-    padding-left: 50px;
+    padding-right: clamp(5px, 50px, 5vw);
+    padding-left: clamp(5px, 50px, 5vw);
     border-bottom: #ff7112 2px solid;
   }
-  
+
 
 @media all and (max-width:1000px) {
     #menuBtn{
@@ -203,13 +203,21 @@ html, body {
     height: 100%;
     padding: 0;
     margin: 0;
-    overflow: hidden;
+    overflow:hidden;
     font-family: Helvetica;
 }
 
 #tree {
     width: 100%;
     height: 100%;
+}
+
+.bft-input {
+    max-width: 90vw !important;
+}
+
+#bft-avatar img{
+    object-fit: cover !important;
 }
 
 .modal-backdrop{

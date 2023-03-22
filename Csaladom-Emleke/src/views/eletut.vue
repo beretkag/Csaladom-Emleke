@@ -146,7 +146,15 @@ export default{
     }
 
 }
+
 </script>
+
+<style>
+    body, html{
+        overflow: visible !important;
+    }
+</style>
+
 <style scoped>
 .kep{
     width: 18vw;
@@ -183,6 +191,25 @@ main{
 .row{
     margin-left: 0px;
     margin-right: 0px;
+}
+
+/* Scrollbar style */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: unset;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(105, 105, 105);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 

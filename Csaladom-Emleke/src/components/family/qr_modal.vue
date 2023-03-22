@@ -15,7 +15,7 @@
                         </span>
                     </div>
                     <img :src="$store.getters.baseURL + '/img/' + $store.getters.QR_Modal.img" alt="">
-                    <div class="d-flex flex-row" id="shareButtons">
+                    <div class="d-flex flex-row flex-wrap justify-content-center" id="shareButtons">
                         <ButtonFacebook text="" :url="url" isRounded hasIcon/>
                         <ButtonTwitter text="" :url="url" isRounded hasIcon/>
                         <ButtonReddit text="" :url="url" isRounded hasIcon/>
@@ -80,6 +80,11 @@ img{
     margin-bottom: 20px;
 }
 
+#shareButtons{
+    max-width: 90vw;
+
+}
+
 #shareButtons a{
     height: 40px !important;
     width: 40px !important;
@@ -89,7 +94,7 @@ img{
     align-items: center;
     border-radius: 50%;
     margin: 5px;
-    flex-wrap: wrap;
+    flex-wrap: wrap !important;
 }
 
 </style>

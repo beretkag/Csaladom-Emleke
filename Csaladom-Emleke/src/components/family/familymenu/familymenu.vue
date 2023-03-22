@@ -20,7 +20,7 @@
         </div>
         <hr>
         <div class="m-3">
-          <RouterLink :to="{name: 'Felhasználó-Kezelés'}"><span class="link btn">Felhasználóezelés</span></RouterLink>
+          <RouterLink :to="{name: 'Felhasználó-Kezelés'}"><span class="link btn">Felhasználókezelés</span></RouterLink>
         </div>
         <hr>
         <div class="m-3">
