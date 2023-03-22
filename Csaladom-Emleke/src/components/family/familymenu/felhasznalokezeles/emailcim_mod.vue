@@ -80,8 +80,8 @@ export default {
                                     .then(res => {
                                         data = {
                                         table: "felhasznalok",
-                                        email: sajat.data.email,
-                                        passwd: `${sha256(this.passwd)}`
+                                        email: this.newmail,
+                                        password: `${sha256(this.passwd)}`
                                         }
                                         axios.post(this.$store.getters.baseURL + '/login', data)
                                         .then(res => {

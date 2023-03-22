@@ -41,7 +41,8 @@ export default{
                 axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                 .then(publik =>{
                     this.$store.commit('SetCsaladfaID', this.csaladfaID);
-                    if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
+                    this.$store.commit('SetNev', sajat.data.Nev);
+                    if (csaladfa.data[0].felhasznaloID == sajat.data.ID || sajat.data.jogosultsag == 2) {
                         //saját családfa: megtekinthető és szerkeszthető
                         this.vendeg = false;
                         this.GetMembers(true);
@@ -155,6 +156,19 @@ export default{
   }
 
   /* ----------------------------------------- */
+
+  #maindiv div a{
+    padding-bottom: 5px;
+    transition: 0.5s;
+    border-bottom: v-bind('sidebarStyle.bgcolor') 2px solid;
+  }
+  #maindiv div a:hover{
+    padding-right: 50px;
+    padding-left: 50px;
+    border-bottom: #ff7112 2px solid;
+  }
+  
+
 @media all and (max-width:1000px) {
     #menuBtn{
         position: absolute;
@@ -196,6 +210,10 @@ html, body {
 #tree {
     width: 100%;
     height: 100%;
+}
+
+.modal-backdrop{
+  z-index: -1 !important;
 }
 
 /* Scrollbar style */

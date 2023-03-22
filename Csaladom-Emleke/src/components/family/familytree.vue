@@ -129,7 +129,6 @@ import router from '../../router';
                     ez.QRCodeGen(idx, ez.$store.getters.Members.find(x=> x.id == args.nodeId))
                 }
                 });
-                console.log(this.family);
             },
             QRCodeGen(idx, node){
                 axios.get(this.$store.getters.baseURL+"/qrcode/"+idx, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})

@@ -25,7 +25,7 @@
             </div>
             <div class="p-3 m-3">
                 <textarea v-if="paragraph.edit" class="form-control" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
-                <p class="mb-2" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}</p>
+                <p class="mb-2 text-wrap text-break" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}</p>
             </div>
             <hr>
         </div>
@@ -66,7 +66,7 @@ export default{
                 .then(csaladfa=>{
                     axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.node.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                     .then(publik =>{
-                        if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
+                        if (csaladfa.data[0].felhasznaloID == sajat.data.ID || sajat.data.jogosultsag == 2) {
                             //saját családfa: megtekinthető és szerkeszthető
                             this.vendeg = false;
                             this.$refs.gallery.vendeg = false;

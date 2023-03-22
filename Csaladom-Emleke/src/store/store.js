@@ -19,6 +19,7 @@ import moment from "moment";
                 node: {}
             },
             csaldfaID:"",
+            nev:"",
             settings:{},
         },
         getters: {
@@ -36,6 +37,9 @@ import moment from "moment";
             },
             CsaladfaID: state =>{
                 return state.csaldfaID;
+            },
+            Nev: state => {
+                return state.nev;
             },
             Settings: state => {
                 return state.settings;
@@ -79,6 +83,9 @@ import moment from "moment";
             },
             SetCsaladfaID: (state, csaldfaID) => {
                 state.csaldfaID = csaldfaID;
+            },
+            SetNev: (state, nev) => {
+                state.nev = nev;
             },
             LoadSettings: (state, payload) => {
                 state.settings = {

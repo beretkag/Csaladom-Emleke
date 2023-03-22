@@ -2,13 +2,13 @@
 
 <ul class="m-3 text-start">
   <li v-for="csaladfa in csaladfak" >
-    <div class="d-flex justify-content-between">
-        <RouterLink :to="'/csalad/' + csaladfa.ID + '/Csaladfak'" class="link" :class="{'active' : $store.getters.CsaladfaID == csaladfa.ID}">
-          <p class="btn m-0">
+    <div class="d-flex justify-content-between" id="familyTrees">
+        <RouterLink :to="'/csalad/' + csaladfa.ID + '/Csaladfak'" class="link familytreetext" :class="{'active' : $store.getters.CsaladfaID == csaladfa.ID}">
+          <p class="btn m-0" :class="{'familytreetext' : $store.getters.CsaladfaID != csaladfa.ID}">
             {{ csaladfa.Nev }}
           </p>
         </RouterLink>
-      <i class="bi bi-trash3 btn" v-if="$store.getters.CsaladfaID != csaladfa.ID" @click="DeleteTree(csaladfa.ID)"></i>
+      <i class="bi bi-trash3 btn familytreetext" v-if="$store.getters.CsaladfaID != csaladfa.ID" @click="DeleteTree(csaladfa.ID)"></i>
     </div>
     <hr class="orange ml-3 mr-3">
   </li>
@@ -178,8 +178,8 @@ methods:{
   transition: 0.5s;
 }
 
-.link:hover{
-  margin-left: 30px;
+#familyTrees .link:hover{
+  padding-left: 30px;
 }
 
 .link{
@@ -203,10 +203,6 @@ methods:{
   color: white;
 }
 
-
-.modal-backdrop{
-  z-index: -1 !important;
-}
 
 
 </style>

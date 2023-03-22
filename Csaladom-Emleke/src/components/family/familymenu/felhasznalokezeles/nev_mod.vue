@@ -70,11 +70,13 @@ export default {
                             data = {
                                 table: "felhasznalok",
                                 email: sajat.data.email,
-                                passwd: `${sha256(this.passwd)}`
+                                password: `${sha256(this.passwd)}`
                             }
                             axios.post(this.$store.getters.baseURL + '/login', data)
                             .then(res => {
+                                console.log(res.data);
                                 sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
+                                this.$store.commit('SetNev', this.newname);
                                 this.$store.commit('ShowMsg', {text:"Név sikeresen megváltoztatva!", type: "success"})
                                 this.passwd = "";
                                 this.newname = "";

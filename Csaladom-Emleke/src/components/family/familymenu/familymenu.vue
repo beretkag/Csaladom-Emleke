@@ -5,7 +5,7 @@
         <img src="../../img/logopng.png" alt="Családom emléke logo" id="logo">
       </h5>
       <div class="text-wrap text-break">
-        <!-- Felhsaználó neve -->
+        {{ $store.getters.Nev }}
       </div>
       <button class="btn btn-lg rounded-circle " data-bs-dismiss="offcanvas">
         <h2 class="m-0"><i class="bi bi-arrow-left-circle familytreetext"></i></h2>
@@ -67,6 +67,10 @@
 <style scoped>
   .link{
     font-size:larger;
+  }
+
+  .btn:active{
+    border-color: transparent;
   }
 
   #logo{
