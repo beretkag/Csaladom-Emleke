@@ -8,7 +8,8 @@ const multer = require('multer');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const { get } = require('http');
-var QRCode = require('qrcode')
+var QRCode = require('qrcode');
+var nodemailer = require('nodemailer');
 
 const app = express();
 
@@ -19,6 +20,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/img', express.static(path.join(__dirname + '/Uploads')))
 app.use('/assets', express.static(path.join(__dirname + '../../src/assets')))
+
+
+
+
+//SENDING EMAIL
+app.post('/sendmail', (req, res) => {
+    var mailOptions = {
+        from: process.env.SMTP_USER,
+        to: req.body.to,
+        subject: req.body.subject,
+        html: req.body.message
+    };
+
+    var transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        secure: true,
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS
+        }
+    });
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            res.send(error);
+        } else {
+            res.send(info.response);
+        }
+    });
+});
 
 // Image file Upload settings
 var storage = multer.diskStorage({
