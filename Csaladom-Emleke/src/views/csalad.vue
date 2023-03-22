@@ -195,4 +195,23 @@ html, body {
     width: 100%;
     height: 100%;
 }
+
+/* Scrollbar style */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: v-bind('sidebarStyle.bgcolor');
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(105, 105, 105);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 </style>
