@@ -113,18 +113,22 @@ export default{
 
 <style>
 
-.modalheader{
+  .modalheader{
     background-color: rgb(255,113,18) !important;
     color: white;
-}
-.familytreetext{
+  }
+  .familytreetext{
     color: v-bind('sidebarStyle.color') !important;
   }
   .familytreeinput{
     background-color: v-bind('sidebarStyle.inputbgcolor');
     color: v-bind('sidebarStyle.color');
-
   }
+  .familytreeinput::placeholder{
+    color: v-bind('sidebarStyle.color') !important;
+    opacity: 0.5;
+  }
+
   .familytreeinput:focus{
     background-color: v-bind('sidebarStyle.inputbgcolor');
     color: v-bind('sidebarStyle.color');
