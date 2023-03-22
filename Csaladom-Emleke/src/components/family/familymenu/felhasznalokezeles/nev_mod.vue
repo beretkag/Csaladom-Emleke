@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import axios from 'axios';
+import axios from 'axios';
 import { RouterLink, RouterView } from 'vue-router';
 import sha256 from "crypto-js/sha256";
 
@@ -40,37 +40,40 @@ export default {
       return{
         passwd: "",
         newname:"",
-        felhasznalo:{}
     }
       
     },
-    created(){
-        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ this.felhasznalo.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
-        .then(res=>{
-            this.felhasznalo=res.data[0]
-        })
-        
-    },
     methods:{
       Namechange(){
-        let password =  `${sha256(this.passwd)}`;
-        let ujnev = this.newname;
-          if (ujnev == null || password == null) {
-              alert('Nem hagyhat üresen mezőt!');
-          }
-          else if(password != this.felhasznalo.Jelszo){
-              alert('Nem egyezik a jelszó!');
-          }
-          else if(ujnev == this.felhasznalo.Nev){
-              alert('Az új név nem egyezhet meg a régivel!');
-          }
-          else{
-              let adatok = {
-                  Nev: ujnev
-              }
-              axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + 6, adatok, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
-              alert('Sikeresen megváltozott a neve');
-          }
+        let password = `${sha256(this.passwd)}`;
+
+        if (this.passwd == "" || this.newname == "") {
+            this.$store.commit('ShowMsg', {text:"Nem töltött ki minden adatot!", type: "danger"})
+        }
+        else {
+            axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
+            .then(sajat => {
+                axios.get(this.$store.getters.baseURL + '/felhasznalok/ID/' + sajat.data.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                .then(res => {
+                    if (res.data[0].Jelszo != `${sha256(this.passwd)}`) {
+                        this.$store.commit('ShowMsg', {text:"Hibás jelszót adott meg!", type: "danger"})
+                    }
+                    else {
+                        let data = {
+                            Nev: this.newname
+                        }
+                        axios.patch(this.$store.getters.baseURL + '/felhasznalok/' + res.data[0].ID, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                        .then(res => {
+                            this.passwd = "";
+                            this.newname = "";
+                        })
+                    }
+                })
+            })
+        } 
+
+
+
       }
     }
 }

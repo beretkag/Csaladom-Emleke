@@ -40,38 +40,49 @@ export default {
       return{
           passwd: "",
           newmail: "",
-          felhasznalo:{}
       }
-      
-    },
-    created(){
-        axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
-        .then(res => {
-        })
-
-        
-        axios.get(this.$store.getters.baseURL+"/felhasznalok/ID/"+ this.felhasznalo.ID, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
-        .then(res=>{
-            this.felhasznalo=res.data[0]
-        })
     },
     methods:{
       Emailchange(){
-          let password = `${sha256(this.passwd)}`;
-          let ujemail = this.newmail;
-          if (ujemail == null || password == null) {
-                alert('Nem hagyhat üresen mezőt!');
-            }
-            else if( password != this.felhasznalo.Jelszo){
-            alert('Nem jó a jelszó')
+        if (this.passwd == "" || this.newmail == "") {
+            this.$store.commit('ShowMsg', {text:"Nem töltött ki minden adatot!", type: "danger"})
         }
-        else{
-            let adatok = {
-                email: ujemail
+        else {
+            if (!this.newmail.match(/(?:[a-z0-9+!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gi)) {
+                this.$store.commit('ShowMsg', {text:"Helytelen e-mail cím formátum!", type: "danger"})
             }
-            axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + this.felhasznalo.ID, adatok, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
-              alert('Sikeresen megváltozott az e-mail címe');
-        }
+            else{
+                axios.get(this.$store.getters.baseURL + '/felhasznalok/email/' + this.newmail, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                .then(res => {
+                    if (res.data.length > 0) {
+                        this.$store.commit('ShowMsg', {text:"Ezzel az e-mail címmel már regisztráltak!", type: "danger"})
+                    }
+                    else {
+                        axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
+                        .then(sajat => {
+                            axios.get(this.$store.getters.baseURL + '/felhasznalok/ID/' + sajat.data.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                            .then(res => {
+                                if (res.data[0].Jelszo != `${sha256(this.passwd)}`) {
+                                    this.$store.commit('ShowMsg', {text:"Hibás jelszót adott meg!", type: "danger"})
+                                }
+                                else {
+                                    let data = {
+                                        email: this.newmail
+                                    }
+                                    axios.patch(this.$store.getters.baseURL + '/felhasznalok/' + res.data[0].ID, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                                    .then(res => {
+                                        this.passwd = "";
+                                        this.newmail = "";
+                                    })
+                                }
+                            })
+                        })
+                    }
+                })
+
+
+            }
+        } 
       }
     }
 }
