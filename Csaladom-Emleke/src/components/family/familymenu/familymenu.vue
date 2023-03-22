@@ -5,7 +5,7 @@
         <img src="../../img/logopng.png" alt="Családom emléke logo" id="logo">
       </h5>
       <button class="btn btn-lg rounded-circle " data-bs-dismiss="offcanvas">
-        <h2 class="m-0"><i class="bi bi-arrow-left-circle"></i></h2>
+        <h2 class="m-0"><i class="bi bi-arrow-left-circle familytreetext"></i></h2>
       </button>
     </div>
     <div class="offcanvas-body text-center">
@@ -57,71 +57,11 @@
         RouterView,
         manage
       },
-      data(){
-        return{
-          sidebarStyle:{},
-
-        }
-      },
-      created(){
-        
-        
-
-    },
-    watch:{
-      '$store.getters.Settings' :{
-        handler: function(Settings) {
-          if (this.$store.getters.Settings.darkmode) {
-          this.sidebarStyle={
-            bgcolor:"rgb(43, 43, 43)",
-            color:"white",
-            inputbgcolor:"rgb(51,51,51)",
-            
-          }
-        }else{
-          this.sidebarStyle={
-            bgcolor:"rgb(226, 226, 226)",
-            color:"black",
-            inputbgcolor:"white",
-            
-          }
-        }
-        },
-        deep: true,
-      }
-    }
-
-      
-    }
+  }
 
 </script>
 
-<style >
-
-.familytreetext{
-    color: v-bind('sidebarStyle.color') !important;
-  }
-  .familytreeinput{
-    background-color: v-bind('sidebarStyle.inputbgcolor');
-    color: v-bind('sidebarStyle.color');
-
-  }
-  .familytreeinput:focus{
-    background-color: v-bind('sidebarStyle.inputbgcolor');
-    color: v-bind('sidebarStyle.color');
-  }
-  .themebg{
-    background-color: v-bind('sidebarStyle.bgcolor');
-  }
-  
-  .offcanvas{
-    z-index: 200 !important;
-    color: v-bind('sidebarStyle.color') !important;
-  }
-  #maindiv *{
-    color: v-bind('sidebarStyle.color');
-  }
-
+<style scoped>
   .link{
     font-size:larger;
   }
@@ -130,10 +70,6 @@
     width: 120px;
   }
 
-  #offcanvasScrolling{
-    background-color: v-bind('sidebarStyle.bgcolor');
-    text-align: center;
-  }
   button:hover{
     background-color: #ff7112;
     border: 1px solid black;

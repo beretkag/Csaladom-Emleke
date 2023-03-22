@@ -3,15 +3,15 @@
     <div  class="modal d-block" id="qrmodal" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modalheader">
                     <h1 class="modal-title fs-5">{{ $store.getters.QR_Modal.node.teljesnev }} életútja</h1>
-                    <button type="button" class="btn-close" @click="ModalClose()" aria-label="Close"></button>
+                    <button type="button" class="btn-close" @click="ModalClose()"></button>
                 </div>
-                <div class="modal-body d-flex flex-column align-items-center">
-                    <div class="input-group mb-3">
-                        <input :value="$store.getters.Domain+'/eletut/'+$store.getters.QR_Modal.node.ID" type="text" disabled class="form-control">
-                        <span class="input-group-text" id="basic-addon1">
-                            <button class="btn btn-secondary"><i class="bi bi-clipboard"></i></button>
+                <div class="modal-body d-flex flex-column align-items-center themebg">
+                    <div class="input-group mb-3 familytreeinput">
+                        <input :value="$store.getters.Domain+'/eletut/'+$store.getters.QR_Modal.node.ID" type="text" class="form-control familytreeinput" disabled>
+                        <span class="input-group-text familytreeinput" id="basic-addon1">
+                            <button class="btn btn-secondary" @click="CopyLink($store.getters.Domain+'/eletut/'+$store.getters.QR_Modal.node.ID)"><i class="bi bi-clipboard"></i></button>
                         </span>
                     </div>
                     <img :src="$store.getters.baseURL + '/img/' + $store.getters.QR_Modal.img" alt="">
@@ -63,7 +63,9 @@ export default{
           tmp.download = this.$store.getters.QR_Modal.node.teljesnev+" qrcode";
           tmp.click();
         },
-
+        CopyLink(link){
+            navigator.clipboard.writeText(link);
+        }
     }
 }
 

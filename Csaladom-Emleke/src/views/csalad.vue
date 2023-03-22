@@ -29,7 +29,8 @@ export default{
     },
     data(){
         return{
-            vendeg:true
+            vendeg:true,
+            sidebarStyle:{}
         }
     },
     created(){
@@ -80,19 +81,73 @@ export default{
     },
     watch:{
         '$route.params.csaladfaID': {
-                handler: function(csaladfaID) {
-                    this.$store.commit('SetCsaladfaID', csaladfaID)
-                    this.GetMembers(!this.vendeg);
-                },
-                deep: true,
-            }
+            handler: function(csaladfaID) {
+                this.$store.commit('SetCsaladfaID', csaladfaID)
+                this.GetMembers(!this.vendeg);
+            },
+            deep: true,
+        },
+        '$store.getters.Settings' :{
+            handler: function(Settings) {
+                  if (this.$store.getters.Settings.darkmode) {
+                    this.sidebarStyle={
+                        bgcolor:"rgb(43, 43, 43)",
+                        color:"white",
+                        inputbgcolor:"rgb(51,51,51)",
+                    }
+                }else{
+                    this.sidebarStyle={
+                        bgcolor:"rgb(226, 226, 226)",
+                        color:"black",
+                        inputbgcolor:"white",
+                        }
+                }
+            },
+        deep: true,
+      }
     }
-            
 }
+            
+
 </script>
 
-<style scoped>
+<style>
 
+.modalheader{
+    background-color: rgb(255,113,18) !important;
+    color: white;
+}
+.familytreetext{
+    color: v-bind('sidebarStyle.color') !important;
+  }
+  .familytreeinput{
+    background-color: v-bind('sidebarStyle.inputbgcolor');
+    color: v-bind('sidebarStyle.color');
+
+  }
+  .familytreeinput:focus{
+    background-color: v-bind('sidebarStyle.inputbgcolor');
+    color: v-bind('sidebarStyle.color');
+  }
+  .familytreeinput:disabled{
+    background-color: v-bind('sidebarStyle.inputbgcolor');
+    color: v-bind('sidebarStyle.color');
+  }
+  .themebg{
+    background-color: v-bind('sidebarStyle.bgcolor');
+  }
+  
+  .offcanvas{
+    z-index: 200 !important;
+    color: v-bind('sidebarStyle.color') !important;
+  }
+  #maindiv *{
+    color: v-bind('sidebarStyle.color');
+  }
+  #offcanvasScrolling{
+    background-color: v-bind('sidebarStyle.bgcolor');
+    text-align: center;
+  }
 
 @media all and (max-width:1000px) {
     #menuBtn{
