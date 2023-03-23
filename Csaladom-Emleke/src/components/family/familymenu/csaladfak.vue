@@ -1,4 +1,6 @@
 <template>
+<div>
+
 
 <ul class="m-3 text-start">
   <li v-for="csaladfa in csaladfak" >
@@ -64,7 +66,7 @@
   </div>
 </div>
 
- 
+</div>
 </template>
 
 <script>

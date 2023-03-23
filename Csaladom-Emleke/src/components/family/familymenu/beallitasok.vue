@@ -94,8 +94,6 @@
     </tr>
   </table>
 </div>
-
-
 </template>
 
 <script>
@@ -114,7 +112,25 @@
         settings:{},
       }
     },
+    created(){
+      if (this.$store.getters.Settings.darkmode != undefined) {
+        this.LoadSettings(this.$store.getters.Settings);
+      }
+    },
     methods: {
+      LoadSettings(Settings){
+        if (this.settings.darkmode == undefined) {
+            this.settings={
+              publikus: Settings.publikus,
+              darkmode: Settings.darkmode,
+              noszin: Settings.noszin,
+              ferfiszin: Settings.ferfiszin,
+              csaladfaID: Settings.csaladfaID,
+              ID: Settings.ID,
+              Nev: Settings.Nev 
+            }
+          }
+      },
       Save(){
         let data={
           darkmode: this.settings.darkmode ? "1" : "0",
@@ -154,17 +170,7 @@
     watch:{
       '$store.getters.Settings' :{
         handler: function(Settings) {
-          if (this.settings.darkmode == undefined) {
-            this.settings={
-              publikus: Settings.publikus,
-              darkmode: Settings.darkmode,
-              noszin: Settings.noszin,
-              ferfiszin: Settings.ferfiszin,
-              csaladfaID: Settings.csaladfaID,
-              ID: Settings.ID,
-              Nev: Settings.Nev 
-            }
-          }
+          this.LoadSettings(Settings);
         },
         deep: true,
       }

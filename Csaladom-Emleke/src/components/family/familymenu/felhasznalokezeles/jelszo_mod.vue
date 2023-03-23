@@ -1,4 +1,5 @@
 <template>
+<div>   
     <div class="d-flex flex-row justify-content-around">
         <div>
             <RouterLink :to="{name: 'namemod'}"><button class="btn btn-dark"> Név </button></RouterLink>
@@ -24,7 +25,7 @@
            Jelszó módosítása 
        </button>
    </div>
-    
+</div>
 </template>
 
 <script>

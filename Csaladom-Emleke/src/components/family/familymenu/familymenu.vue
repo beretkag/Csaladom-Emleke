@@ -16,6 +16,10 @@
         <hr>
 
         <div class="m-3">
+          <RouterLink :to="{name: 'index'}"><span class="link btn" @click="LogOut()">Kijelentkezés</span></RouterLink>
+        </div>
+        <hr>
+        <div class="m-3">
           <RouterLink :to="{name: 'Beállítások'}"><span class="link btn">Beállítások</span></RouterLink>
         </div>
         <hr>
@@ -26,14 +30,20 @@
         <div class="m-3">
           <RouterLink :to="{name: 'Családfák'}"><span class="link btn">Családfák</span></RouterLink>
         </div>
-        <hr>
-        <div class="m-3">
-            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="mb-3"> <span class="link btn">Felhasználók</span> </a>
-        </div>
+        <span v-if="isAdmin">
+          <hr>
+          <div class="m-3">
+              <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="mb-3"> <span class="link btn">Felhasználók</span> </a>
+          </div>
+        </span>
         <hr>
       </div>
       <div>
-        <RouterView />
+        <RouterView v-slot="{Component}">
+          <transition name="slide" mode="out-in">
+            <component :is="Component"></component>
+          </transition>
+        </RouterView>
       </div>
 
     </div>
@@ -47,22 +57,43 @@
 </template>
     
 <script>
-    import { RouterLink, RouterView } from 'vue-router';
-    import manage from '../familymenu/admin/felhasznalok.vue'
+  import axios from 'axios';
+  import { RouterLink, RouterView } from 'vue-router';
+  import manage from '../familymenu/admin/felhasznalok.vue'
 
-    export default {
-      props:{
-        csaladfaID: String,
-      },
-      name: 'familymenu',
-      components:{
-        RouterLink,
-        RouterView,
-        manage
-      },
+  export default {
+    props:{
+      csaladfaID: String,
+    },
+    name: 'familymenu',
+    components:{
+      RouterLink,
+      RouterView,
+      manage
+    },
+    data(){
+      return{
+        isAdmin:undefined
+      }
+    },
+    created(){
+      axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
+        .then(res => {
+          this.ready=true;
+          if (res.data.jogosultsag == 2) {
+            this.isAdmin = true
+          }
+        })
+    },
+    methods:{
+      LogOut(){
+        sessionStorage.removeItem('csaladomemleke')
+      },  
+    }
   }
 
 </script>
+
 
 <style scoped>
   .link{

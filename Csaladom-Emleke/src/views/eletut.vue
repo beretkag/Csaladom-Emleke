@@ -1,4 +1,5 @@
 <template>
+<div>    
     <button class="btn btn-primary visszagomb rounded-circle btn-dark" @click="Vissza()"><i class="bi bi-arrow-left"></i></button>
     <header class="row p-3">
         
@@ -33,6 +34,7 @@
 
     </p>
     </main>
+</div>
 </template>
 <script>
 import axios from 'axios';
