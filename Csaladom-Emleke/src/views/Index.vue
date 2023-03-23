@@ -1,4 +1,6 @@
 <template>
+<div>
+
   <main class="mb-0">
     <navmenu />
     <div class="row m-0">
@@ -16,7 +18,8 @@
   <div id="modals">
     <forgotpass />
   </div>
-  
+</div>
+
 </template>
 
 <script>

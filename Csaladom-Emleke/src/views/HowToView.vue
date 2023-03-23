@@ -1,5 +1,7 @@
 <template>
-    <HowToStart />
+    <div>
+        <HowToStart />
+    </div>
 </template>
 
 <script>
