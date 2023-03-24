@@ -33,7 +33,7 @@
         <span v-if="isAdmin">
           <hr>
           <div class="m-3">
-              <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="mb-3"> <span class="link btn">Felhasználók</span> </a>
+            <manage />
           </div>
         </span>
         <hr>
@@ -49,7 +49,6 @@
     </div>
   </div>
   <div>
-    <manage />
   </div>
 
   <!-- Modal -->

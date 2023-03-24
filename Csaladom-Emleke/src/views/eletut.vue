@@ -68,12 +68,12 @@ export default{
                 .then(csaladfa=>{
                     axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.node.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                     .then(publik =>{
-                        if (csaladfa.data[0].felhasznaloID == sajat.data.ID || sajat.data.jogosultsag == 2) {
+                        if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
                             //saját családfa: megtekinthető és szerkeszthető
                             this.vendeg = false;
                             this.$refs.gallery.vendeg = false;
                         }
-                        else if (publik.data[0].publikus == 0){
+                        else if (publik.data[0].publikus == 0 && sajat.data.jogosultsag != 2){
                             //nem saját családfa, publikus: csak megtekinthető
                             router.push('/');
                         }

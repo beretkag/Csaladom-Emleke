@@ -42,12 +42,12 @@ export default{
                 .then(publik =>{
                     this.$store.commit('SetCsaladfaID', this.csaladfaID);
                     this.$store.commit('SetNev', sajat.data.Nev);
-                    if (csaladfa.data[0].felhasznaloID == sajat.data.ID || sajat.data.jogosultsag == 2) {
+                    if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
                         //saját családfa: megtekinthető és szerkeszthető
                         this.vendeg = false;
                         this.GetMembers(true);
                     }
-                    else if (publik.data[0].publikus == 1){
+                    else if (publik.data[0].publikus == 1  || sajat.data.jogosultsag == 2){
                         //nem saját családfa, publikus: csak megtekinthető
                         this.GetMembers(false);
                     }
