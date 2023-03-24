@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Már 18. 19:08
--- Kiszolgáló verziója: 10.4.25-MariaDB
--- PHP verzió: 8.1.10
+-- Létrehozás ideje: 2023. Már 24. 12:29
+-- Kiszolgáló verziója: 10.4.6-MariaDB
+-- PHP verzió: 7.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -43,7 +44,7 @@ CREATE TABLE `beallitasok` (
 --
 
 INSERT INTO `beallitasok` (`ID`, `csaladfaID`, `publikus`, `darkmode`, `noszin`, `ferfiszin`) VALUES
-(1, 5, 1, 0, NULL, NULL);
+(1, 5, 1, 1, '#FF8811', '#2C99EB');
 
 -- --------------------------------------------------------
 
@@ -121,15 +122,17 @@ CREATE TABLE `felhasznalok` (
   `Nev` varchar(200) COLLATE utf8_hungarian_ci NOT NULL,
   `Jelszo` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
   `email` varchar(200) COLLATE utf8_hungarian_ci NOT NULL,
-  `jogosultsag` int(11) NOT NULL
+  `jogosultsag` int(11) NOT NULL,
+  `tiltas` tinyint(1) NOT NULL DEFAULT 0,
+  `tiltasmessage` varchar(120) COLLATE utf8_hungarian_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `felhasznalok`
 --
 
-INSERT INTO `felhasznalok` (`ID`, `Nev`, `Jelszo`, `email`, `jogosultsag`) VALUES
-(6, 'Gellért Beretka', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin@admin.com', 1);
+INSERT INTO `felhasznalok` (`ID`, `Nev`, `Jelszo`, `email`, `jogosultsag`, `tiltas`, `tiltasmessage`) VALUES
+(6, 'Gellért', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin@admin.com', 2, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -198,19 +201,19 @@ ALTER TABLE `kepek`
 -- AUTO_INCREMENT a táblához `beallitasok`
 --
 ALTER TABLE `beallitasok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT a táblához `csaladfak`
 --
 ALTER TABLE `csaladfak`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT a táblához `csaladtagok`
 --
 ALTER TABLE `csaladtagok`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 
 --
 -- AUTO_INCREMENT a táblához `eletut`
