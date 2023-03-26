@@ -12,7 +12,7 @@
         <div class="input-group">
           <input class="form-control mb-3 familytreeinput" type="text" v-model="search" placeholder="Keresés">
         </div>  
-        <table class="table table-hover" :class="$store.getters.Settings.darkmode ? 'table-dark' : 'table-striped'" id="myTable">
+        <table class="table table-hover" :class="$store.getters.Settings.darkmode ? 'table-dark' : 'table-striped'">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -25,11 +25,11 @@
             <tr v-for="felhasznalo, index in filteredFelhasznalok" :key="felhasznalo.id">
               <th scope="row" class="align-middle"> {{ index + 1}}</th>
               <td class="align-middle">{{felhasznalo.Nev}}</td>
-              <td class="align-middle text-center">{{ felhasznalo.email }}</td>
+              <td class="align-middle text-center text-wrap text-break">{{ felhasznalo.email }}</td>
               <td class="align-middle text-center">
-                <button class="btn btn-lg" data-bs-target="#banModal" data-bs-toggle="modal" v-if="true" @click="ChooseUser(felhasznalo)">
-                  <i class="bi bi-person-x familytreetext" v-if="!felhasznalo.tiltas"></i>
-                  <i class="bi bi-person-check familytreetext" v-else></i>
+                <button class="btn btn-lg" :data-bs-target="ToggleUserBan(felhasznalo).target" :data-bs-toggle="ToggleUserBan(felhasznalo).toggle" v-if="felhasznalo.jogosultsag != 2" @click="ChooseUser(felhasznalo)">
+                  <i class="bi bi-person-x red" v-if="!felhasznalo.tiltas"></i>
+                  <i class="bi bi-person-check green" v-else></i>
                 </button>
                 <div v-else class="btn">Admin</div>
               </td>
@@ -41,18 +41,19 @@
   </div>
 </div>
 
-<div class="modal fade modal-lg" id="banModal" aria-hidden="true" aria-labelledby="adminModalToggleLabel2" tabindex="-1">
+<div class="modal fade modal-lg" id="banModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header orange-bgc">
         <h1 class="modal-title fs-5">{{ banningUser.Nev }} Tiltása</h1>
         <button type="button" class="btn-close" data-bs-target="#adminModal" data-bs-toggle="modal"></button>
       </div>
-      <div class="modal-body">
-        Hide this modal and show the first with the button below.
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" data-bs-target="#adminModal" data-bs-toggle="modal">Back to first</button>
+      <div class="modal-body themebg">
+        <input class="form-control mb-3 familytreeinput" type="text" v-model="banMessage" placeholder="Tiltás oka">
+        <div class="d-flex flex-row-reverse">
+          <button type="button" class="btn btn-primary orange-bgc m-3" data-bs-target="#adminModal" data-bs-toggle="modal" @click="BanUser(1)">Tiltás</button>
+          <button type="button" class="btn btn-secondary m-3" data-bs-target="#adminModal" data-bs-toggle="modal" @click="Dismiss()">Mégse</button>
+        </div>
       </div>
     </div>
   </div>
@@ -60,9 +61,9 @@
 
 
 
-   </template>
+</template>
    
-   <script>
+<script>
 
 import axios from "axios";
 
@@ -70,8 +71,9 @@ export default{
 data(){
     return {
         felhasznalok: [],
-        search:"",
-        banningUser:{}
+        search: "",
+        banningUser:{},
+        banMessage: ""
     }
 },
    
@@ -86,31 +88,56 @@ created(){
 },
 computed: {
     filteredFelhasznalok() {
-      return this.felhasznalok.filter(p => {
-        return p.Nev.toLowerCase().indexOf(this.search.toLowerCase()) != -1;
-      });
+      return this.felhasznalok.filter(p => p.Nev.toLowerCase().includes(this.search.toLowerCase()) || p.email.toLowerCase().includes(this.search.toLowerCase()));
     }
   },
 methods:{
-  ToggleUserBan(felhasznaloID){
-
+  Dismiss(){
+    this.banMessage = "";
+  },
+  ToggleUserBan(felhasznalo){
+    return felhasznalo.tiltas ? {target: undefined, toggle: undefined} : {target: '#banModal', toggle: 'modal'};
+  },
+  BanUser(ban){
+    let data={
+      tiltas: ban,
+      tiltasmessage: ban == 1 ? this.banMessage : "",
+    }
+    axios.patch(this.$store.getters.baseURL + "/felhasznalok/" + this.banningUser.ID, data, {headers: {"authorization": "JWT "+this.$store.getters.Token}})
+    .then(res => {
+      this.banningUser.tiltas = data.tiltas;
+      this.banningUser.tiltasmessage = data.tiltasmessage;
+    })
   },
   ChooseUser(felhasznalo){
     this.banningUser = felhasznalo;
+    if (felhasznalo.tiltas) {
+      this.BanUser(0);
+    }
+    
   }
 }
 }
 </script>
    
-<style>
+<style scoped>
+
+  .modal{
+    overflow: hidden !important;  
+  }
+  .red{
+    color: red !important;
+    font-size: x-large;
+  }
+
+  .green{
+    color: green !important;
+    font-size: x-large;
+  }
+
   .orange-bgc{
     background-color: #ff7112;
     border-color: #8b3800;
-    color: white;
-  }
-
-  .searchbar{
-    margin-left: 10%;
   }
 
   .link{
@@ -119,5 +146,9 @@ methods:{
 
   .link:active{
     border-color: transparent !important;
+  }
+
+  #banModal .btn{
+    color: white !important;
   }
 </style>

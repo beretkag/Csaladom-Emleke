@@ -143,7 +143,7 @@ app.post('/login', (req, res) => {
     var email = req.body.email;
     var passwd = req.body.password;
 
-    pool.query(`SELECT ID, Nev, email, jogosultsag FROM ${table}  WHERE email=? AND Jelszo=?`, [email, passwd], (err, results) => {
+    pool.query(`SELECT ID, Nev, email, jogosultsag, tiltas, tiltasmessage FROM ${table}  WHERE email=? AND Jelszo=?`, [email, passwd], (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
             res.status(500).send(err);
@@ -155,7 +155,9 @@ app.post('/login', (req, res) => {
                 ID:results[0].ID,
                 Nev:results[0].Nev,
                 email:results[0].email,
-                jogosultsag:results[0].jogosultsag
+                jogosultsag:results[0].jogosultsag,
+                tiltas: results[0].tiltas,
+                tiltasmessage: results[0].tiltasmessage
             }, process.env.KEY, {expiresIn:"1d"}));
         }
     });

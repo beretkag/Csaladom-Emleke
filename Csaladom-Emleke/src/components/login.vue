@@ -52,14 +52,19 @@
               this.$store.commit('ShowMsg', {text:"Hibás felhasználónév vagy jelszó!", type: "danger"})
               this.missings.password = true;
             } else {
-              //Sikeres bejelentkezés
-              sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
               axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + res.data})
-              .then(res =>{
-                axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + res.data.ID, {headers: {"authorization": "JWT "+JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-                .then(results => {
-                  this.$router.push(import.meta.env.BASE_URL + "csalad/" + results.data[0].ID);
-                })
+              .then(res => {
+                if (res.data.tiltas == 1) {
+                  this.$store.commit('ShowMsg', {text:"A felhasználó kitiltva a következőek miatt: \n" + res.data.tiltasmessage, type: "danger"})
+                }
+                else{
+                  //Sikeres bejelentkezés
+                  sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
+                  axios.get(this.$store.getters.baseURL + "/csaladfak/felhasznaloID/" + res.data.ID, {headers: {"authorization": "JWT "+JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                  .then(results => {
+                    this.$router.push(import.meta.env.BASE_URL + "csalad/" + results.data[0].ID);
+                  })
+                }
               })
             }
           })
