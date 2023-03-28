@@ -54,7 +54,8 @@ export default{
         return{
             node:{},
             paragraphs:[],
-            vendeg:true
+            vendeg:true,
+            ready: false
         }
     },
     created(){
@@ -83,6 +84,7 @@ export default{
                             this.paragraphs.forEach(element => {
                                 element.edit=false;
                             });
+                            this.ready = true;
                         })
                     })
 
@@ -99,7 +101,7 @@ export default{
     },
     methods:{
         SetProfilePic(){
-            if (this.$store.getters.Members[0].profilkep==null) {
+            if (!this.ready || this.$store.getters.Members[0].profilkep==null) {
                 return `${this.$store.getters.baseURL}/assets/nopic.png`
             }else{
                 return this.$store.getters.Members[0].profilkep
