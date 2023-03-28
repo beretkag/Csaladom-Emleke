@@ -26,7 +26,7 @@
             </div>
             <div class="p-3 m-3">
                 <textarea v-if="paragraph.edit" class="form-control" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
-                <p class="mb-2 text-wrap text-break" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}</p>
+                <p class="mb-2 text-wrap text-break" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}<br></p>
             </div>
             <hr>
         </div>

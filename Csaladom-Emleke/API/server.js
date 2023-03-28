@@ -404,7 +404,7 @@ app.patch('/:table/:id', tokencheck(), (req, res) => {
         if (values[i] == null || values[i] == "") {
             str += fields[i] + "=NULL";
         }else{
-            str += fields[i] + "='" + values[i] + "'";
+            str += fields[i] + "='" + values[i].replace("'", "\\'").replace('"', '\"') + "'";
         }
         if (i != fields.length - 1) {
             str += ",";
