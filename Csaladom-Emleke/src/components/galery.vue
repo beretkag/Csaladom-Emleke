@@ -1,4 +1,7 @@
 <template>
+<div v-if="!vendeg || pictures.length > 0">
+
+  
   <h1>
     Galéria
   </h1>
@@ -11,43 +14,44 @@
   </div>
 
 
-<!-- Gallery -->
-<div id="carouselExampleCaptions" class="carousel slide m-auto">
-  <div class="carousel-indicators">
-    <button v-for="picture, index in pictures" type="button" data-bs-target="#carouselExampleCaptions" :aria-current="{'true' : index==0}" :data-bs-slide-to="index" :class="{'active' : index==0}"></button>
-  </div>
-  <div class="carousel-inner">
-    <div v-for="picture, index in pictures" class="carousel-item h-40vw" :class="{'active' : index==0}">
-      <a :href="$store.getters.baseURL + '/img/' + picture.Nev" class="h-40vw d-flex flex-column justify-content-center align-items-center" target="_blank">
-        <div>
-          <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="m-auto mb-3 pictures" alt="kép">
+  <!-- Gallery -->
+  <div id="carouselExampleCaptions" class="carousel slide m-auto">
+    <div class="carousel-indicators">
+      <button v-for="picture, index in pictures" type="button" data-bs-target="#carouselExampleCaptions" :aria-current="{'true' : index==0}" :data-bs-slide-to="index" :class="{'active' : index==0}"></button>
+    </div>
+    <div class="carousel-inner">
+      <div v-for="picture, index in pictures" class="carousel-item h-40vw" :class="{'active' : index==0}">
+        <a :href="$store.getters.baseURL + '/img/' + picture.Nev" class="h-40vw d-flex flex-column justify-content-center align-items-center" target="_blank">
+          <div>
+            <img :src="$store.getters.baseURL + '/img/' + picture.Nev" class="m-auto mb-3 pictures" alt="kép">
+          </div>
+        </a>
+        <div class="carousel-caption p-0 d-flex align-items-end justify-content-center">
+          <button class="btn btn-sm btn-danger m-2 position-relative bottom-0" data-bs-target="#carouselExampleCaptions" :data-bs-slide="index+1 == pictures.length ? 'next' : null" @click="Remove(picture)"
+            v-if="$store.getters.baseURL + '/img/' + picture.Nev != this.$store.getters.Members[0].profilkep && !vendeg">
+            <i class="bi bi-trash"></i>
+          </button>
+          <button class="btn btn-sm btn-success m-2 position-relative bottom-0" @click="Download(picture)">
+            <i class="bi bi-download"></i>
+          </button>
+          <button class="btn btn-sm btn-secondary m-2 position-relative bottom-0" @click="SetProfile(picture)" v-if="!vendeg">
+            <i class="bi bi-x-lg" v-if="$store.getters.baseURL + '/img/' + picture.Nev == this.$store.getters.Members[0].profilkep"></i>
+            <i class="bi bi-person-bounding-box" v-else></i>
+          </button>
         </div>
-      </a>
-      <div class="carousel-caption p-0 d-flex align-items-end justify-content-center">
-        <button class="btn btn-sm btn-danger m-2 position-relative bottom-0" data-bs-target="#carouselExampleCaptions" :data-bs-slide="index+1 == pictures.length ? 'next' : null" @click="Remove(picture)"
-          v-if="$store.getters.baseURL + '/img/' + picture.Nev != this.$store.getters.Members[0].profilkep && !vendeg">
-          <i class="bi bi-trash"></i>
-        </button>
-        <button class="btn btn-sm btn-success m-2 position-relative bottom-0" @click="Download(picture)">
-          <i class="bi bi-download"></i>
-        </button>
-        <button class="btn btn-sm btn-secondary m-2 position-relative bottom-0" @click="SetProfile(picture)" v-if="!vendeg">
-          <i class="bi bi-x-lg" v-if="$store.getters.baseURL + '/img/' + picture.Nev == this.$store.getters.Members[0].profilkep"></i>
-          <i class="bi bi-person-bounding-box" v-else></i>
-        </button>
       </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
 
+</div>
 </template>
 <style scoped>
 
@@ -89,8 +93,7 @@ import axios from 'axios';
 
 export default{
   props:{
-        nodeId:String
-
+        nodeId:String,
     },
   data(){
     return{

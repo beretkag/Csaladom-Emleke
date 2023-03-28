@@ -87,14 +87,16 @@ import moment from "moment";
                 state.nev = nev;
             },
             LoadSettings: (state, payload) => {
-                state.settings = {
-                    ID: payload.ID,
-                    csaladfaID: payload.csaladfaID,
-                    publikus: payload.publikus == 1 ? true :false,
-                    darkmode: payload.darkmode == 1 ? true :false,
-                    noszin: payload.noszin,
-                    ferfiszin: payload.ferfiszin,
-                    Nev: payload.Nev
+                if (payload != undefined) {
+                    state.settings = {
+                        ID: payload.ID,
+                        csaladfaID: payload.csaladfaID,
+                        publikus: payload.publikus == 1 ? true :false,
+                        darkmode: payload.darkmode == 1 ? true :false,
+                        noszin: payload.noszin,
+                        ferfiszin: payload.ferfiszin,
+                        Nev: payload.Nev
+                    }
                 }
             },
             SetQrCode:(state, payload) =>{
