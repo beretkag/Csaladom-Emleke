@@ -26,7 +26,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezárás</button>
-        <button class="btn btn-primary" @click="SetNewPassword()">Új jelszó küldése</button>
+        <button class="btn btn-primary" @click="Check()">Új jelszó küldése</button>
       </div>
     </div>
   </div>
@@ -56,7 +56,6 @@ import sha256 from "crypto-js/sha256"
         var lowercase="abcdefghijklmnopqrstuvwxyz"
         var uppercase=lowercase.toUpperCase()
 
-        var passwordLength = 8;
         var password = "";
         var randomNumber = Math.floor(Math.random() * uppercase.length);
         password += uppercase.substring(randomNumber, randomNumber +1);
@@ -71,24 +70,30 @@ import sha256 from "crypto-js/sha256"
         return password;
       },
       Check(){
-        axios.get(this.$store.getters.baseURL+"/forgotpass/"+this.email)
+        console.log("csek")
+        axios.post(this.$store.getters.baseURL+"/forgotpass/"+this.email)
         .then(res=>{
           if (res.data.length!=0 || res.data[0].Nev==this.user.name) {
+            console.log("nevokes")
             this.userId=res.data[0].ID;
             this.SetNewPassword(res.data[0].ID)
-
+            
           }else{
-
+            console.log("nev nemokes")
+            
           }
         })
       },
-      SetNewPassword(userId){
+      SetNewPassword(){
         let pw=this.genPassword();
         let felhasznalo={
-          Jelszo:`${sha256(this.pw)}`
+          Jelszo:`${sha256(pw)}`
         }
+        console.log("jelszo okes")
         this.SendingNewPasswordInEmail(pw)
-        axios.patch(this.$store.getters.baseURL+"/felhasznalok/"+this.userId,felhasznalo, )
+        console.log(this.userId);
+        console.log(felhasznalo);
+        axios.patch(this.$store.getters.baseURL+"/felhasznalok/"+this.userId,felhasznalo)
             .then(res=>{
               if (res.data.affectedRows==0) {
                 this.msg='hiba'
@@ -103,7 +108,8 @@ import sha256 from "crypto-js/sha256"
           subject: "Családom emléke új jelszó",
           message: "Az új jelszava a bejelentkezéshez: "+pw,
         }
-        axios.post('/sendmail', maildatas, )
+        console.log("maildatas megjott");
+        axios.post(this.$store.getters.baseURL+'/sendmail', maildatas, )
         .then(res =>{
             console.log("elkuldve")
           }
