@@ -30,7 +30,7 @@
             </div>
             <hr>
         </div>
-        <Galery :nodeId="nodeid" ref="gallery" />
+        <Galery :nodeId="nodeid" ref="gallery"/>
 
     </p>
     </main>
