@@ -371,7 +371,10 @@ app.post('/:table', tokencheck(), (req, res) => {
         if (value == null || value == "") {
             str += ",NULL"
         }else {
-            str += ",'" + value.replaceAll("'", "\\'").replaceAll('"', '\\"') + "'"
+            try {
+                value = value.replaceAll("'", "\\'").replaceAll('"', '\\"')
+            } catch (error) {}
+            str += ",'" + value + "'"
         }
     })
 
@@ -404,7 +407,10 @@ app.patch('/:table/:id', tokencheck(), (req, res) => {
         if (values[i] == null || values[i] == "") {
             str += fields[i] + "=NULL";
         }else{
-            str += fields[i] + "='" + values[i].replaceAll("'", "\\'").replaceAll('"', '\\"') + "'";
+            try {
+                values[i] = values[i].replaceAll("'", "\\'").replaceAll('"', '\\"')
+            } catch (error) {}
+            str += fields[i] + "='" + values[i] + "'";
         }
         if (i != fields.length - 1) {
             str += ",";

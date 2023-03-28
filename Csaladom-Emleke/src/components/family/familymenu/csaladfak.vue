@@ -10,7 +10,7 @@
             {{ csaladfa.Nev }}
           </p>
         </RouterLink>
-      <i class="bi bi-trash3 btn familytreetext" v-if="$store.getters.CsaladfaID != csaladfa.ID" @click="DeleteTree(csaladfa.ID)"></i>
+      <i class="bi bi-trash3 btn familytreetext" v-if="$store.getters.CsaladfaID != csaladfa.ID" @click="ChooseTree(csaladfa);" data-bs-toggle="modal" data-bs-target="#confirmModal"></i>
     </div>
     <hr class="orange ml-3 mr-3">
   </li>
@@ -20,7 +20,6 @@
     </p>
   </li>
 </ul>
-
 <!-- Modal -->
 <div class="modal fade" id="newTreeModal" tabindex="-1" aria-hidden="true" v-if="csaladfak.length < 5">
   <div class="modal-dialog modal-dialog-centered">
@@ -66,6 +65,28 @@
   </div>
 </div>
 
+
+<!-- Confrim Modal -->
+<div class="modal fade" id="confirmModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header orange-bgc">
+        <h5 class="modal-title">Családfa törlése</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body themebg">
+        <h5 class="m-3">
+          Biztosan törölni kívánja a(z) {{ deletingTree.Nev }} családfáját?
+        </h5>
+        <div class="d-flex justify-content-around">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="Dismiss()">Mégse</button>
+          <button type="button" class="btn btn-primary orange-bgc" data-bs-dismiss="modal" @click="DeleteTree(deletingTree.ID)">Törlés</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
 </template>
 
@@ -84,7 +105,8 @@ data(){
     return{
       csaladfak: [],
       newTree:{},
-      missingname: false
+      missingname: false,
+      deletingTree:{}
     }
 },
 created(){
@@ -97,8 +119,12 @@ created(){
   })
 },
 methods:{
+  ChooseTree(tree){
+    this.deletingTree = tree;
+  },
   Dismiss(){
     this.newTree = {};
+    this.deletingTree = {};
     this.SetMissingName();
   },
   SetMissingName(){

@@ -221,8 +221,12 @@ html, body {
     object-fit: cover !important;
 }
 
+.bft-edit-form{
+    z-index: 30 !important;
+}
+
 .modal-backdrop{
-  z-index: -1 !important;
+  z-index: 40 !important;
 }
 
 /* Scrollbar style */
