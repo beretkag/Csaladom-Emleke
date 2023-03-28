@@ -52,7 +52,6 @@ export default{
         ModalClose(){
             axios.delete(this.$store.getters.baseURL + '/qrDelete/' + this.$store.getters.QR_Modal.node.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(res => {
-                console.log('itt');
                 this.$store.commit('SetQrCode', { img:'', visible:false, node:null} );
             })
         },
