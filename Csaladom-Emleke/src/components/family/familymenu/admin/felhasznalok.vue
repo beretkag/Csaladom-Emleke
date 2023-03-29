@@ -114,7 +114,6 @@ methods:{
     if (felhasznalo.tiltas) {
       this.BanUser(0);
     }
-    
   }
 }
 }
