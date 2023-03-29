@@ -68,6 +68,7 @@ export default{
                 let settings = res.data[0];
                 axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.$store.getters.CsaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                 .then(results => {
+                    settings.Nev = results.data[0].Nev
                     this.$store.commit('LoadSettings', settings);
                     axios.get(this.$store.getters.baseURL + "/csaladtagok/csaladfaID/" + this.$store.getters.CsaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
                     .then(res => {

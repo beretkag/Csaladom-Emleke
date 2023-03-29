@@ -223,9 +223,8 @@ import router from '../../router';
                 if (item.vezeteknev == null) { item.vezeteknev = "" }
                 if (item.keresztnev == null) { item.keresztnev = "" }
                 item.teljesnev = item.vezeteknev + " " + item.keresztnev;
-
-
-
+                if (!(item.telefonszam.match(/\+[0-9]{11}/g) || item.telefonszam.match(/[0-9]{11}/g))) { item.telefonszam = null}
+                if (item.szulido > item.halido) { item.halido = null }
 
                 if (item.nem != null) {
                     item.nem = item.nem.replace(/\s/g, '_');
