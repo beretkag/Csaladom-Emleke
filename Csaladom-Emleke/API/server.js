@@ -24,6 +24,8 @@ app.use('/assets', express.static(path.join(__dirname + '../../src/assets')))
 
 
 
+
+
 //SENDING EMAIL
 app.post('/sendmail', (req, res) => {
     var mailOptions = {
@@ -278,17 +280,30 @@ app.post(`/registration`, (req, res)=>{
 });
 
 // GET ID and Name BY email
-app.get('/forgotpass/:email', tokencheck(), (req, res) => {
+app.post('/forgotpass', (req, res) => {
     var table = "felhasznalok";
-    var field = "email";
-    var value = req.params.email;
-    pool.query(`SELECT ID, Nev FROM ${table} WHERE ${field}='${value}'`, (err, results) => {
+    let user = req.body
+    console.log(user);
+    pool.query(`SELECT ID FROM ${table} WHERE email='${user.email}' and Nev=${user.name}`, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
             res.status(500).send(err);
         } else {
             log(req.socket.remoteAddress, `${results.length} records sent form ${table} table.`);
-            res.status(200).send(results);
+            if (results.length > 0) {
+                pool.query(`UPDATE ${table} SET Jelszo='${user.password}' WHERE ID=${results[0].ID}`, (err, results) =>{
+                 if (err) {
+                     res.status(500).send(err)
+                 }   
+                 else{
+                    res.status(200).send(true)
+                 }
+                })
+
+            }
+            else{
+                res.status(200).send(false);
+            }
         }
     });
 });

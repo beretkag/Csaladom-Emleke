@@ -70,37 +70,18 @@ import sha256 from "crypto-js/sha256"
         return password;
       },
       Check(){
-        console.log("csek")
-        axios.post(this.$store.getters.baseURL+"/forgotpass/"+this.email)
+        let pw =this.genPassword();
+        this.user.password=`${sha256(pw)}`
+        axios.post(this.$store.getters.baseURL+"/forgotpass", this.user)
         .then(res=>{
-          if (res.data.length!=0 || res.data[0].Nev==this.user.name) {
-            console.log("nevokes")
-            this.userId=res.data[0].ID;
-            this.SetNewPassword(res.data[0].ID)
+          if (res.data) {
+            this.SendingNewPasswordInEmail(pw);
             
           }else{
             console.log("nev nemokes")
             
           }
         })
-      },
-      SetNewPassword(){
-        let pw=this.genPassword();
-        let felhasznalo={
-          Jelszo:`${sha256(pw)}`
-        }
-        console.log("jelszo okes")
-        this.SendingNewPasswordInEmail(pw)
-        console.log(this.userId);
-        console.log(felhasznalo);
-        axios.patch(this.$store.getters.baseURL+"/felhasznalok/"+this.userId,felhasznalo)
-            .then(res=>{
-              if (res.data.affectedRows==0) {
-                this.msg='hiba'
-              }else{
-                this.msg='siker'
-              }
-            })
       },
       SendingNewPasswordInEmail(pw){
         let maildatas={
@@ -109,7 +90,7 @@ import sha256 from "crypto-js/sha256"
           message: "Az új jelszava a bejelentkezéshez: "+pw,
         }
         console.log("maildatas megjott");
-        axios.post(this.$store.getters.baseURL+'/sendmail', maildatas, )
+        axios.post(this.$store.getters.baseURL+'/sendmail', maildatas)
         .then(res =>{
             console.log("elkuldve")
           }
