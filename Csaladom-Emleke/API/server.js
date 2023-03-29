@@ -49,7 +49,7 @@ app.post('/sendmail', (req, res) => {
         if (error) {
             res.send(error);
         } else {
-            res.send(info.response);
+            res.send("info:"+ info.response);
         }
     });
 });
@@ -283,8 +283,7 @@ app.post(`/registration`, (req, res)=>{
 app.post('/forgotpass', (req, res) => {
     var table = "felhasznalok";
     let user = req.body
-    console.log(user);
-    pool.query(`SELECT ID FROM ${table} WHERE email='${user.email}' and Nev=${user.name}`, (err, results) => {
+    pool.query(`SELECT ID FROM ${table} WHERE email='${user.email}' and Nev='${user.name}'`, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
             res.status(500).send(err);
