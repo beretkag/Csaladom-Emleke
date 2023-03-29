@@ -9,30 +9,25 @@
     </header>
     <hr>
     <main class="w-75">
-        <p>
-            <div class="m-3" v-for="paragraph, index in paragraphs">
-            <div class="row">
+            <div v-for="paragraph, index in paragraphs" class="themebg">
+            <div class="d-flex flex-row justify-content-between align-items-center">
                 <div class="col-6 col-md-5 col-lg-4">
                     <input v-if="paragraph.edit" type="text" class="form-control" placeholder="Cím" v-model="paragraph.cim">
                     <h3 class="" v-else >{{ paragraph.cim }}</h3>
                 </div>
-                <div class="col-6 col-md-7 col-lg-8 d-flex flex-row-reverse">
-                    <div>
-                        <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
-                        <button v-if="!paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
-                        <button v-if="!vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-danger" @click="Torles(paragraph)"><i class="bi bi-trash"></i></button>
+                    <div class="d-flex flex-row justify-content-between ">
+                        <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
+                        <button v-if="!paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
+                        <button v-if="!vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-danger btn-md" @click="Torles(paragraph)"><i class="bi bi-trash"></i></button>
                     </div>
-                </div>
             </div>
-            <div class="p-3 m-3">
+            <div class="p-2 m-2">
                 <textarea v-if="paragraph.edit" class="form-control" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
                 <p class="mb-2 text-wrap text-break" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}<br></p>
             </div>
             <hr>
         </div>
         <Galery :nodeId="nodeid" ref="gallery"/>
-
-    </p>
     </main>
 </div>
 </template>
@@ -45,7 +40,6 @@ import Galery from '../components/galery.vue';
 export default{
     props:{
         nodeid:String
-
     },
     components:{
         Galery
@@ -55,7 +49,8 @@ export default{
             node:{},
             paragraphs:[],
             vendeg:true,
-            ready: false
+            ready: false,
+            sidebarStyle:{}
         }
     },
     created(){
@@ -147,6 +142,25 @@ export default{
             })
         }
         
+    },
+    watch:{
+        '$store.getters.Settings' :{
+            handler: function(Settings) {
+                  if (this.$store.getters.Settings.darkmode) {
+                    this.sidebarStyle={
+                        bgcolor:"rgb(43, 43, 43)",
+                        color:"white",
+                        inputbgcolor:"rgb(51,51,51)",
+                    }
+                }else{
+                    this.sidebarStyle={
+                        bgcolor:"rgb(226, 226, 226)",
+                        color:"black",
+                        inputbgcolor:"white",
+                        }
+                }
+            }
+      }
     }
 
 }
@@ -215,6 +229,8 @@ main{
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-
+.themebg{
+    background-color: v-bind('sidebarStyle.bgcolor');
+  }
 
 </style>

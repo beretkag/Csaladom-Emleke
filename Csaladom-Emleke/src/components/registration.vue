@@ -109,7 +109,7 @@ export default {
       let value = this.newUser.email;
       let field = "email"
       let newUser = {
-        Nev: this.newUser.firstName + " " + this.newUser.lastName,
+        Nev: this.newUser.lastName + " " + this.newUser.firstName,
         Jelszo: `${sha256(this.newUser.password)}`,
         email: this.newUser.email,
         jogosultsag: 1
