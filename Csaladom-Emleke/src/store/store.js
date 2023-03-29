@@ -95,7 +95,9 @@ import moment from "moment";
                         darkmode: payload.darkmode == 1 ? true :false,
                         noszin: payload.noszin,
                         ferfiszin: payload.ferfiszin,
-                        Nev: payload.Nev
+                        Nev: payload.Nev,
+                        nobetuszin: payload.nobetuszin,
+                        ferfibetuszin: payload.ferfibetuszin
                     }
                 }
             },

@@ -261,6 +261,8 @@ import router from '../../router';
                 handler: function(Settings) {
                     try {
                         this.settings = Settings;
+                        this.settings.nobetuszin = this.settings.nobetuszin == null ? 'white' : this.settings.nobetuszin;
+                        this.settings.ferfibetuszin = this.settings.ferfibetuszin == null ? 'white' : this.settings.ferfibetuszin;
                         this.settings.noszin = this.settings.noszin == null ? '#f57c00' : this.settings.noszin;
                         this.settings.ferfiszin = this.settings.ferfiszin == null ? '#039be5' : this.settings.ferfiszin;
                         this.family.config.mode = Settings.darkmode ? 'dark' : 'light';
@@ -278,6 +280,10 @@ import router from '../../router';
 
 <style>
     /* Male color binding */
+    .male text{
+        fill: v-bind('settings.ferfibetuszin') !important;
+    }
+
     svg.tommy .node.male>rect {
         fill: v-bind('settings.ferfiszin');
     }
@@ -287,6 +293,10 @@ import router from '../../router';
     }
 
     /* Female color binding */
+    .female text{
+        fill: v-bind('settings.nobetuszin') !important;
+    }
+
     svg.tommy .node.female>rect {
         fill: v-bind('settings.noszin');
     }

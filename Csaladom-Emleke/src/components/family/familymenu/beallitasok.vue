@@ -36,7 +36,7 @@
 
     <tr>
       <td>
-        <h4>Férfi jelölő szín</h4>
+        <h4>Férfi háttérszín</h4>
       </td>
       <td>
         <Popper arrow>
@@ -59,7 +59,30 @@
 
     <tr>
       <td>
-        <h4>Nő jelölő szín</h4>
+        <h4>Férfi betűszín</h4>
+      </td>
+      <td>
+        <Popper arrow>
+          <button class="btn" id="ferfibetuszin">
+            &nbsp
+          </button>
+          <template #content>
+            <h3>Férfi betűszín:</h3>
+            <ColorPicker v-if="$store.getters.Settings.darkmode != undefined"
+              :color="$store.getters.Settings.ferfibetuszin"
+              theme="light"
+              :sucker-hide="true"
+              @changeColor="changeMaleFontColor"
+              :colors-default="[]"
+            />
+          </template>
+        </Popper>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h4>Nő háttérszín</h4>
       </td>
       <td>
         <Popper arrow>
@@ -73,6 +96,29 @@
               theme="light"
               :sucker-hide="true"
               @changeColor="changeFemaleColor"
+              :colors-default="[]"
+            />
+          </template>
+        </Popper>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h4>Nő betűszín</h4>
+      </td>
+      <td>
+        <Popper arrow>
+          <button class="btn" id="nobetuszin">
+            &nbsp
+          </button>
+          <template #content>
+            <h3>Nő betűszín:</h3>
+            <ColorPicker v-if="$store.getters.Settings.darkmode != undefined"
+              :color="$store.getters.Settings.nobetuszin"
+              theme="light"
+              :sucker-hide="true"
+              @changeColor="changeFemaleFontColor"
               :colors-default="[]"
             />
           </template>
@@ -124,10 +170,12 @@
               publikus: Settings.publikus,
               darkmode: Settings.darkmode,
               noszin: Settings.noszin,
+              ID: Settings.ID,
+              Nev: Settings.Nev,
               ferfiszin: Settings.ferfiszin,
               csaladfaID: Settings.csaladfaID,
-              ID: Settings.ID,
-              Nev: Settings.Nev 
+              ferfibetuszin: Settings.ferfibetuszin,
+              nobetuszin: Settings.nobetuszin
             }
           }
       },
@@ -136,7 +184,9 @@
           darkmode: this.settings.darkmode ? "1" : "0",
           publikus: this.settings.publikus ? "1" : "0",
           noszin: this.settings.noszin,
-          ferfiszin: this.settings.ferfiszin
+          ferfiszin: this.settings.ferfiszin,
+          ferfibetuszin: this.settings.ferfibetuszin,
+          nobetuszin: this.settings.nobetuszin
         }
         axios.patch(this.$store.getters.baseURL + "/beallitasok/" + this.settings.ID, data, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res => {
@@ -158,6 +208,8 @@
         this.settings.noszin = this.$store.getters.Settings.noszin
         this.settings.ferfiszin = this.$store.getters.Settings.ferfiszin;
         this.settings.Nev = this.$store.getters.Settings.Nev;
+        this.ferfibetuszin = Settings.ferfibetuszin,
+        this.nobetuszin = Settings.nobetuszin
         
       },
       changeMaleColor(color){
@@ -166,6 +218,12 @@
       changeFemaleColor(color){
         this.settings.noszin = color.hex
       },
+      changeMaleFontColor(color){
+        this.settings.ferfibetuszin = color.hex
+      },
+      changeFemaleFontColor(color){
+        this.settings.nobetuszin = color.hex
+      }
     },
     watch:{
       '$store.getters.Settings' :{
@@ -201,6 +259,14 @@
 
 #noszin{
   background-color: v-bind('settings.noszin') !important;
+}
+
+#nobetuszin{
+  background-color: v-bind('settings.nobetuszin') !important;
+}
+
+#ferfibetuszin{
+  background-color: v-bind('settings.ferfibetuszin') !important;
 }
 
 #settings *, ::after, ::before {
