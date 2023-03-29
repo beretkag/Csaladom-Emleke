@@ -65,8 +65,6 @@ import sha256 from "crypto-js/sha256"
         }
         var randomNumber = Math.floor(Math.random() * numbers.length);
         password += numbers.substring(randomNumber, randomNumber +1);
-        
-        console.log(password)
         return password;
       },
       Check(){
@@ -78,7 +76,7 @@ import sha256 from "crypto-js/sha256"
             this.SendingNewPasswordInEmail(pw);
             
           }else{
-            console.log("nev nemokes")
+            this.$store.commit('ShowMsg', {text:"A megadott név vagy email cím helytelen!", type: "danger"})
             
           }
         })
@@ -91,8 +89,13 @@ import sha256 from "crypto-js/sha256"
         }
         console.log("maildatas megjott");
         axios.post(this.$store.getters.baseURL+'/sendmail', maildatas)
-        .then(res =>{
-            console.log("elkuldve")
+        .then((err,res) =>{
+            if (err) {
+              console.log(err);
+            }else{
+              console.log(+res);
+              console.log("elkuldes utani");
+            }
           }
         )
       }
