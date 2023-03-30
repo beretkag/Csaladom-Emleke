@@ -1,19 +1,19 @@
 <template>
-<div>    
+<div class="themebg" id="container">    
     <button class="btn btn-primary visszagomb rounded-circle btn-dark" @click="Vissza()"><i class="bi bi-arrow-left"></i></button>
     <header class="row p-3">
         
         <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" :src="SetProfilePic()">
-        <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
+        <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column familytreetext">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
         <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column" v-if="!vendeg"><button class="btn btn-dark m-3" @click="UjParagrafus()">Új paragrafus írása</button></div>
     </header>
     <hr>
     <main class="w-75">
-            <div v-for="paragraph, index in paragraphs" class="themebg">
+            <div v-for="paragraph, index in paragraphs">
             <div class="d-flex flex-row justify-content-between align-items-center">
                 <div class="col-6 col-md-5 col-lg-4">
-                    <input v-if="paragraph.edit" type="text" class="form-control" placeholder="Cím" v-model="paragraph.cim">
-                    <h3 class="" v-else >{{ paragraph.cim }}</h3>
+                    <input v-if="paragraph.edit" type="text" class="form-control familytreeinput" placeholder="Cím" v-model="paragraph.cim">
+                    <h3 class="text-wrap text-break familytreetext" v-else >{{ paragraph.cim }}</h3>
                 </div>
                     <div class="d-flex flex-row justify-content-between ">
                         <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
@@ -22,8 +22,8 @@
                     </div>
             </div>
             <div class="p-2 m-2">
-                <textarea v-if="paragraph.edit" class="form-control" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
-                <p class="mb-2 text-wrap text-break" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}<br></p>
+                <textarea v-if="paragraph.edit" class="form-control familytreeinput" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
+                <p class="mb-2 text-wrap text-break familytreetext" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}<br></p>
             </div>
             <hr>
         </div>
@@ -50,7 +50,7 @@ export default{
             paragraphs:[],
             vendeg:true,
             ready: false,
-            sidebarStyle:{}
+            sidebarStyle:{},
         }
     },
     created(){
@@ -70,7 +70,7 @@ export default{
                             this.$refs.gallery.vendeg = false;
                         }
                         else if (publik.data[0].publikus == 0 && sajat.data.jogosultsag != 2){
-                            //nem saját családfa, publikus: csak megtekinthető
+                            //nem saját családfa, nem publikus: nem megtekinthető
                             router.push('/');
                         }
                         axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
@@ -79,22 +79,30 @@ export default{
                             this.paragraphs.forEach(element => {
                                 element.edit=false;
                             });
+                            this.SetMode(publik.data[0].darkmode);
                             this.ready = true;
                         })
                     })
-
                 })
             })
-
-
-
-
         })
-
-
-        
     },
     methods:{
+        SetMode(mode){
+            if (mode == 1) {
+                    this.sidebarStyle={
+                        bgcolor:"rgb(43, 43, 43)",
+                        color:"white",
+                        inputbgcolor:"rgb(51,51,51)",
+                    }
+                }else{
+                    this.sidebarStyle={
+                        bgcolor:"rgb(226, 226, 226)",
+                        color:"black",
+                        inputbgcolor:"white",
+                    }
+                }
+        },
         SetProfilePic(){
             if (!this.ready || this.$store.getters.Members[0].profilkep==null) {
                 return `${this.$store.getters.baseURL}/assets/nopic.png`
@@ -141,39 +149,42 @@ export default{
                 this.paragraphs.push(empty)
             })
         }
-        
     },
-    watch:{
-        '$store.getters.Settings' :{
-            handler: function(Settings) {
-                  if (this.$store.getters.Settings.darkmode) {
-                    this.sidebarStyle={
-                        bgcolor:"rgb(43, 43, 43)",
-                        color:"white",
-                        inputbgcolor:"rgb(51,51,51)",
-                    }
-                }else{
-                    this.sidebarStyle={
-                        bgcolor:"rgb(226, 226, 226)",
-                        color:"black",
-                        inputbgcolor:"white",
-                        }
-                }
-            }
-      }
-    }
-
 }
 
 </script>
 
 <style>
-    body, html{
-        overflow: visible !important;
-    }
+body, html{
+    overflow: visible !important;
+}
+
+.themebg{
+    background-color: v-bind('sidebarStyle.bgcolor');
+}
+    .familytreetext{
+    color: v-bind('sidebarStyle.color') !important;
+}
+.familytreeinput{
+    background-color: v-bind('sidebarStyle.inputbgcolor');
+    color: v-bind('sidebarStyle.color');
+}
+.familytreeinput::placeholder{
+    color: v-bind('sidebarStyle.color') !important;
+    opacity: 0.5;
+}
+
+.familytreeinput:focus{
+    background-color: v-bind('sidebarStyle.inputbgcolor');
+    color: v-bind('sidebarStyle.color');
+}
 </style>
 
 <style scoped>
+
+#container{
+    min-height: 100vh;
+}
 .kep{
     width: 18vw;
     height: 18vw;
@@ -229,8 +240,6 @@ main{
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-.themebg{
-    background-color: v-bind('sidebarStyle.bgcolor');
-  }
+
 
 </style>

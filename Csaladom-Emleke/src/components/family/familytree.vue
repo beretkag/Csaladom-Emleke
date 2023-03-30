@@ -284,6 +284,10 @@ import router from '../../router';
         fill: v-bind('settings.ferfibetuszin') !important;
     }
 
+    g.node.male + use{
+        fill: black !important;
+    }
+
     svg.tommy .node.male>rect {
         fill: v-bind('settings.ferfiszin');
     }

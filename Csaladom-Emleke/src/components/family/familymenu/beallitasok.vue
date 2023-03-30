@@ -208,8 +208,8 @@
         this.settings.noszin = this.$store.getters.Settings.noszin
         this.settings.ferfiszin = this.$store.getters.Settings.ferfiszin;
         this.settings.Nev = this.$store.getters.Settings.Nev;
-        this.ferfibetuszin = Settings.ferfibetuszin,
-        this.nobetuszin = Settings.nobetuszin
+        this.settings.ferfibetuszin = this.$store.getters.Settings.ferfibetuszin;
+        this.settings.nobetuszin = this.$store.getters.Settings.nobetuszin;
         
       },
       changeMaleColor(color){

@@ -2,15 +2,15 @@
 <div v-if="!vendeg || pictures.length > 0">
 
   
-  <h1>
+  <h1 class="familytreetext">
     Galéria
   </h1>
-  <input v-if="!vendeg" type="file" multiple class="form-control" @change="SelectImages" accept="image/*">
+  <input v-if="!vendeg" type="file" multiple class="form-control familytreeinput mb-3" @change="SelectImages" accept="image/*">
   <div class="text-center">
     <img :src="preview"  class="m-2 previews " alt="thumbnail" v-for="preview in previews">
   </div>
   <div v-if="previews.length!=0 && !vendeg" class="text-center">
-    <button  class="btn btn-primary ms-auto" @click="Upload()">Kép feltöltése</button>
+    <button  class="btn btn-primary ms-auto mb-3" @click="Upload()">Kép feltöltése</button>
   </div>
 
 
