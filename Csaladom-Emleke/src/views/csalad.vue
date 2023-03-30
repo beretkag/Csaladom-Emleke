@@ -60,6 +60,9 @@ export default{
             })
         })
     },
+    unmounted(){
+        
+    },
     methods:{
         GetMembers(sajat){
             //családfa betöltése
@@ -79,7 +82,6 @@ export default{
                     })
                 })
             })
-
         }
     },
     watch:{

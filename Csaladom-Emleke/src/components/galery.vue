@@ -1,11 +1,11 @@
 <template>
-<div v-if="!vendeg || pictures.length > 0">
+<div v-if="!vendeg || pictures.length > 0" class="mb-3">
 
   
-  <h1 class="familytreetext">
+  <h1 class="familytree_text">
     Galéria
   </h1>
-  <input v-if="!vendeg" type="file" multiple class="form-control familytreeinput mb-3" @change="SelectImages" accept="image/*">
+  <input v-if="!vendeg" type="file" multiple class="form-control familytreeinput" @change="SelectImages" accept="image/*" ref="fileInput">
   <div class="text-center">
     <img :src="preview"  class="m-2 previews " alt="thumbnail" v-for="preview in previews">
   </div>
@@ -15,7 +15,7 @@
 
 
   <!-- Gallery -->
-  <div id="carouselExampleCaptions" class="carousel slide m-auto">
+  <div id="carouselExampleCaptions" class="carousel slide m-auto" v-if="pictures.length > 0">
     <div class="carousel-indicators">
       <button v-for="picture, index in pictures" type="button" data-bs-target="#carouselExampleCaptions" :aria-current="{'true' : index==0}" :data-bs-slide-to="index" :class="{'active' : index==0}"></button>
     </div>
@@ -94,6 +94,7 @@ import axios from 'axios';
 export default{
   props:{
         nodeId:String,
+        vendeg:Boolean
     },
   data(){
     return{
@@ -101,7 +102,6 @@ export default{
       previews: [],
       pictures:[],
       csaladfaID:"",
-      vendeg:true,
     }
   },
   created(){
@@ -124,7 +124,6 @@ export default{
           this.AddPreview(e.target.files[i])
         }
       }
-      
     },
 
     AddPreview(file){
@@ -160,8 +159,9 @@ export default{
         }
       })
       .then(res=>{
-        this.images = [],
-        this.previews = []
+        this.images.splice(0, this.images.length);
+        this.previews.splice(0, this.previews.length);
+        this.$refs.fileInput.value = null;
         for (let i = 0; i < res.data.length; i++) {
           let data = {
             csaladtagID: this.nodeId,

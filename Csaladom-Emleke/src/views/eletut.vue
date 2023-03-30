@@ -1,10 +1,10 @@
 <template>
-<div class="themebg" id="container">    
+<div class="theme_bg m-0" id="container">    
     <button class="btn btn-primary visszagomb rounded-circle btn-dark" @click="Vissza()"><i class="bi bi-arrow-left"></i></button>
     <header class="row p-3">
         
         <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" :src="SetProfilePic()">
-        <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column familytreetext">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
+        <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column familytree_text">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
         <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column" v-if="!vendeg"><button class="btn btn-dark m-3" @click="UjParagrafus()">Új paragrafus írása</button></div>
     </header>
     <hr>
@@ -12,8 +12,8 @@
             <div v-for="paragraph, index in paragraphs">
             <div class="d-flex flex-row justify-content-between align-items-center">
                 <div class="col-6 col-md-5 col-lg-4">
-                    <input v-if="paragraph.edit" type="text" class="form-control familytreeinput" placeholder="Cím" v-model="paragraph.cim">
-                    <h3 class="text-wrap text-break familytreetext" v-else >{{ paragraph.cim }}</h3>
+                    <input v-if="paragraph.edit" type="text" class="form-control familytree_input" placeholder="Cím" v-model="paragraph.cim">
+                    <h3 class="text-wrap text-break familytree_text" v-else >{{ paragraph.cim }}</h3>
                 </div>
                     <div class="d-flex flex-row justify-content-between ">
                         <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
@@ -22,12 +22,12 @@
                     </div>
             </div>
             <div class="p-2 m-2">
-                <textarea v-if="paragraph.edit" class="form-control familytreeinput" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
-                <p class="mb-2 text-wrap text-break familytreetext" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}<br></p>
+                <textarea v-if="paragraph.edit" class="form-control familytree_input" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
+                <p class="mb-2 text-wrap text-break familytree_text" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}<br></p>
             </div>
             <hr>
         </div>
-        <Galery :nodeId="nodeid" ref="gallery"/>
+        <Galery :nodeId="nodeid" vendeg:vendeg ref="gallery"/>
     </main>
 </div>
 </template>
@@ -53,7 +53,7 @@ export default{
             sidebarStyle:{},
         }
     },
-    created(){
+    beforeMount(){
         axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res=>{
             this.node=res.data[0]
@@ -67,7 +67,6 @@ export default{
                         if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
                             //saját családfa: megtekinthető és szerkeszthető
                             this.vendeg = false;
-                            this.$refs.gallery.vendeg = false;
                         }
                         else if (publik.data[0].publikus == 0 && sajat.data.jogosultsag != 2){
                             //nem saját családfa, nem publikus: nem megtekinthető
@@ -90,18 +89,18 @@ export default{
     methods:{
         SetMode(mode){
             if (mode == 1) {
-                    this.sidebarStyle={
-                        bgcolor:"rgb(43, 43, 43)",
-                        color:"white",
-                        inputbgcolor:"rgb(51,51,51)",
-                    }
-                }else{
-                    this.sidebarStyle={
-                        bgcolor:"rgb(226, 226, 226)",
-                        color:"black",
-                        inputbgcolor:"white",
-                    }
+                this.sidebarStyle={
+                    bgcolor:"rgb(43, 43, 43)",
+                    color:"white",
+                    inputbgcolor:"rgb(51,51,51)",
                 }
+            }else if(mode == 0) {
+                this.sidebarStyle={
+                    bgcolor:"rgb(226, 226, 226)",
+                    color:"black",
+                    inputbgcolor:"white",
+                }
+            }
         },
         SetProfilePic(){
             if (!this.ready || this.$store.getters.Members[0].profilkep==null) {
@@ -159,22 +158,22 @@ body, html{
     overflow: visible !important;
 }
 
-.themebg{
+.theme_bg{
     background-color: v-bind('sidebarStyle.bgcolor');
 }
-    .familytreetext{
+.familytree_text{
     color: v-bind('sidebarStyle.color') !important;
 }
-.familytreeinput{
+.familytree_input{
     background-color: v-bind('sidebarStyle.inputbgcolor');
     color: v-bind('sidebarStyle.color');
 }
-.familytreeinput::placeholder{
+.familytree_input::placeholder{
     color: v-bind('sidebarStyle.color') !important;
     opacity: 0.5;
 }
 
-.familytreeinput:focus{
+.familytree_input:focus{
     background-color: v-bind('sidebarStyle.inputbgcolor');
     color: v-bind('sidebarStyle.color');
 }
