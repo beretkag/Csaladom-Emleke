@@ -5,7 +5,7 @@
         
         <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" :src="SetProfilePic()">
         <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column familytree_text">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
-        <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column" v-if="!vendeg"><button class="btn btn-dark m-3" @click="UjParagrafus()">Új paragrafus írása</button></div>
+        <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column" v-if="!vendeg"><button class="btn btn-dark" @click="UjParagrafus()"><a href="#ujszoveg"> Új paragrafus írása </a></button></div>
     </header>
     <hr>
     <main class="w-75">
@@ -25,7 +25,7 @@
                 <textarea v-if="paragraph.edit" class="form-control familytree_input" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
                 <p class="mb-2 text-wrap text-break familytree_text" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}<br></p>
             </div>
-            <hr>
+            <hr id="ujszoveg">
         </div>
         <Galery :nodeId="nodeid" vendeg:vendeg ref="gallery"/>
     </main>
@@ -165,6 +165,12 @@ export default{
 <style>
 body, html{
     overflow: visible !important;
+    scroll-behavior: smooth;
+}
+a{
+    text-decoration: none;
+    color: white;
+    display: block;
 }
 
 .theme_bg{
