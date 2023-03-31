@@ -132,7 +132,7 @@
           <button type="button" class="btn btn-secondary" @click="Dismiss()">
           Mégse
         </button>
-        <button type="button" class="btn btn-primary" @click="Save()">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas" @click="Save()">
           Mentés
         </button>
         </div>

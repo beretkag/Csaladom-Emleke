@@ -51,6 +51,7 @@ export default{
             vendeg:true,
             ready: false,
             sidebarStyle:{},
+            darkmode:0,
         }
     },
     beforeMount(){
@@ -88,6 +89,7 @@ export default{
     },
     methods:{
         SetMode(mode){
+            this.darkmode=mode;
             if (mode == 1) {
                 this.sidebarStyle={
                     bgcolor:"rgb(43, 43, 43)",
@@ -104,7 +106,14 @@ export default{
         },
         SetProfilePic(){
             if (!this.ready || this.$store.getters.Members[0].profilkep==null) {
-                return `${this.$store.getters.baseURL}/assets/nopic.png`
+                let nopicnev=""
+                if (this.darkmode==1) {
+                    nopicnev="nopicdarkmode"
+                }else{
+                    nopicnev="nopic"
+
+                }
+                return `${this.$store.getters.baseURL}/assets/${nopicnev}.png`
             }else{
                 return this.$store.getters.Members[0].profilkep
             }
@@ -184,11 +193,14 @@ body, html{
 #container{
     min-height: 100vh;
 }
+hr{
+    color: v-bind('sidebarStyle.color');
+}
 .kep{
     width: 18vw;
     height: 18vw;
     border-radius: 50%;
-    border: 2px solid black;
+    border: 2px solid v-bind('sidebarStyle.color');
     object-fit: cover;
 }
 @media all and (max-width:768px) {
