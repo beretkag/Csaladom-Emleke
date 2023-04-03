@@ -126,6 +126,7 @@ export default{
             }
         },
         Torles(paragraph){
+            //showdialog
             axios.delete(this.$store.getters.baseURL+"/eletut/ID/"+paragraph.ID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(res =>{
                 this.paragraphs.splice(this.paragraphs.findIndex(x=>x.ID == paragraph.ID),1)
@@ -152,6 +153,8 @@ export default{
             })
         },
         UjParagrafus(){
+            if (this.paragraphs.find(x => x.edit) == null) { 
+                
             let empty={
                 csaladtagID:this.nodeid,
                 cim:"",
@@ -163,6 +166,7 @@ export default{
                 empty.edit=true
                 this.paragraphs.push(empty)
             })
+            }
         }
     },
 }
