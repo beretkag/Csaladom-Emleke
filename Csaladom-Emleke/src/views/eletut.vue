@@ -35,6 +35,7 @@
 import axios from 'axios';
 import router from '../router';
 import Galery from '../components/galery.vue';
+import { roundToNearestMinutes } from 'date-fns';
 
 
 export default{
@@ -57,34 +58,40 @@ export default{
     beforeMount(){
         axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
         .then(res=>{
-            this.node=res.data[0]
-            this.$store.commit('SetMembers', [this.node]);
-            axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
-            .then(sajat =>{
-                axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.node.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-                .then(csaladfa=>{
-                    axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.node.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-                    .then(publik =>{
-                        if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
-                            //saját családfa: megtekinthető és szerkeszthető
-                            this.vendeg = false;
-                        }
-                        else if (publik.data[0].publikus == 0 && sajat.data.jogosultsag != 2){
-                            //nem saját családfa, nem publikus: nem megtekinthető
-                            router.push('/');
-                        }
-                        axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-                        .then(res=>{
-                            this.paragraphs=res.data;
-                            this.paragraphs.forEach(element => {
-                                element.edit=false;
-                            });
-                            this.SetMode(publik.data[0].darkmode);
-                            this.ready = true;
+            //ha nem létező családtag
+            if (res.data.length < 1) {
+                router.push('/');
+            }
+            else{
+                this.node=res.data[0]
+                this.$store.commit('SetMembers', [this.node]);
+                axios.post(this.$store.getters.baseURL+ "/user/data", {token :'JWT ' + JSON.parse(sessionStorage.getItem('csaladomemleke'))})
+                .then(sajat =>{
+                    axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.node.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                    .then(csaladfa=>{
+                        axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.node.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                        .then(publik =>{
+                            if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
+                                //saját családfa: megtekinthető és szerkeszthető
+                                this.vendeg = false;
+                            }
+                            else if (publik.data[0].publikus == 0 && sajat.data.jogosultsag != 2){
+                                //nem saját családfa, nem publikus: nem megtekinthető
+                                router.push('/');
+                            }
+                            axios.get(this.$store.getters.baseURL+"/eletut/csaladtagID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                            .then(res=>{
+                                this.paragraphs=res.data;
+                                this.paragraphs.forEach(element => {
+                                    element.edit=false;
+                                });
+                                this.SetMode(publik.data[0].darkmode);
+                                this.ready = true;
+                            })
                         })
                     })
                 })
-            })
+            }
         })
     },
     methods:{

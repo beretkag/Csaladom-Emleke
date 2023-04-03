@@ -38,25 +38,30 @@ export default{
         .then(sajat =>{
             axios.get(this.$store.getters.baseURL + "/csaladfak/ID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
             .then(csaladfa=>{
-                axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-                .then(publik =>{
-                    this.$store.commit('SetCsaladfaID', this.csaladfaID);
-                    this.$store.commit('SetNev', sajat.data.Nev);
-                    if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
-                        //saját családfa: megtekinthető és szerkeszthető
-                        this.vendeg = false;
-                        this.GetMembers(true);
-                    }
-                    else if (publik.data[0].publikus == 1  || sajat.data.jogosultsag == 2){
-                        //nem saját családfa, publikus: csak megtekinthető
-                        this.GetMembers(false);
-                    }
-                    else {
-                        //nem saját családfa, nem publikus: nem megtekinthető
-                        router.push('/');
-                    }
-                })
-
+                //nem létező családfa
+                if (csaladfa.data.length < 1) {
+                    router.push('/');
+                }
+                else{
+                    axios.get(this.$store.getters.baseURL + "/beallitasok/csaladfaID/" + this.csaladfaID, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                    .then(publik =>{
+                        this.$store.commit('SetCsaladfaID', this.csaladfaID);
+                        this.$store.commit('SetNev', sajat.data.Nev);
+                        if (csaladfa.data[0].felhasznaloID == sajat.data.ID) {
+                            //saját családfa: megtekinthető és szerkeszthető
+                            this.vendeg = false;
+                            this.GetMembers(true);
+                        }
+                        else if (publik.data[0].publikus == 1  || sajat.data.jogosultsag == 2){
+                            //nem saját családfa, publikus: csak megtekinthető
+                            this.GetMembers(false);
+                        }
+                        else {
+                            //nem saját családfa, nem publikus: nem megtekinthető
+                            router.push('/');
+                        }
+                    })
+                }
             })
         })
     },

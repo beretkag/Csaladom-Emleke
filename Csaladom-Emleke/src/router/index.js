@@ -16,11 +16,6 @@ const router = createRouter({
       props: route=> ({...route.params, nodeid:route.params.nodeid})
     },
     {
-      path: '/hogyankezdjneki',
-      name: 'howtostart',
-      component: () => import('../views/HowToView.vue')
-    },
-    {
       path:'/csalad/:csaladfaID',
       name:'family',
       component: () => import('../views/Csalad.vue'),
@@ -55,9 +50,11 @@ const router = createRouter({
           path:'passmod',
           name:'passmod',
           component: () => import('../components/family/familymenu/felhasznalokezeles/jelszo_mod.vue')
-        }
+        },
+        { path: '/:pathMatch(.*)*', redirect: '/' }
       ]
     },
+    { path: '/:pathMatch(.*)*', redirect: '/' }
   ]
 })
 
