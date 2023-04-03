@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const { get } = require('http');
 var QRCode = require('qrcode');
 var nodemailer = require('nodemailer');
+var ejs = require('ejs');
 
 const app = express();
 
@@ -27,12 +28,13 @@ app.use('/assets', express.static(path.join(__dirname + '../../src/assets')))
 
 
 //SENDING EMAIL
-app.post('/sendmail', (req, res) => {
+app.post('/sendmail', async (req, res) => {
     var mailOptions = {
         from: process.env.SMTP_USER,
         to: req.body.to,
         subject: req.body.subject,
-        html: req.body.message
+        //only work after release with valid domain
+        html: await ejs.renderFile(path.join(__dirname, '../email/template.ejs'), {pw: req.body.pw, src: `localhost:${process.env.PORT}/assets/logopng.png`, domain: process.env.DOMAIN})
     };
 
     var transporter = nodemailer.createTransport({

@@ -85,7 +85,7 @@ import sha256 from "crypto-js/sha256"
         let maildatas={
           to:this.user.email,
           subject: "Családom emléke új jelszó",
-          message: "Az új jelszava a bejelentkezéshez: "+pw,
+          pw: pw,
         }
         console.log("maildatas megjott");
         axios.post(this.$store.getters.baseURL+'/sendmail', maildatas)
