@@ -35,8 +35,13 @@
     <hr>
 
     <tr>
+      <td colspan="2" class="text-center">
+        <h4>Férfi</h4>
+      </td>
+    </tr>
+    <tr>
       <td>
-        <h4>Férfi háttérszín</h4>
+        <h5>háttérszín</h5>
       </td>
       <td>
         <Popper arrow>
@@ -59,7 +64,7 @@
 
     <tr>
       <td>
-        <h4>Férfi betűszín</h4>
+        <h5>betűszín</h5>
       </td>
       <td>
         <Popper arrow>
@@ -81,8 +86,13 @@
     </tr>
 
     <tr>
+      <td colspan="2" class="text-center">
+        <h4>Nő</h4>
+      </td>
+    </tr>
+    <tr>
       <td>
-        <h4>Nő háttérszín</h4>
+        <h5>háttérszín</h5>
       </td>
       <td>
         <Popper arrow>
@@ -105,7 +115,7 @@
 
     <tr>
       <td>
-        <h4>Nő betűszín</h4>
+        <h5>betűszín</h5>
       </td>
       <td>
         <Popper arrow>

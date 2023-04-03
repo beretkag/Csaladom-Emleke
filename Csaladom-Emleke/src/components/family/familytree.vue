@@ -223,8 +223,22 @@ import router from '../../router';
                 if (item.vezeteknev == null) { item.vezeteknev = "" }
                 if (item.keresztnev == null) { item.keresztnev = "" }
                 item.teljesnev = item.vezeteknev + " " + item.keresztnev;
-                if (!(item.telefonszam.match(/\+[0-9]{11}/g) || item.telefonszam.match(/[0-9]{11}/g))) { item.telefonszam = null}
-                if (item.szulido > item.halido) { item.halido = null }
+
+                if (item.telefonszam != null) {
+                    if (!(item.telefonszam.match(/\+[0-9]{11}/g) || item.telefonszam.match(/[0-9]{11}/g)))
+                    {
+                        item.telefonszam = null;
+                        this.$store.commit('ShowMsg', {text:"Helytelen telefonszám formátum!", type: "danger"})
+                    }
+                }
+                if (item.halido != null && item.szulido != null) {
+                    if (item.szulido > item.halido)
+                    {
+                        item.halido = null;
+                        this.$store.commit('ShowMsg', {text:"Helytelen halálozási dátum!", type: "danger"})
+                    }
+                }
+
 
                 if (item.nem != null) {
                     item.nem = item.nem.replace(/\s/g, '_');

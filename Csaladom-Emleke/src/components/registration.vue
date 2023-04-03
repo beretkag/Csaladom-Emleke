@@ -2,17 +2,6 @@
   <h1 class="mb-3">
       Regisztráció
   </h1>
-    <div class="d-flex justify-content-start">
-      <label>Neme: &nbsp</label>
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" value="male" v-model="newUser.gender">
-        <label class="form-check-label" for="inlineRadio1">Férfi&nbsp</label>
-      </div>
-      <div class="form-check mb-2">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" value="female" v-model="newUser.gender">
-          <label class="form-check-label" for="inlineRadio2">Nő</label>
-      </div>
-    </div>
   <div class="mb-3">
     <input type="text" placeholder="Vezetéknév" class="form-control" :class="{'is-invalid' : missings.lastName}" v-model="newUser.lastName" @click="SetMissing('lastName')">
   </div>
@@ -38,8 +27,24 @@
     </Popper>
   </div>
 
+  <div class="mb-3 input-group">
+    <input type="password" placeholder="Jelszó újra" class="form-control" :class="{'is-invalid' : missings.password2}" v-model="newUser.password2" @click="SetMissing('password2')">
+  </div>
+
   <label>Születés </label>
   <VueDatePicker id="datePicker" class="mb-3" v-model="newUser.szulido" auto-apply :enable-time-picker="false" :max-date="new Date()" :day-names="['Hé', 'Ke', 'Sze', 'Csü', 'Pé', 'Szo', 'Va']" locale="hu"/>
+
+  <div class="d-flex justify-content-start">
+    <label>Neme: &nbsp</label>
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" value="male" v-model="newUser.gender">
+      <label class="form-check-label" for="inlineRadio1">Férfi&nbsp</label>
+    </div>
+    <div class="form-check mb-2">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" value="female" v-model="newUser.gender">
+        <label class="form-check-label" for="inlineRadio2">Nő</label>
+    </div>
+  </div>
 
   <hr>
 
@@ -98,6 +103,7 @@ export default {
         firstName: false,
         email: false,
         password: false,
+        password2: false,
         szulido: false
       },
       requirements: ["legalább 8 karakter", "tartalmazzon kisbetűt", "tartalmazzon nagybetűt", "tartalmazzon számot"]
@@ -123,39 +129,46 @@ export default {
           this.missings.email = true;
         }
         else{
-          if (!this.newUser.password.match((/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/))) {
-            this.$store.commit('ShowMsg', {text:"A jelszó nem felel meg a követelményeknek!", type: "danger"})
+          if (this.newUser.password != this.newUser.password2) {
+            this.$store.commit('ShowMsg', {text:"A jelszavak nem egyeznek!", type: "danger"})
             this.missings.password = true;
-          } else {
-          axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
-            .then((res)=>{
-              if (res.data.length > 0) {
-                this.$store.commit('ShowMsg', {text:"Ezzel az e-mail címmel már regisztráltak!", type: "danger"})
-                this.missings.email = true;
-              }
-              else{
-                let data ={};
-                data.newUser = newUser;
-                data.newCsaladfa = {
-                    Nev: this.newUser.firstName + " " + this.newUser.lastName,
-                };
-                data.csaladtagok = [];
-                data.csaladtagok.push({
-                  keresztnev: this.newUser.firstName,
-                  vezeteknev: this.newUser.lastName,
-                  szulido: moment(this.newUser.szulido).format('YYYY-MM-DD'),
-                  gender: this.newUser.gender,
-                  belsofaID: "aaaa"
-                })
-                data.csaladtagok = this.AddParent_s(data.csaladtagok);
-                axios.post(this.baseURL + "/registration", data)
-                .then(() => {
-                  this.$store.commit('ShowMsg', {text:"Sikeres Regisztráció!\nMostmár bejelentkezhet.", type: "success"})
-                  this.newUser = {};
-                  this.$parent.isLoginSet(true);
-                })
-              }
-          })
+            this.missings.password2 = true;
+          }
+          else{
+            if (!this.newUser.password.match((/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/))) {
+              this.$store.commit('ShowMsg', {text:"A jelszó nem felel meg a követelményeknek!", type: "danger"})
+              this.missings.password = true;
+            } else {
+            axios.get(this.baseURL + "/" + table + "/" + field + "/" + value)
+              .then((res)=>{
+                if (res.data.length > 0) {
+                  this.$store.commit('ShowMsg', {text:"Ezzel az e-mail címmel már regisztráltak!", type: "danger"})
+                  this.missings.email = true;
+                }
+                else{
+                  let data ={};
+                  data.newUser = newUser;
+                  data.newCsaladfa = {
+                      Nev: this.newUser.lastName + " " + this.newUser.firstName,
+                  };
+                  data.csaladtagok = [];
+                  data.csaladtagok.push({
+                    keresztnev: this.newUser.firstName,
+                    vezeteknev: this.newUser.lastName,
+                    szulido: moment(this.newUser.szulido).format('YYYY-MM-DD'),
+                    gender: this.newUser.gender,
+                    belsofaID: "aaaa"
+                  })
+                  data.csaladtagok = this.AddParent_s(data.csaladtagok);
+                  axios.post(this.baseURL + "/registration", data)
+                  .then(() => {
+                    this.$store.commit('ShowMsg', {text:"Sikeres Regisztráció!\nMostmár bejelentkezhet.", type: "success"})
+                    this.newUser = {};
+                    this.$parent.isLoginSet(true);
+                  })
+                }
+            })
+          }
         }
       }
     }
