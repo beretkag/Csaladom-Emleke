@@ -96,4 +96,22 @@ img{
     flex-wrap: wrap !important;
 }
 
+.modal-content{
+    animation: splash 1s normal forwards ease-in-out;
+}
+
+@keyframes splash {
+    from {
+        opacity: 0;
+        transform: scale(0, 0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1, 1.1);
+    }
+    to {
+        transform: scale(1, 1);
+    }
+}
+
 </style>
