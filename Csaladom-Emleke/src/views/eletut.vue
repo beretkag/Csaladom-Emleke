@@ -35,8 +35,6 @@
 import axios from 'axios';
 import router from '../router';
 import Galery from '../components/galery.vue';
-import { roundToNearestMinutes } from 'date-fns';
-
 
 export default{
     props:{
