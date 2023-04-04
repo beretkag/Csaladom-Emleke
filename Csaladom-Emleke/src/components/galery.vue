@@ -5,7 +5,10 @@
   <h1 class="familytree_text">
     Galéria
   </h1>
-  <input v-if="!vendeg" type="file" multiple class="form-control familytreeinput" @change="SelectImages" accept="image/*" ref="fileInput">
+  <div class="d-flex flex-column justify-content-center align-items-center">
+  <input v-if="!vendeg" type="file" multiple class="form-control familytreeinput" @change="SelectImages" accept="image/*" ref="fileInput"> 
+  <span id="kepfel" class="familytree_text"> (max 5mb) </span>
+</div>
   <div class="text-center">
     <img :src="preview"  class="m-2 previews " alt="thumbnail" v-for="preview in previews">
   </div>
@@ -83,6 +86,9 @@ h1{
 input{
   width: 150px !important;
   margin:0 auto 10px auto;
+}
+#kepfel{
+  font-style: italic;
 }
 
 

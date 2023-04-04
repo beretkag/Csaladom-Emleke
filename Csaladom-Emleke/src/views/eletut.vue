@@ -5,7 +5,9 @@
         
         <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" :src="SetProfilePic()">
         <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column familytree_text">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
-        <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column" v-if="!vendeg"><button class="btn btn-dark" @click="UjParagrafus()"><a href="#ujszoveg"> Új paragrafus írása </a></button></div>
+        <transition name="fade">
+            <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column"  v-if="!vendeg"><button class="btn btn-dark" @click="UjParagrafus()" > Új paragrafus írása </button></div>
+        </transition>
     </header>
     <hr>
     <main class="w-75">
@@ -27,8 +29,17 @@
             </div>
             <hr id="ujszoveg">
         </div>
+        <div ref="szoveghezgorgetes"> </div>
         <Galery :nodeId="nodeid" vendeg:vendeg ref="gallery"/>
     </main>
+    <transition name="fade">
+<div id="pagetop" class="fixed right-0 bottom-0" v-show="scY > 300">
+  <button class="btn btn-primary rounded-circle btn-dark float-right" @click="toTop"> <i class="bi bi-arrow-up-circle"></i> </button>
+</div>
+</transition>
+   
+
+  
 </div>
 </template>
 <script>
@@ -51,7 +62,12 @@ export default{
             ready: false,
             sidebarStyle:{},
             darkmode:0,
+            scTimer: 0,
+            scY: 0,
         }
+    },
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll);
     },
     beforeMount(){
         axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
@@ -109,6 +125,23 @@ export default{
                 }
             }
         },
+        handleScroll: function () {
+        if (this.scTimer) return;
+        this.scTimer = setTimeout(() => {
+          this.scY = window.scrollY;
+          clearTimeout(this.scTimer);
+          this.scTimer = 0;
+        }, 100);
+      },
+      toTop: function () {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      },
+      toBottom(){
+      this.$refs['szoveghezgorgetes'].scrollIntoView({behavior: "smooth"})
+    },
         SetProfilePic(){
             if (!this.ready || this.$store.getters.Members[0].profilkep==null) {
                 let nopicnev=""
@@ -151,6 +184,7 @@ export default{
             })
         },
         UjParagrafus(){
+            this.toBottom();
             if (this.paragraphs.find(x => x.edit) == null) { 
                 
             let empty={
@@ -164,6 +198,7 @@ export default{
                 empty.edit=true
                 this.paragraphs.push(empty)
             })
+            
             }
         }
     },
