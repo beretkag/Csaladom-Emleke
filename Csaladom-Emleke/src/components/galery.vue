@@ -16,9 +16,9 @@
 
   <!-- Gallery -->
   <div id="carouselExampleCaptions" class="carousel slide m-auto" v-if="pictures.length > 0">
-    <div class="carousel-indicators">
+    <!-- <div class="carousel-indicators">
       <button v-for="picture, index in pictures" type="button" data-bs-target="#carouselExampleCaptions" :aria-current="{'true' : index==0}" :data-bs-slide-to="index" :class="{'active' : index==0}"></button>
-    </div>
+    </div> -->
     <div class="carousel-inner">
       <div v-for="picture, index in pictures" class="carousel-item h-40vw" :class="{'active' : index==0}">
         <a :href="$store.getters.baseURL + '/img/' + picture.Nev" class="h-40vw d-flex flex-column justify-content-center align-items-center" target="_blank">
@@ -27,14 +27,14 @@
           </div>
         </a>
         <div class="carousel-caption p-0 d-flex align-items-end justify-content-center">
-          <button class="btn btn-sm btn-danger m-2 position-relative bottom-0" data-bs-target="#carouselExampleCaptions" :data-bs-slide="index+1 == pictures.length ? 'next' : null" @click="Remove(picture)"
+          <button class="btn btn-sm btn-danger m-2 position-relative" data-bs-target="#carouselExampleCaptions" :data-bs-slide="index+1 == pictures.length ? 'next' : null" @click="Remove(picture)"
             v-if="$store.getters.baseURL + '/img/' + picture.Nev != this.$store.getters.Members[0].profilkep && !vendeg">
             <i class="bi bi-trash"></i>
           </button>
-          <button class="btn btn-sm btn-success m-2 position-relative bottom-0" @click="Download(picture)">
+          <button class="btn btn-sm btn-success m-2 position-relative" @click="Download(picture)">
             <i class="bi bi-download"></i>
           </button>
-          <button class="btn btn-sm btn-secondary m-2 position-relative bottom-0" @click="SetProfile(picture)" v-if="!vendeg">
+          <button class="btn btn-sm btn-secondary m-2 position-relative" @click="SetProfile(picture)" v-if="!vendeg">
             <i class="bi bi-x-lg" v-if="$store.getters.baseURL + '/img/' + picture.Nev == this.$store.getters.Members[0].profilkep"></i>
             <i class="bi bi-person-bounding-box" v-else></i>
           </button>

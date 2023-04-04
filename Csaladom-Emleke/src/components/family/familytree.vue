@@ -224,7 +224,7 @@ import router from '../../router';
                 if (item.keresztnev == null) { item.keresztnev = "" }
                 item.teljesnev = item.vezeteknev + " " + item.keresztnev;
 
-                if (item.telefonszam != null) {
+                if (item.telefonszam != null && item.telefonszam != undefined && item.telefonszam != "") {
                     if (!(item.telefonszam.match(/\+[0-9]{11}/g) || item.telefonszam.match(/[0-9]{11}/g)))
                     {
                         item.telefonszam = null;

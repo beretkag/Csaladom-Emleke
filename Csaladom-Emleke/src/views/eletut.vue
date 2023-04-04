@@ -176,6 +176,7 @@ body, html{
     overflow: visible !important;
     scroll-behavior: smooth;
 }
+
 a{
     text-decoration: none;
     color: white;
@@ -201,6 +202,25 @@ a{
     background-color: v-bind('sidebarStyle.inputbgcolor');
     color: v-bind('sidebarStyle.color');
 }
+
+/* Scrollbar style */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: v-bind('sidebarStyle.bgcolor');
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(105, 105, 105);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 </style>
 
 <style scoped>
@@ -246,25 +266,6 @@ main{
 .row{
     margin-left: 0px;
     margin-right: 0px;
-}
-
-/* Scrollbar style */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: unset;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgb(105, 105, 105);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
 }
 
 
