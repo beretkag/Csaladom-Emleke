@@ -16,9 +16,9 @@
                     <h3 class="text-wrap text-break familytree_text" v-else >{{ paragraph.cim }}</h3>
                 </div>
                     <div class="d-flex flex-row justify-content-between ">
-                        <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
-                        <button v-if="!paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
-                        <button v-if="!vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-danger btn-md" @click="Torles(paragraph)"><i class="bi bi-trash"></i></button>
+                        <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md orange-bgc" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
+                        <button v-if="!paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-secondary btn-md orange-bgc" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
+                        <button v-if="!vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-secondary btn-md" @click="ParagrafusAtadas(paragraph)" data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="bi bi-trash"></i></button>
                     </div>
             </div>
             <div class="p-2 m-2">
@@ -28,6 +28,28 @@
             <hr id="ujszoveg">
         </div>
         <Galery :nodeId="nodeid" vendeg:vendeg ref="gallery"/>
+
+
+        <!-- Confrim Modal -->
+    <div class="modal fade" id="confirmModal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content theme_bg">
+          <div class="modal-header orange-bgc">
+            <h5 class="modal-title">Családfa törlése</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body theme_bg">
+            <h5 class="m-3 text-center familytree_text">
+              Biztosan törölni kívánja a paragrafust?
+            </h5>
+            <div class="d-flex justify-content-around">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+              <button type="button" class="btn btn-primary orange-bgc" data-bs-dismiss="modal" @click="Torles(actparagraph)">Törlés</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     </main>
 </div>
 </template>
@@ -51,6 +73,7 @@ export default{
             ready: false,
             sidebarStyle:{},
             darkmode:0,
+            actparagraph:{},
         }
     },
     beforeMount(){
@@ -93,6 +116,9 @@ export default{
         })
     },
     methods:{
+        ParagrafusAtadas(paragraph){
+            this.actparagraph=paragraph
+        },
         SetMode(mode){
             this.darkmode=mode;
             if (mode == 1) {
@@ -204,6 +230,12 @@ a{
 </style>
 
 <style scoped>
+
+.orange-bgc{
+    background-color: #ff7112;
+    border-color: #8b3800;
+    color: white;
+}
 
 #container{
     min-height: 100vh;
