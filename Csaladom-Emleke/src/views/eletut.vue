@@ -5,7 +5,9 @@
         
         <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" :src="SetProfilePic()">
         <h2 class="col-xs-4 col-lg-6 col-md-5  d-flex justify-content-center flex-column familytree_text">{{ node.vezeteknev+" "+node.keresztnev }}</h2>
-        <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column" v-if="!vendeg"><button class="btn btn-dark" @click="UjParagrafus()"><a href="#ujszoveg"> Új paragrafus írása </a></button></div>
+        <transition name="fade">
+            <div class="col-xs-4 col-lg-2 col-md-4  d-flex justify-content-end flex-column"  v-if="!vendeg"><button class="btn btn-dark" @click="UjParagrafus()" > Új paragrafus írása </button></div>
+        </transition>
     </header>
     <hr>
     <main class="w-75">
@@ -16,9 +18,9 @@
                     <h3 class="text-wrap text-break familytree_text" v-else >{{ paragraph.cim }}</h3>
                 </div>
                     <div class="d-flex flex-row justify-content-between ">
-                        <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
-                        <button v-if="!paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
-                        <button v-if="!vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-danger btn-md" @click="Torles(paragraph)"><i class="bi bi-trash"></i></button>
+                        <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md orange-bgc" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
+                        <button v-if="!paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-secondary btn-md orange-bgc" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
+                        <button v-if="!vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-secondary btn-md" @click="ParagrafusAtadas(paragraph)" data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="bi bi-trash"></i></button>
                     </div>
             </div>
             <div class="p-2 m-2">
@@ -27,8 +29,39 @@
             </div>
             <hr id="ujszoveg">
         </div>
+        <div ref="szoveghezgorgetes"> </div>
         <Galery :nodeId="nodeid" vendeg:vendeg ref="gallery"/>
+
+
+        <!-- Confrim Modal -->
+    <div class="modal fade" id="confirmModal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content theme_bg">
+          <div class="modal-header orange-bgc">
+            <h5 class="modal-title">Családfa törlése</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body theme_bg">
+            <h5 class="m-3 text-center familytree_text">
+              Biztosan törölni kívánja a paragrafust?
+            </h5>
+            <div class="d-flex justify-content-around">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+              <button type="button" class="btn btn-primary orange-bgc" data-bs-dismiss="modal" @click="Torles(actparagraph)">Törlés</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     </main>
+    <transition name="fade">
+<div id="pagetop" class="fixed right-0 bottom-0" v-show="scY > 300">
+  <button class="btn btn-primary rounded-circle btn-dark float-right" @click="toTop"> <i class="bi bi-arrow-up-circle"></i> </button>
+</div>
+</transition>
+   
+
+  
 </div>
 </template>
 <script>
@@ -51,7 +84,13 @@ export default{
             ready: false,
             sidebarStyle:{},
             darkmode:0,
+            scTimer: 0,
+            scY: 0,
+            actparagraph:{},
         }
+    },
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll);
     },
     beforeMount(){
         axios.get(this.$store.getters.baseURL+"/csaladtagok/ID/"+this.nodeid, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
@@ -93,6 +132,9 @@ export default{
         })
     },
     methods:{
+        ParagrafusAtadas(paragraph){
+            this.actparagraph=paragraph
+        },
         SetMode(mode){
             this.darkmode=mode;
             if (mode == 1) {
@@ -109,6 +151,23 @@ export default{
                 }
             }
         },
+        handleScroll: function () {
+        if (this.scTimer) return;
+        this.scTimer = setTimeout(() => {
+          this.scY = window.scrollY;
+          clearTimeout(this.scTimer);
+          this.scTimer = 0;
+        }, 100);
+      },
+      toTop: function () {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      },
+      toBottom(){
+      this.$refs['szoveghezgorgetes'].scrollIntoView({behavior: "smooth"})
+    },
         SetProfilePic(){
             if (!this.ready || this.$store.getters.Members[0].profilkep==null) {
                 let nopicnev=""
@@ -151,6 +210,7 @@ export default{
             })
         },
         UjParagrafus(){
+            this.toBottom();
             if (this.paragraphs.find(x => x.edit) == null) { 
                 
             let empty={
@@ -164,6 +224,7 @@ export default{
                 empty.edit=true
                 this.paragraphs.push(empty)
             })
+            
             }
         }
     },
@@ -224,6 +285,12 @@ a{
 </style>
 
 <style scoped>
+
+.orange-bgc{
+    background-color: #ff7112;
+    border-color: #8b3800;
+    color: white;
+}
 
 #container{
     min-height: 100vh;
