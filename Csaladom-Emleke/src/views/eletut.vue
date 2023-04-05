@@ -11,7 +11,7 @@
     </header>
     <hr>
     <main class="w-75">
-            <div v-for="paragraph, index in paragraphs">
+            <div v-for="paragraph, index in paragraphs" :ref="SetRef(index)">
             <div class="d-flex flex-row justify-content-between align-items-center">
                 <div class="col-6 col-md-5 col-lg-4">
                     <input v-if="paragraph.edit" type="text" class="form-control familytree_input" placeholder="Cím" v-model="paragraph.cim">
@@ -152,22 +152,29 @@ export default{
             }
         },
         handleScroll: function () {
-        if (this.scTimer) return;
-        this.scTimer = setTimeout(() => {
-          this.scY = window.scrollY;
-          clearTimeout(this.scTimer);
-          this.scTimer = 0;
-        }, 100);
-      },
-      toTop: function () {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      },
-      toBottom(){
-      this.$refs['szoveghezgorgetes'].scrollIntoView({behavior: "smooth"})
-    },
+            if (this.scTimer) return;
+            this.scTimer = setTimeout(() => {
+            this.scY = window.scrollY;
+            clearTimeout(this.scTimer);
+            this.scTimer = 0;
+            }, 100);
+        },
+        toTop: function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        },
+        SetRef(index){
+            return 'szoveg' + index;
+        },
+        toBottom(){
+            console.log(this.$refs[this.FindEdit()])[0];
+            this.$refs[this.FindEdit()][0].scrollIntoView({behavior: "smooth"})
+        },
+        FindEdit(){
+            return `szoveg${this.paragraphs.findIndex(x => x.edit == true)}`
+        },
         SetProfilePic(){
             if (!this.ready || this.$store.getters.Members[0].profilkep==null) {
                 let nopicnev=""
@@ -210,21 +217,21 @@ export default{
             })
         },
         UjParagrafus(){
-            this.toBottom();
-            if (this.paragraphs.find(x => x.edit) == null) { 
-                
-            let empty={
-                csaladtagID:this.nodeid,
-                cim:"",
-                szoveg:""
-            }
-            axios.post(this.$store.getters.baseURL+"/eletut", empty, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
-            .then(res => {
-                empty.ID=res.data.insertId
-                empty.edit=true
-                this.paragraphs.push(empty)
-            })
-            
+            if (this.paragraphs.find(x => x.edit) == null) {   
+                let empty={
+                    csaladtagID:this.nodeid,
+                    cim:"",
+                    szoveg:""
+                }
+                axios.post(this.$store.getters.baseURL+"/eletut", empty, {headers: {"authorization": "JWT "+ JSON.parse(sessionStorage.getItem('csaladomemleke'))}})
+                .then(res => {
+                    empty.ID=res.data.insertId
+                    empty.edit=true
+                    this.paragraphs.push(empty)
+
+                    console.log(this.paragraphs);
+                    this.toBottom();
+                })
             }
         }
     },
