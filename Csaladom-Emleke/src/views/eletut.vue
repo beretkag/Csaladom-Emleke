@@ -11,7 +11,7 @@
     </header>
     <hr>
     <main class="w-75">
-            <div v-for="paragraph, index in paragraphs">
+        <div v-for="paragraph, index in paragraphs">
             <div class="d-flex flex-row justify-content-between align-items-center">
                 <div class="col-6 col-md-5 col-lg-4">
                     <input v-if="paragraph.edit" type="text" class="form-control familytree_input" placeholder="Cím" v-model="paragraph.cim">
@@ -27,38 +27,40 @@
                 <textarea v-if="paragraph.edit" class="form-control familytree_input" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
                 <p class="mb-2 text-wrap text-break familytree_text" v-if="!paragraph.edit && paragraph.szoveg != null" v-for="par in paragraph.szoveg.split('\n')">{{ par }}<br></p>
             </div>
-            <hr id="ujszoveg">
+            <hr>
         </div>
         <div ref="szoveghezgorgetes"> </div>
         <Galery :nodeId="nodeid" vendeg:vendeg ref="gallery"/>
-
-
+        
+        
         <!-- Confrim Modal -->
-    <div class="modal fade" id="confirmModal">
-      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal fade" id="confirmModal">
+            <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content theme_bg">
           <div class="modal-header orange-bgc">
             <h5 class="modal-title">Családfa törlése</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
+        </div>
           <div class="modal-body theme_bg">
             <h5 class="m-3 text-center familytree_text">
-              Biztosan törölni kívánja a paragrafust?
+                Biztosan törölni kívánja a paragrafust?
             </h5>
             <div class="d-flex justify-content-around">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
-              <button type="button" class="btn btn-primary orange-bgc" data-bs-dismiss="modal" @click="Torles(actparagraph)">Törlés</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                <button type="button" class="btn btn-primary orange-bgc" data-bs-dismiss="modal" @click="Torles(actparagraph)">Törlés</button>
             </div>
           </div>
         </div>
-      </div>
     </div>
-    </main>
-    <transition name="fade">
-<div id="pagetop" class="fixed right-0 bottom-0" v-show="scY > 300">
-  <button class="btn btn-primary rounded-circle btn-dark float-right" @click="toTop"> <i class="bi bi-arrow-up-circle"></i> </button>
 </div>
-</transition>
+<div class="felfele">
+    <button class="btn btn-primary rounded-circle btn-dark float-right" @click="toTop"> <i class="bi bi-arrow-up-circle"></i> </button>
+</div>
+</main>
+
+    
+
+
    
 
   
@@ -290,6 +292,11 @@ a{
     background-color: #ff7112;
     border-color: #8b3800;
     color: white;
+}
+.felfele{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
 }
 
 #container{
