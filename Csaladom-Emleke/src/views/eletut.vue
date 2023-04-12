@@ -1,6 +1,6 @@
 <template>
 <div class="theme_bg m-0" id="container">    
-    <button class="btn btn-primary visszagomb rounded-circle btn-dark" @click="Vissza()"><i class="bi bi-arrow-left"></i></button>
+    <button class="btn btn-primary visszagomb btn-dark" @click="Vissza()"><i class="bi bi-arrow-left"></i>&nbsp Családfához</button>
     <header class="row p-3">
         
         <img class="col-xs-12 col-lg-4 col-md-3  kep m-3 p-0" :src="SetProfilePic()">
@@ -11,7 +11,7 @@
     </header>
     <hr>
     <main class="w-75">
-            <div v-for="paragraph, index in paragraphs" :ref="SetRef(index)">
+        <div v-for="paragraph, index in paragraphs" :ref="SetRef(index)">
             <div class="d-flex flex-row justify-content-between align-items-center">
                 <div class="col-6 col-md-5 col-lg-4">
                     <input v-if="paragraph.edit" type="text" class="form-control familytree_input" placeholder="Cím" v-model="paragraph.cim">
@@ -36,23 +36,23 @@
         <!-- Confrim Modal -->
         <div class="modal fade" id="confirmModal">
             <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content theme_bg">
-          <div class="modal-header orange-bgc">
-            <h5 class="modal-title">Családfa törlése</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-          <div class="modal-body theme_bg">
-            <h5 class="m-3 text-center familytree_text">
-                Biztosan törölni kívánja a paragrafust?
-            </h5>
-            <div class="d-flex justify-content-around">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
-                <button type="button" class="btn btn-primary orange-bgc" data-bs-dismiss="modal" @click="Torles(actparagraph)">Törlés</button>
+                <div class="modal-content theme_bg">
+                    <div class="modal-header orange-bgc">
+                        <h5 class="modal-title">Családfa törlése</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body theme_bg">
+                        <h5 class="m-3 text-center familytree_text">
+                            Biztosan törölni kívánja a paragrafust?
+                        </h5>
+                        <div class="d-flex justify-content-around">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                            <button type="button" class="btn btn-primary orange-bgc" data-bs-dismiss="modal" @click="Torles(actparagraph)">Törlés</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-    </div>
-</div>
 <div class="felfele">
     <button class="btn btn-primary rounded-circle btn-dark float-right" @click="toTop"> <i class="bi bi-arrow-up-circle"></i> </button>
 </div>
@@ -242,8 +242,10 @@ export default{
 
 <style>
 body, html{
-    overflow: visible !important;
+    overflow-y: visible !important;
     scroll-behavior: smooth;
+    padding: 0 !important;
+    height: 100%;
 }
 
 a{
@@ -294,6 +296,8 @@ a{
 
 <style scoped>
 
+
+
 .orange-bgc{
     background-color: #ff7112;
     border-color: #8b3800;
@@ -335,6 +339,7 @@ hr{
     top: 15px;
     right: 15px;
     z-index: 999;
+    border-radius: 10px;
 }
 p{
     text-align: justify;
