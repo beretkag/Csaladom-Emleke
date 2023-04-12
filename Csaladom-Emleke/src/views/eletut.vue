@@ -171,11 +171,7 @@ export default{
             return 'szoveg' + index;
         },
         toBottom(){
-            console.log(this.$refs[this.FindEdit()])[0];
-            this.$refs[this.FindEdit()][0].scrollIntoView({behavior: "smooth"})
-        },
-        FindEdit(){
-            return `szoveg${this.paragraphs.findIndex(x => x.edit == true)}`
+            this.$refs[`szoveg${this.paragraphs.findIndex(x => x.edit == true)}`][0].scrollIntoView({behavior: "smooth"})
         },
         SetProfilePic(){
             if (!this.ready || this.$store.getters.Members[0].profilkep==null) {
@@ -219,7 +215,7 @@ export default{
             })
         },
         UjParagrafus(){
-            if (this.paragraphs.find(x => x.edit) == null) {   
+            if (this.paragraphs.find(x => x.edit) == null) {
                 let empty={
                     csaladtagID:this.nodeid,
                     cim:"",
@@ -232,8 +228,11 @@ export default{
                     this.paragraphs.push(empty)
 
                     console.log(this.paragraphs);
-                    this.toBottom();
+                    this.$refs["szoveghezgorgetes"].scrollIntoView({behavior: "smooth"})
                 })
+            }
+            else{
+                this.toBottom();
             }
         }
     },
