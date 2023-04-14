@@ -121,6 +121,17 @@ export default{
 
 </script>
 
+<style scoped>
+    html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow:hidden;
+    font-family: Helvetica;
+}
+</style>
+
 <style>
 
 /* Dark / Light mode binding */
@@ -205,15 +216,6 @@ export default{
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
     height: 100vh;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    overflow:hidden;
-    font-family: Helvetica;
 }
 
 #tree {
