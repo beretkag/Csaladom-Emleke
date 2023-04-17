@@ -34,8 +34,6 @@ AOS.init();
     color: black;
     padding: 0;
 }
-
-
 p{
   text-align: center;
   color: aliceblue;
@@ -51,10 +49,11 @@ p{
   letter-spacing: 0.1rem;
 }
 .hatterszin{
-  background-color: rgba(209, 120, 3, 0.603);
+  background-color: #ff71128c;
   border-radius: 50px;
   margin: 2%;
-  border: 1px solid black;
+  border: 2px solid black;
+  box-shadow: 5px 5px 5px grey;
 }
 img{
   width: 100%;
@@ -63,5 +62,4 @@ img{
 #nagykep{
   width: 70%;
 }
-
 </style>
