@@ -341,7 +341,12 @@ import router from '../../router';
     .bft-button.transparent:hover{
         color: #fff !important;
     }
-
-
+    form.bft-edit-form{
+        overflow-y: scroll;
+    }
+    form.bft-edit-form form.bft-edit-form-fields{
+        overflow: unset !important;
+        
+    }
 
 </style>
