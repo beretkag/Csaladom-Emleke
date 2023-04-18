@@ -194,7 +194,7 @@ export default{
         position: absolute;
         bottom: 5px;
         left: 5px;
-        z-index: 50;
+        z-index: 3;
     }
 }
 
@@ -203,7 +203,7 @@ export default{
         position: absolute;
         top: 5px;
         left: 5px;
-        z-index: 50;
+        z-index: 20;
     }
 }
 
