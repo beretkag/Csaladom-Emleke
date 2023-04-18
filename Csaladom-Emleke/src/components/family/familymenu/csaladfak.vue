@@ -5,7 +5,7 @@
 <ul class="m-3 text-start">
   <li v-for="csaladfa in csaladfak" >
     <div class="d-flex justify-content-between" id="familyTrees">
-        <RouterLink :to="'/csalad/' + csaladfa.ID + '/Csaladfak'" class="link familytreetext" :class="{'active' : $store.getters.CsaladfaID == csaladfa.ID}">
+        <RouterLink :to="'/csalad/' + csaladfa.ID + '/Csaladfak'" class="link familytreetext" :class="{'aktiv' : $store.getters.CsaladfaID == csaladfa.ID}">
           <p class="btn m-0" :class="{'familytreetext' : $store.getters.CsaladfaID != csaladfa.ID}">
             {{ csaladfa.Nev }}
           </p>
@@ -199,7 +199,7 @@ methods:{
   color: #ff7112 !important;
 }
 
-.active, .active *{
+.aktiv, .aktiv *{
   font-weight: bold;
   color: #ff7112 !important;
   margin-left: 30px !important;
