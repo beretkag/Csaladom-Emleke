@@ -128,6 +128,8 @@ export default{
         if (e.target.files[i].type.includes("image") && e.target.files[i].size < 5242881) {
           this.images.push(e.target.files[i])
           this.AddPreview(e.target.files[i])
+        }else{
+          this.$store.commit('ShowMsg', {text:"Egy vagy több kép mérete meghaladja az 5Mb-ot!", type: "danger"})
         }
       }
     },
