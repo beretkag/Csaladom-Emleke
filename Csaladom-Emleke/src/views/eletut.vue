@@ -17,11 +17,11 @@
                     <input v-if="paragraph.edit" type="text" class="form-control familytree_input" placeholder="Cím" v-model="paragraph.cim">
                     <h3 class="text-wrap text-break familytree_text" v-else >{{ paragraph.cim }}</h3>
                 </div>
-                    <div class="d-flex flex-row justify-content-between ">
-                        <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md orange-bgc" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
-                        <button v-if="!paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-secondary btn-md orange-bgc" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
-                        <button v-if="!vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-secondary btn-md" @click="ParagrafusAtadas(paragraph)" data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="bi bi-trash"></i></button>
-                    </div>
+                <div class="d-flex flex-row justify-content-between ">
+                    <button v-if="paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-warning btn-md orange-bgc" @click="SzerekesztesVeglegesites(paragraph)"><i class="bi bi-check-lg"></i></button>
+                    <button v-if="!paragraph.edit && !vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-secondary btn-md orange-bgc" @click="Szerekesztes(paragraph)"><i class="bi bi-pencil"></i></button>
+                    <button v-if="!vendeg" class="m-1 m-lg-2 m-sm-1 btn btn-secondary btn-md" @click="ParagrafusAtadas(paragraph)" data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="bi bi-trash"></i></button>
+                </div>
             </div>
             <div class="p-2 m-2">
                 <textarea v-if="paragraph.edit" class="form-control familytree_input" v-model="paragraph.szoveg" aria-label="With textarea"></textarea>
@@ -30,7 +30,7 @@
             <hr>
         </div>
         <div ref="szoveghezgorgetes"> </div>
-        <Galery :nodeId="nodeid" vendeg:vendeg ref="gallery"/>
+        <Galery :nodeId="nodeid" :vendeg="vendeg" ref="gallery"/>
         
         
         <!-- Confrim Modal -->

@@ -231,7 +231,9 @@ import router from '../../router';
                         this.$store.commit('ShowMsg', {text:"Helytelen telefonszám formátum!", type: "danger"})
                     }
                 }
-                if (item.halido != null && item.szulido != null) {
+                if (!!item.halido && !!item.szulido) {
+                    console.log(item.szulido);
+                    console.log(item.halido);
                     if (item.szulido > item.halido)
                     {
                         item.halido = null;
