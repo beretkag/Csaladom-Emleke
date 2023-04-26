@@ -307,9 +307,6 @@ app.post('/forgotpass', (req, res) => {
     });
 });
 
-
-
-
 // GET ALL RECORDS
 app.get('/:table', tokencheck(), (req, res) => {
     var table = req.params.table;
@@ -346,9 +343,6 @@ app.get('/:table/:field/:value', tokencheck(), (req, res) => {
 app.post('/:table', tokencheck(), (req, res) => {
     var table = req.params.table;
     var sqlData = CreateSQLdata(req.body)
-
-    console.log(`INSERT INTO ${table} (${sqlData.fields_text}) VALUES(${sqlData.values_text})`);
-    console.log(sqlData.values);
     pool.query(`INSERT INTO ${table} (${sqlData.fields_text}) VALUES(${sqlData.values_text})`, sqlData.values, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
@@ -360,13 +354,13 @@ app.post('/:table', tokencheck(), (req, res) => {
     });
 });
 
-// UPDATE RECORD
+// UPDATE RECORD BY ID
 app.patch('/:table/:id', tokencheck(), (req, res) => {
     var table = req.params.table;
     var id = req.params.id;
     var sqlData = CreateSQLdata(req.body)
 
-    pool.query(`UPDATE ${table} SET ${update_text} WHERE ID=${id}`, sqlData.values, (err, results) => {
+    pool.query(`UPDATE ${table} SET ${sqlData.update_text} WHERE ID=${id}`, sqlData.values, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
             res.status(500).send("Error during database connection.");
@@ -404,11 +398,11 @@ function CreateSQLdata(records){
 
     for (let i = 0; i < fieldList.length; i++) {
         fields_text += `${fieldList[i]}, `;
-        values_text += '?, ';
-        update_text += `${fieldList[i]}=?, `
+        values_text += `NULLIF(?, ''), `;
+        update_text += `${fieldList[i]}=NULLIF(?, ''), `
 
         if (fieldList[i] == null || fieldList[i] == "" || fieldList[i] == undefined) {
-            values.push(undefined); // MAYBE NOT -----------------------------------------------------
+            values.push('');
         } else {
             values.push(records[fieldList[i]]);
         }
