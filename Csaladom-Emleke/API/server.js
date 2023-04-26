@@ -24,9 +24,6 @@ app.use('/assets', express.static(path.join(__dirname + '../../src/assets')))
 
 
 
-
-
-
 //SENDING EMAIL
 app.post('/sendmail', async (req, res) => {
     var mailOptions = {
@@ -92,7 +89,6 @@ app.get('/qrcode/:id', tokencheck(), (req,res)=>{
         }
     })
 })
-
 
 // file upload
 app.post('/fileUpload', tokencheck(), upload.array("files"), (req, res) => {
@@ -168,6 +164,7 @@ app.post('/login', (req, res) => {
 
 });
 
+// GET USER DATA BY TOKEN
 app.post(`/user/data`, (req, res)=>{
     try {
         res.status(200).send(jwt.verify(req.body.token.split(' ')[1], process.env.KEY));
@@ -181,6 +178,7 @@ app.post(`/user/data`, (req, res)=>{
     }
 })
 
+// REGISTRATION
 app.post(`/registration`, (req, res)=>{
     var records = req.body.newUser;
     var str = 'null';
@@ -318,56 +316,27 @@ app.get('/:table', tokencheck(), (req, res) => {
     pool.query(`SELECT * FROM ${table}`, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
-            res.status(500).send(err);
+            res.status(500).send("Error during database connection.");
         } else {
-            log(req.socket.remoteAddress, `${results.length} records sent form ${table} table.`);
+            log(req.socket.remoteAddress, `//GET ALL// ${table} // ${results.length} records`);
+            results = DataSecurity(results);
             res.status(200).send(results);
         }
     });
 });
 
-// GET ONE RECORD BY ID
-app.get('/:table/:id', tokencheck(), (req, res) => {
-    var table = req.params.table;
-    var id = req.params.id;
-    pool.query(`SELECT * FROM ${table} WHERE ID=${id}`, (err, results) => {
-        if (err) {
-            log(req.socket.remoteAddress, err);
-            res.status(500).send(err);
-        } else {
-            log(req.socket.remoteAddress, `${results.length} record sent form ${table} table.`);
-            res.status(200).send(results);
-        }
-    });
-});
-
-// GET RECORDS BY field
+// GET RECORDS BY FIELD
 app.get('/:table/:field/:value', tokencheck(), (req, res) => {
     var table = req.params.table;
     var field = req.params.field;
     var value = req.params.value;
-    pool.query(`SELECT * FROM ${table} WHERE ${field}='${value}'`, (err, results) => {
+    pool.query(`SELECT * FROM ${table} WHERE ${field}=?`, [value] , (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
-            res.status(500).send(err);
+            res.status(500).send("Error during database connection.");
         } else {
-            log(req.socket.remoteAddress, `${results.length} records sent form ${table} table.`);
-            res.status(200).send(results);
-        }
-    });
-});
-
-// GET RECORDS WITH LIKE
-app.get('/like/:table/:field/:value', tokencheck(), (req, res) => {
-    var table = req.params.table;
-    var field = req.params.field;
-    var value = req.params.value;
-    pool.query(`SELECT * FROM ${table} WHERE ${field} LIKE '%${value}%'`, (err, results) => {
-        if (err) {
-            log(req.socket.remoteAddress, err);
-            res.status(500).send(err);
-        } else {
-            log(req.socket.remoteAddress, `${results.length} records sent form ${table} table.`);
+            log(req.socket.remoteAddress, `//GET RECORDS BY FIELD//${table}->${field}->${value}// ${results.length} record(s)`);
+            results = DataSecurity(results);
             res.status(200).send(results);
         }
     });
@@ -376,34 +345,16 @@ app.get('/like/:table/:field/:value', tokencheck(), (req, res) => {
 // INSERT RECORD
 app.post('/:table', tokencheck(), (req, res) => {
     var table = req.params.table;
-    var records = req.body;
-    var str = 'null';
-    var str2 = 'ID';
+    var sqlData = CreateSQLdata(req.body)
 
-    var fields = Object.keys(records);
-    var values = Object.values(records);
-
-    values.forEach(value => {
-        if (value == null || value == "") {
-            str += ",NULL"
-        }else {
-            try {
-                value = value.replaceAll("'", "\\'").replaceAll('"', '\\"')
-            } catch (error) {}
-            str += ",'" + value + "'"
-        }
-    })
-
-    fields.forEach(field => {
-        str2 += "," + field
-    })
-
-    pool.query(`INSERT INTO ${table} (${str2}) VALUES(${str})`, (err, results) => {
+    console.log(`INSERT INTO ${table} (${sqlData.fields_text}) VALUES(${sqlData.values_text})`);
+    console.log(sqlData.values);
+    pool.query(`INSERT INTO ${table} (${sqlData.fields_text}) VALUES(${sqlData.values_text})`, sqlData.values, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
-            res.status(500).send(err);
+            res.status(500).send("Error during database connection.");
         } else {
-            log(req.socket.remoteAddress, `${results.affectedRows} record inserted to ${table} table.`);
+            log(req.socket.remoteAddress, `//INSERT RECORD// ${table} //${results.affectedRows} record inserted`);
             res.status(200).send(results);
         }
     });
@@ -413,75 +364,76 @@ app.post('/:table', tokencheck(), (req, res) => {
 app.patch('/:table/:id', tokencheck(), (req, res) => {
     var table = req.params.table;
     var id = req.params.id;
-    var records = req.body;
-    var str = '';
+    var sqlData = CreateSQLdata(req.body)
 
-    var fields = Object.keys(records);
-    var values = Object.values(records);
-
-    for (let i = 0; i < fields.length; i++) {
-        if (values[i] == null || values[i] == "") {
-            str += fields[i] + "=NULL";
-        }else{
-            try {
-                values[i] = values[i].replaceAll("'", "\\'").replaceAll('"', '\\"')
-            } catch (error) {}
-            str += fields[i] + "='" + values[i] + "'";
-        }
-        if (i != fields.length - 1) {
-            str += ",";
-        }
-    }
-
-    pool.query(`UPDATE ${table} SET ${str} WHERE ID=${id}`, (err, results) => {
+    pool.query(`UPDATE ${table} SET ${update_text} WHERE ID=${id}`, sqlData.values, (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
-            res.status(500).send(err);
+            res.status(500).send("Error during database connection.");
         } else {
-            log(req.socket.remoteAddress, `${results.affectedRows} record updated in ${table} table.`);
+            log(req.socket.remoteAddress, `//UPDATE RECORD// ${table} //${results.affectedRows} record updated`);
             res.status(200).send(results);
         }
     });
 });
 
-// DELETE ALL RECORDS
-app.delete('/:table', tokencheck(), (req, res) => {
-    var table = req.params.table;
-    pool.query(`DELETE FROM ${table}`, (err, results) => {
-        if (err) {
-            log(req.socket.remoteAddress, err);
-            res.status(500).send(err);
-        } else {
-            log(req.socket.remoteAddress, `${results.affectedRows} record deleted form ${table} table.`);
-            res.status(200).send(results);
-        }
-    });
-});
-
-// DELETE ONE RECORD
+// DELETE RECORD BY FIELD
 app.delete('/:table/:field/:value', tokencheck(), (req, res) => {
     var table = req.params.table;
     var field = req.params.field;
     var value = req.params.value;
 
-    pool.query(`DELETE FROM ${table} WHERE ${field}=${value}`, (err, results) => {
+    pool.query(`DELETE FROM ${table} WHERE ${field}=?`, [value], (err, results) => {
         if (err) {
             log(req.socket.remoteAddress, err);
-            res.status(500).send(err);
+            res.status(500).send("Error during database connection.");
         } else {
-            log(req.socket.remoteAddress, `${results.affectedRows} record deleted form ${table} table.`);
+            log(req.socket.remoteAddress, `//DELETE RECORD BY FIELD// ${table} // ${results.affectedRows} record(s) deleted`);
             res.status(200).send(results);
         }
     });
 });
 
+// Create data for sql querry
+function CreateSQLdata(records){
+    var values = [];
+    var fieldList = Object.keys(records);
+    var fields_text = '';
+    var values_text = '';
+    var update_text = '';
 
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}.`);
-})
+    for (let i = 0; i < fieldList.length; i++) {
+        fields_text += `${fieldList[i]}, `;
+        values_text += '?, ';
+        update_text += `${fieldList[i]}=?, `
 
-// MIDDLEVARE FUNCTIONS
+        if (fieldList[i] == null || fieldList[i] == "" || fieldList[i] == undefined) {
+            values.push(undefined); // MAYBE NOT -----------------------------------------------------
+        } else {
+            values.push(records[fieldList[i]]);
+        }
+    }
 
+    // trim (', ') part of texts
+    fields_text = fields_text.substring(0, fields_text.length-2);
+    values_text = values_text.substring(0, values_text.length-2);
+    update_text = update_text.substring(0, update_text.length-2);
+
+    return {
+        values: values,
+        fields_text: fields_text,
+        values_text: values_text,
+        update_text: update_text
+    }
+}
+
+// Disable password returning
+function DataSecurity(results){
+    results.forEach(item => {
+        item.Jelszo = undefined;
+    });
+    return results;
+}
 
 function tokencheck() {
     return (req, res, next) => {
@@ -489,7 +441,7 @@ function tokencheck() {
             jwt.verify(req.headers.authorization.split(' ')[1], process.env.KEY);
             next();
         } catch (error) {
-            if (req.params.table == "felhasznalok" || req.method == 'GET') {
+            if (req.method == 'GET') {
                 next();
             }
             else{
@@ -505,3 +457,7 @@ function log(req, res) {
         console.log(`[${timestamp}] : ${req} >>> ${res}`);
     }
 }
+
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}.`);
+})
