@@ -1,0 +1,185 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Családom Emléke",
+    "dateExported": "2023-05-01T12:30:19.425Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "ad815b27-b71f-4d30-99af-c0d4aefcb5f4",
+            "colId": "0c17fbd6-2253-4d98-a964-b9fa4fa34274",
+            "containerId": "",
+            "name": "GET RECORD BY FIELD",
+            "url": "http://localhost:3000/felhasznalok/ID/20",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-05-01T11:35:09.560Z",
+            "modified": "2023-05-01T11:35:56.309Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "542649cd-9b64-4cbc-a3f9-6a497544653c",
+            "colId": "0c17fbd6-2253-4d98-a964-b9fa4fa34274",
+            "containerId": "",
+            "name": "GET ALL RECORDS",
+            "url": "http://localhost:3000/csaladtagok",
+            "method": "GET",
+            "sortNum": 25000,
+            "created": "2023-05-01T11:30:16.960Z",
+            "modified": "2023-05-01T11:40:52.451Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "6d1e621d-5fbd-4b9b-b9d4-f9ad6db6c76d",
+            "colId": "0c17fbd6-2253-4d98-a964-b9fa4fa34274",
+            "containerId": "",
+            "name": "INSERT RECORD",
+            "url": "http://localhost:3000/csaladtagok",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-05-01T11:36:41.801Z",
+            "modified": "2023-05-01T11:42:56.009Z",
+            "headers": [
+                {
+                    "name": "authorization",
+                    "value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NiwiTmV2IjoiR2VsbMOpcnQiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImpvZ29zdWx0c2FnIjoyLCJ0aWx0YXMiOjAsInRpbHRhc21lc3NhZ2UiOm51bGwsImlhdCI6MTY4Mjk0MDQ1NiwiZXhwIjoxNjgzMDI2ODU2fQ.GJHayBSqut3k1FnmYI9l92EGbHxAvNOuNjRMWA_bnbI"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "  {\n    \"ID\": 1500,\n    \"csaladfaID\": 5,\n    \"belsofaID\": \"9999\",\n    \"profilkep\": null,\n    \"telefonszam\": null,\n    \"keresztnev\": \"Új\",\n    \"vezeteknev\": \"Családtag\",\n    \"gender\": \"female\",\n    \"szulhely\": null,\n    \"szulido\": \"2002-06-13T22:00:00.000Z\",\n    \"halido\": null,\n    \"mid\": null,\n    \"fid\": null,\n    \"partnerek\": \"gfhd\"\n  }",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "82fd6c76-901a-4961-9cee-256b39957436",
+            "colId": "0c17fbd6-2253-4d98-a964-b9fa4fa34274",
+            "containerId": "",
+            "name": "UPDATE RECORD",
+            "url": "http://localhost:3000/csaladtagok/1500",
+            "method": "PATCH",
+            "sortNum": 35000,
+            "created": "2023-05-01T11:44:00.856Z",
+            "modified": "2023-05-01T11:47:29.324Z",
+            "headers": [
+                {
+                    "name": "authorization",
+                    "value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NiwiTmV2IjoiR2VsbMOpcnQiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImpvZ29zdWx0c2FnIjoyLCJ0aWx0YXMiOjAsInRpbHRhc21lc3NhZ2UiOm51bGwsImlhdCI6MTY4Mjk0MDQ1NiwiZXhwIjoxNjgzMDI2ODU2fQ.GJHayBSqut3k1FnmYI9l92EGbHxAvNOuNjRMWA_bnbI"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "  {\n    \"telefonszam\": \"06202772451\",\n    \"keresztnev\": \"Módosított\",\n    \"vezeteknev\": \"Családtag\",\n    \"gender\": \"female\",\n    \"szulhely\": \"Kiskunhalas\"\n  }",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "0fd59e5c-4b0f-4df1-bb2d-50bf68459a4c",
+            "colId": "0c17fbd6-2253-4d98-a964-b9fa4fa34274",
+            "containerId": "",
+            "name": "DELETE RECORD BY FIELD",
+            "url": "http://localhost:3000/csaladtagok/ID/1500",
+            "method": "DELETE",
+            "sortNum": 45000,
+            "created": "2023-05-01T11:52:16.062Z",
+            "modified": "2023-05-01T11:54:05.855Z",
+            "headers": [
+                {
+                    "name": "authorization",
+                    "value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NiwiTmV2IjoiR2VsbMOpcnQiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImpvZ29zdWx0c2FnIjoyLCJ0aWx0YXMiOjAsInRpbHRhc21lc3NhZ2UiOm51bGwsImlhdCI6MTY4Mjk0MDQ1NiwiZXhwIjoxNjgzMDI2ODU2fQ.GJHayBSqut3k1FnmYI9l92EGbHxAvNOuNjRMWA_bnbI"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "7d08f645-2188-46c5-ba5e-19bae47924cd",
+            "colId": "0c17fbd6-2253-4d98-a964-b9fa4fa34274",
+            "containerId": "",
+            "name": "USER DATA BY TOKEN",
+            "url": "http://localhost:3000/user/data",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-05-01T11:55:49.824Z",
+            "modified": "2023-05-01T11:57:34.236Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "token",
+                        "value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NiwiTmV2IjoiR2VsbMOpcnQiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImpvZ29zdWx0c2FnIjoyLCJ0aWx0YXMiOjAsInRpbHRhc21lc3NhZ2UiOm51bGwsImlhdCI6MTY4Mjk0MDQ1NiwiZXhwIjoxNjgzMDI2ODU2fQ.GJHayBSqut3k1FnmYI9l92EGbHxAvNOuNjRMWA_bnbI"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "52a9eae1-2a9b-46d3-a8b9-63cd4e9db45c",
+            "colId": "0c17fbd6-2253-4d98-a964-b9fa4fa34274",
+            "containerId": "",
+            "name": "REGISTRATION",
+            "url": "http://localhost:3000/registration",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-05-01T12:06:22.824Z",
+            "modified": "2023-05-01T12:24:24.586Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"newUser\": {\n        \"Nev\": \"Új Felhasználó\",\n        \"Jelszo\": \"6ebbeebd5817fc4b82f793231bf0de57d003f37baf7119dc3ab58bd829b792e9\",\n        \"email\": \"backend@teszt.com\",\n        \"jogosultsag\": 1\n    },\n    \"newCsaladfa\": {\n        \"Nev\": \"Új Felhasználó\"\n    },\n    \"csaladtagok\": [\n        {\n            \"keresztnev\": \"Felhasználó\",\n            \"vezeteknev\": \"Új\",\n            \"szulido\": \"1994-09-08\",\n            \"gender\": \"male\",\n            \"belsofaID\": \"aaaa\",\n            \"fid\": \"male\"\n        },\n        {\n            \"keresztnev\": \"Apa\",\n            \"vezeteknev\": \"Teszt\",\n            \"gender\": \"male\",\n            \"belsofaID\": \"male\"\n        }\n    ]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "8663015f-dfee-4005-9593-b99b5c02522b",
+            "colId": "0c17fbd6-2253-4d98-a964-b9fa4fa34274",
+            "containerId": "",
+            "name": "FORGOT PASSWORD",
+            "url": "http://localhost:3000/forgotpass",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2023-05-01T12:17:12.843Z",
+            "modified": "2023-05-01T12:18:01.615Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n    \"email\": \"backend@teszt.com\",\r\n    \"password\": \"636088a641646cb60aeda14037389ff21c4e447e883a08520ac77551d4509b3b\",\r\n    \"name\": \"Új Felhasználó\"\r\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "7e81821e-41cf-473d-bb35-15c01a5ca09c",
+            "colId": "0c17fbd6-2253-4d98-a964-b9fa4fa34274",
+            "containerId": "",
+            "name": "LOGIN",
+            "url": "http://localhost:3000/login",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2023-05-01T12:22:45.859Z",
+            "modified": "2023-05-01T12:24:16.920Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n    \"table\": \"felhasznalok\",\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918\"\r\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
