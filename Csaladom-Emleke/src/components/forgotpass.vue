@@ -91,10 +91,9 @@ import sha256 from "crypto-js/sha256"
         axios.post(this.$store.getters.baseURL+'/sendmail', maildatas)
         .then((err,res) =>{
             if (err) {
-              console.log(err);
+              this.$store.commit('ShowMsg', {text:"A jelszó helyreállítás sikertelen!", type: "danger"})
             }else{
-              console.log(+res);
-              console.log("elkuldes utani");
+              this.$store.commit('ShowMsg', {text:"Sikeres jelszó helyreállítás", type: "success"})
             }
           }
         )
