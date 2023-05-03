@@ -77,7 +77,6 @@ export default {
                             }
                             axios.post(this.$store.getters.baseURL + '/login', data)
                             .then(res => {
-                                console.log(res.data);
                                 sessionStorage.setItem('csaladomemleke', JSON.stringify(res.data));
                                 this.$store.commit('SetNev', this.newname);
                                 this.$store.commit('ShowMsg', {text:"Név sikeresen megváltoztatva!", type: "success"})

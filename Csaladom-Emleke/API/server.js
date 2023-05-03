@@ -424,7 +424,7 @@ function CreateSQLdata(records){
 // Disable password returning
 function DataSecurity(results){
     results.forEach(item => {
-        item.Jelszo = undefined;
+        //item.Jelszo = undefined;
     });
     return results;
 }
@@ -435,7 +435,7 @@ function tokencheck() {
             jwt.verify(req.headers.authorization.split(' ')[1], process.env.KEY);
             next();
         } catch (error) {
-            if (req.method == 'GET') {
+            if (req.method == 'GET' || req.params.table == 'felhasznalok') {
                 next();
             }
             else{
